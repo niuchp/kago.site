@@ -1,0 +1,592 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.6.2">Jekyll</generator><link href="http://kago.site/feed.xml" rel="self" type="application/atom+xml" /><link href="http://kago.site/" rel="alternate" type="text/html" /><updated>2017-12-06T15:47:03+08:00</updated><id>http://kago.site/</id><title type="html">阅后即忘</title><subtitle>Barry New的博客</subtitle><author><name>Barry New</name></author><entry><title type="html">没想到是这样的…</title><link href="http://kago.site/2017/11/19/mypets/" rel="alternate" type="text/html" title="没想到是这样的..." /><published>2017-11-19T00:00:00+08:00</published><updated>2017-11-19T00:00:00+08:00</updated><id>http://kago.site/2017/11/19/mypets</id><content type="html" xml:base="http://kago.site/2017/11/19/mypets/">&lt;h3 id=&quot;罪恶的源头&quot;&gt;罪恶的源头&lt;/h3&gt;
+
+&lt;p&gt;一切到要从漫画家&lt;a href=&quot;http://wuhuang-wanshui.lofter.com/&quot;&gt;白茶&lt;/a&gt;养的两只“明星”说起，一只叫“吾皇”，另一只叫“巴扎黑”&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/blog/wuhuang.jpg&quot; alt=&quot;吾皇&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/blog/bazhahei.jpg&quot; alt=&quot;巴扎黑&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;只怪当时太年轻，以为集齐了吾皇和巴扎黑就能得到整个世界，然而故事好像偏离了轨道…&lt;/p&gt;
+
+&lt;h3 id=&quot;我可能养了一只猪&quot;&gt;我可能养了一只猪&lt;/h3&gt;
+
+&lt;p&gt;记得巴扎黑来到家里的时间大概是今年的8月15号，是女朋友送给我的，只因为我和她说过喜欢白茶养的巴扎黑。因此，我们家的小巴哥犬的名字也叫成了巴扎黑，觉得更贴切一些（其实只是因为懒）。当时这只小巴哥犬才2个月多一点，狂犬疫苗还没接种，但是阻挡不了我对它的喜爱：水汪汪的大眼睛总是像别人欠它好几块骨头似的。&lt;/p&gt;
+
+&lt;p&gt;话不多说，直接上图：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/blog/xiaoshihoudebazhahei.jpg&quot; alt=&quot;巴扎黑刚来的时候&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;巴哥犬在狗界是出了名的贪吃，加上它还是只幼犬，每天只想着吃吃吃，虽然每天都在控制食量，但还是在不到三个月的时间体重由4斤飙至11斤。粗壮的体型加上吃饭是发出的声音神似一只小猪…难怪经常被保洁阿姨唤作“你家那头小猪”。
+巴扎黑，就问你羞不羞！！
+&lt;img src=&quot;/images/blog/hazhaheishafa.jpg&quot; alt=&quot;胖子巴扎黑&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;我才是老大&quot;&gt;我才是老大&lt;/h3&gt;
+
+&lt;p&gt;有了巴扎黑怎么能没有吾皇，就在一个阳光明媚的下午，一只橘猫来到的我们家。
+&lt;img src=&quot;/images/blog/mao.jpg&quot; alt=&quot;蛋挞&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;女朋友一只想养只猫，早先养了一只美短，一个星期后送给了同事。为了这事儿她和我念叨了好多次，尤其是当巴扎黑在家里大小便的时候……&lt;/p&gt;
+
+&lt;p&gt;蛋挞，是一只橘猫，就是最常见的家猫，以胖闻名于猫界，耳边隐约响起“十只橘猫九只胖，还有一只压塌炕”。一个星期的时间真心是见到了什么叫做能吃，肚子已经圆鼓鼓的了还在不停的找吃的。&lt;/p&gt;
+
+&lt;p&gt;最让人抓狂的是，这个小家伙不和人亲热，一副diaodiao的样子，哎就当你是老大吧&lt;/p&gt;
+
+&lt;h3 id=&quot;每天上演猫狗大战&quot;&gt;每天上演猫狗大战&lt;/h3&gt;
+
+&lt;p&gt;每每想到客厅的惨状眼角就泛起了泪花，还是不写了，万一忍不住来个巴扎黑炖蛋挞呢……
+&lt;img src=&quot;/images/blog/maogoudazhan.jpg&quot; alt=&quot;猫狗大战&quot; /&gt;&lt;/p&gt;</content><author><name>Barry New</name></author><summary type="html">罪恶的源头</summary></entry><entry><title type="html">mariadb的主从复制、主主复制、半同步复制的概念和方法</title><link href="http://kago.site/2017/11/19/mariadb-replicate/" rel="alternate" type="text/html" title="mariadb的主从复制、主主复制、半同步复制的概念和方法" /><published>2017-11-19T00:00:00+08:00</published><updated>2017-11-19T00:00:00+08:00</updated><id>http://kago.site/2017/11/19/mariadb-replicate</id><content type="html" xml:base="http://kago.site/2017/11/19/mariadb-replicate/">&lt;p&gt;这篇文章主要详细介绍了mariadb的主从复制、主主复制、半同步复制的概念和方法。&lt;/p&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;参考&lt;a href=&quot;http://www.jb51.net/article/97786.htm&quot;&gt;http://www.jb51.net/article/97786.htm&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;主从服务器的时间要同步，数据库版本最好是一致的，以免造成函数处理、日志读取、日志解析等发生异常。
+以下三个主从复制的设置是独立的。
+注意防火墙和selinux的影响。&lt;/p&gt;
+
+&lt;h1 id=&quot;1简单主从复制的实现&quot;&gt;&lt;strong&gt;1、简单主从复制的实现&lt;/strong&gt;&lt;/h1&gt;
+
+&lt;h2 id=&quot;11-服务器1操作&quot;&gt;1.1 服务器1操作&lt;/h2&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;安装mariadb-server
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@localhost ~]# yum &lt;span class=&quot;nt&quot;&gt;-y&lt;/span&gt; install mariadb-server
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;编辑/etc/my.cnf文件&lt;/p&gt;
+
+    &lt;p&gt;在[mysqld]段的最后添加以下内容&lt;/p&gt;
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@localhost ~]# vim /etc/my.cnf
+skip_name_resolve &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; ON
+innodb_file_per_table &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; ON    
+server-id &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 1 &lt;span class=&quot;c&quot;&gt;#id号不能跟从服务器相同&lt;/span&gt;
+log-bin &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; master-log &lt;span class=&quot;c&quot;&gt;#自定义二进制日志文件名&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;授权可以复制本地数据库信息的主机
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@localhost ~]# systemctl start mariadb.service &lt;span class=&quot;c&quot;&gt;#启动mariadb server   &lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@localhost ~]# mysql
+MariaDB &lt;span class=&quot;o&quot;&gt;[(&lt;/span&gt;none&lt;span class=&quot;o&quot;&gt;)]&amp;gt;&lt;/span&gt; grant replication slave,replication client on &lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;.&lt;span class=&quot;k&quot;&gt;*&lt;/span&gt; to &lt;span class=&quot;s1&quot;&gt;'repluser'&lt;/span&gt;@&lt;span class=&quot;s1&quot;&gt;'10.1.51.%'&lt;/span&gt; identified by &lt;span class=&quot;s1&quot;&gt;'replpasswd'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+MariaDB &lt;span class=&quot;o&quot;&gt;[(&lt;/span&gt;none&lt;span class=&quot;o&quot;&gt;)]&amp;gt;&lt;/span&gt; flush privileges&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;   
+MariaDB &lt;span class=&quot;o&quot;&gt;[(&lt;/span&gt;none&lt;span class=&quot;o&quot;&gt;)]&amp;gt;&lt;/span&gt; show master status&lt;span class=&quot;se&quot;&gt;\G&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;#查看主服务器的状态信息，在从服务器中要用到&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;***************************&lt;/span&gt; 1. row &lt;span class=&quot;k&quot;&gt;***************************&lt;/span&gt;
+File: master-log.000003 &lt;span class=&quot;c&quot;&gt;#正在使用的二进制日志文件&lt;/span&gt;
+Position: 497 &lt;span class=&quot;c&quot;&gt;#所处的位置&lt;/span&gt;
+Binlog_Do_DB:
+Binlog_Ignore_DB:
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;12-从服务器的配置&quot;&gt;1.2 从服务器的配置&lt;/h2&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;安装mariadb-server
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@localhost ~]# yum &lt;span class=&quot;nt&quot;&gt;-y&lt;/span&gt; install mariadb-server
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;编辑/etc/my.cnf文件&lt;/p&gt;
+
+    &lt;p&gt;在[mysqld]段的最后添加以下内容&lt;/p&gt;
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@localhost ~]# vim /etc/my.cnf
+skip_name_resolve &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; ON
+innodb_file_per_table &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; ON
+server-id &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 2 &lt;span class=&quot;c&quot;&gt;#id号不能跟主服务器相同）&lt;/span&gt;
+relay-log &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; slave-log &lt;span class=&quot;c&quot;&gt;#自定义二进制日志文件名）&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;设置要从哪个主服务器的那个位置开始同步
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@localhost ~]# systemctl start mariadb.service
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@localhost ~]# mysql
+MariaDB &lt;span class=&quot;o&quot;&gt;[(&lt;/span&gt;none&lt;span class=&quot;o&quot;&gt;)]&amp;gt;&lt;/span&gt; change master to &lt;span class=&quot;nv&quot;&gt;master_host&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'10.1.51.60'&lt;/span&gt;,master_user&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'repluser'&lt;/span&gt;,master_password&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'replpasswd'&lt;/span&gt;,master_log_file&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'master-log.000003'&lt;/span&gt;,master_log_pos&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;497&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+MariaDB &lt;span class=&quot;o&quot;&gt;[(&lt;/span&gt;none&lt;span class=&quot;o&quot;&gt;)]&amp;gt;&lt;/span&gt; start slave&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;#启动复制功能&lt;/span&gt;
+MariaDB &lt;span class=&quot;o&quot;&gt;[(&lt;/span&gt;none&lt;span class=&quot;o&quot;&gt;)]&amp;gt;&lt;/span&gt; show slave status&lt;span class=&quot;se&quot;&gt;\G&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;#查看从服务器的状态，下面显示的是部分内容&lt;/span&gt;
+Master_Host: 10.1.51.60
+Master_User: repluser
+Master_Port: 3306
+Connect_Retry: 60
+Master_Log_File: master-log.000003
+Read_Master_Log_Pos: 497
+Relay_Log_File: slave-log.000002
+Relay_Log_Pos: 530
+Relay_Master_Log_File: master-log.000003
+Slave_IO_Running: Yes
+Slave_SQL_Running: Yes
+Master_Server_Id: 1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;13-测试&quot;&gt;1.3 测试&lt;/h2&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;在主服务器导入事先准备好的数据库
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@localhost ~]# mysql &amp;lt; hellodb.sql
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;在从服务器查看是否同步
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;MariaDB &lt;span class=&quot;o&quot;&gt;[(&lt;/span&gt;none&lt;span class=&quot;o&quot;&gt;)]&amp;gt;&lt;/span&gt; show databases&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
++--------------------+
+| Database   |
++--------------------+
+| information_schema |
+| hellodb   | &lt;span class=&quot;c&quot;&gt;#数据库已经同步&lt;/span&gt;
+| mysql    |
+| performance_schema |
+| &lt;span class=&quot;nb&quot;&gt;test&lt;/span&gt;    |
++--------------------+
+MariaDB &lt;span class=&quot;o&quot;&gt;[(&lt;/span&gt;none&lt;span class=&quot;o&quot;&gt;)]&amp;gt;&lt;/span&gt; use hellodb&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+MariaDB &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;hellodb]&amp;gt; show tables&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;#hellodb数据库的表也是同步的&lt;/span&gt;
++-------------------+
+| Tables_in_hellodb |
++-------------------+
+| classes   |
+| coc    |
+| courses   |
+| scores   |
+| students   |
+| teachers   |
+| toc    |
++-------------------+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h1 id=&quot;2双主复制的实现&quot;&gt;&lt;strong&gt;2、双主复制的实现&lt;/strong&gt;&lt;/h1&gt;
+
+&lt;h2 id=&quot;21-安装mariadb&quot;&gt;2.1 安装MariaDB&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;服务器1的操作：&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;安装mariadb-server
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@localhost ~]# yum &lt;span class=&quot;nt&quot;&gt;-y&lt;/span&gt; install mariadb-server
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;编辑/etc/my.cnf文件
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@localhost ~]# vim /etc/my.cnf
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;在[mysqld]段的最后添加以下内容&lt;/p&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;skip_name_resolve &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; ON
+innodb_file_per_table &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; ON
+server-id &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 1 &lt;span class=&quot;c&quot;&gt;#id号不能跟从服务器相同&lt;/span&gt;
+log-bin &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; master-log &lt;span class=&quot;c&quot;&gt;#自定义主服务器的二进制日志文件名&lt;/span&gt;
+relay-log &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; slave-log &lt;span class=&quot;c&quot;&gt;#自定义从服务器的二进制日志文件名&lt;/span&gt;
+auto_increment_offset &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 1 
+auto_increment_increment &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 2
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;启动服务
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@localhost ~]# systemctl start mariadb.service	
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@localhost ~]#systemctl &lt;span class=&quot;nb&quot;&gt;enable &lt;/span&gt;mariadb.servic
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;em&gt;服务器2的操作：&lt;/em&gt;&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;安装mariadb-server
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@localhost ~]# yum &lt;span class=&quot;nt&quot;&gt;-y&lt;/span&gt; install mariadb-server
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;编辑/etc/my.cnf文件
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@localhost ~]# vim /etc/my.cnf
+skip_name_resolve &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; ON
+innodb_file_per_table &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; ON
+server-id &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 2
+relay-log &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; slave-log
+lob-bin &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; master-log
+auto_increment_offset &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 2 
+auto_increment_increment &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 2
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;启动服务
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@localhost ~]# systemctl start mariadb.service	
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@localhost ~]#systemctl &lt;span class=&quot;nb&quot;&gt;enable &lt;/span&gt;mariadb.service
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;22-配置双主复制&quot;&gt;2.2 配置双主复制&lt;/h2&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;在服务器2上查看的master状态&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;em&gt;说明：记录数据，在服务器2上配置时会用到。&lt;/em&gt;&lt;/p&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;MariaDB &lt;span class=&quot;o&quot;&gt;[(&lt;/span&gt;none&lt;span class=&quot;o&quot;&gt;)]&amp;gt;&lt;/span&gt; show master status&lt;span class=&quot;se&quot;&gt;\G&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;***************************&lt;/span&gt; 1. row &lt;span class=&quot;k&quot;&gt;***************************&lt;/span&gt;
+File: master-log.000003
+Position: 521
+Binlog_Do_DB:
+Binlog_Ignore_DB:
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;服务器1上进行如下配置&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;em&gt;说明：以下配置的内容为服务器2的IP及服务器2上查到的master数据。&lt;/em&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@localhost ~]# mysql
+MariaDB &lt;span class=&quot;o&quot;&gt;[(&lt;/span&gt;none&lt;span class=&quot;o&quot;&gt;)]&amp;gt;&lt;/span&gt; grant replication slave,replication client on &lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;.&lt;span class=&quot;k&quot;&gt;*&lt;/span&gt; to &lt;span class=&quot;s1&quot;&gt;'repluser'&lt;/span&gt;@&lt;span class=&quot;s1&quot;&gt;'192.168.1.%'&lt;/span&gt; identified by &lt;span class=&quot;s1&quot;&gt;'replpasswd'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+MariaDB &lt;span class=&quot;o&quot;&gt;[(&lt;/span&gt;none&lt;span class=&quot;o&quot;&gt;)]&amp;gt;&lt;/span&gt; change master to &lt;span class=&quot;nv&quot;&gt;master_host&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'192.168.1.188'&lt;/span&gt;,master_user&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'repluser'&lt;/span&gt;,master_password&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'replpasswd'&lt;/span&gt;,master_log_file&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'master-log.000003'&lt;/span&gt;,master_log_pos&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;521&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+MariaDB &lt;span class=&quot;o&quot;&gt;[(&lt;/span&gt;none&lt;span class=&quot;o&quot;&gt;)]&amp;gt;&lt;/span&gt; start slave&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+MariaDB &lt;span class=&quot;o&quot;&gt;[(&lt;/span&gt;none&lt;span class=&quot;o&quot;&gt;)]&amp;gt;&lt;/span&gt; SHOW SLAVE STATUS&lt;span class=&quot;se&quot;&gt;\G&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;***************************&lt;/span&gt; 1. row &lt;span class=&quot;k&quot;&gt;***************************&lt;/span&gt;
+              Slave_IO_State: Waiting &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;master to send event
+                  Master_Host: 192.168.1.188
+                  Master_User: repluser
+                  Master_Port: 3306
+                Connect_Retry: 60
+              Master_Log_File: master-log.000003
+          Read_Master_Log_Pos: 521
+              Relay_Log_File: slave-log.000002
+                Relay_Log_Pos: 806
+        Relay_Master_Log_File: master-log.000003
+            Slave_IO_Running: Yes
+            Slave_SQL_Running: Yes
+              Replicate_Do_DB:
+          Replicate_Ignore_DB:
+          Replicate_Do_Table:
+      Replicate_Ignore_Table:
+      Replicate_Wild_Do_Table:
+  Replicate_Wild_Ignore_Table:
+                  Last_Errno: 0
+                  Last_Error:
+                Skip_Counter: 0
+          Exec_Master_Log_Pos: 521
+              Relay_Log_Space: 1094
+              Until_Condition: None
+              Until_Log_File:
+                Until_Log_Pos: 0
+          Master_SSL_Allowed: No
+          Master_SSL_CA_File:
+          Master_SSL_CA_Path:
+              Master_SSL_Cert:
+            Master_SSL_Cipher:
+              Master_SSL_Key:
+        Seconds_Behind_Master: 0
+Master_SSL_Verify_Server_Cert: No
+                Last_IO_Errno: 0
+                Last_IO_Error:
+              Last_SQL_Errno: 0
+              Last_SQL_Error:
+  Replicate_Ignore_Server_Ids:
+            Master_Server_Id: 2
+1 row &lt;span class=&quot;k&quot;&gt;in &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;set&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;0.00 sec&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;在服务器1查看master状态
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;MariaDB &lt;span class=&quot;o&quot;&gt;[(&lt;/span&gt;none&lt;span class=&quot;o&quot;&gt;)]&amp;gt;&lt;/span&gt; show master status&lt;span class=&quot;se&quot;&gt;\G&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;***************************&lt;/span&gt; 1. row &lt;span class=&quot;k&quot;&gt;***************************&lt;/span&gt;
+File: master-log.000003
+Position: 795
+Binlog_Do_DB: 
+Binlog_Ignore_DB:
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;服务器2上进行如下配置&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;em&gt;说明：以下的配置内容为服务器1的IP及服务器1中查到的master信息&lt;/em&gt;&lt;/p&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@localhost ~]# mysql
+ MariaDB &lt;span class=&quot;o&quot;&gt;[(&lt;/span&gt;none&lt;span class=&quot;o&quot;&gt;)]&amp;gt;&lt;/span&gt; grant replication slave,replication client on &lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;.&lt;span class=&quot;k&quot;&gt;*&lt;/span&gt; to &lt;span class=&quot;s1&quot;&gt;'repluser'&lt;/span&gt;@&lt;span class=&quot;s1&quot;&gt;'192.168.1.%'&lt;/span&gt; identified by &lt;span class=&quot;s1&quot;&gt;'replpasswd'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+ MariaDB &lt;span class=&quot;o&quot;&gt;[(&lt;/span&gt;none&lt;span class=&quot;o&quot;&gt;)]&amp;gt;&lt;/span&gt; change master to &lt;span class=&quot;nv&quot;&gt;master_host&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'192.168.1.187'&lt;/span&gt;,master_user&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'repluser'&lt;/span&gt;,master_password&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'replpasswd'&lt;/span&gt;,master_log_file&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'master-log.000003'&lt;/span&gt;,master_log_pos&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;795&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+ MariaDB &lt;span class=&quot;o&quot;&gt;[(&lt;/span&gt;none&lt;span class=&quot;o&quot;&gt;)]&amp;gt;&lt;/span&gt; start slave&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+ MariaDB &lt;span class=&quot;o&quot;&gt;[(&lt;/span&gt;none&lt;span class=&quot;o&quot;&gt;)]&amp;gt;&lt;/span&gt; show slave status&lt;span class=&quot;se&quot;&gt;\G&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;***************************&lt;/span&gt; 1. row &lt;span class=&quot;k&quot;&gt;***************************&lt;/span&gt;
+              Slave_IO_State: Waiting &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;master to send event
+                  Master_Host: 192.168.1.187
+                  Master_User: repluser
+                  Master_Port: 3306
+                Connect_Retry: 60
+              Master_Log_File: master-log.000003
+          Read_Master_Log_Pos: 795
+              Relay_Log_File: slave-log.000002
+                Relay_Log_Pos: 530
+        Relay_Master_Log_File: master-log.000003
+            Slave_IO_Running: Yes
+            Slave_SQL_Running: Yes
+              Replicate_Do_DB:
+          Replicate_Ignore_DB:
+          Replicate_Do_Table:
+      Replicate_Ignore_Table:
+      Replicate_Wild_Do_Table:
+  Replicate_Wild_Ignore_Table:
+                  Last_Errno: 0
+                  Last_Error:
+                Skip_Counter: 0
+          Exec_Master_Log_Pos: 795
+              Relay_Log_Space: 818
+              Until_Condition: None
+              Until_Log_File:
+                Until_Log_Pos: 0
+          Master_SSL_Allowed: No
+          Master_SSL_CA_File:
+          Master_SSL_CA_Path:
+              Master_SSL_Cert:
+            Master_SSL_Cipher:
+              Master_SSL_Key:
+        Seconds_Behind_Master: 0
+Master_SSL_Verify_Server_Cert: No
+                Last_IO_Errno: 0
+                Last_IO_Error:
+              Last_SQL_Errno: 0
+              Last_SQL_Error:
+  Replicate_Ignore_Server_Ids:
+            Master_Server_Id: 1
+1 row &lt;span class=&quot;k&quot;&gt;in &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;set&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;0.00 sec&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;23-测试&quot;&gt;2.3 测试&lt;/h2&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;在任意一台服务器上创建mydb数据库
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;MariaDB &lt;span class=&quot;o&quot;&gt;[(&lt;/span&gt;none&lt;span class=&quot;o&quot;&gt;)]&amp;gt;&lt;/span&gt; create database mydb&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;在另一台服务器上查看
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;MariaDB &lt;span class=&quot;o&quot;&gt;[(&lt;/span&gt;none&lt;span class=&quot;o&quot;&gt;)]&amp;gt;&lt;/span&gt; show databases&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
++--------------------+
+| Database   |
++--------------------+
+| information_schema |
+| mydb    |
+| mysql    |
+| performance_schema |
+| &lt;span class=&quot;nb&quot;&gt;test&lt;/span&gt;    |
++--------------------+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h1 id=&quot;3半同步复制的实现&quot;&gt;&lt;strong&gt;3、半同步复制的实现&lt;/strong&gt;&lt;/h1&gt;
+
+&lt;h2 id=&quot;31-在主服务器上的配置&quot;&gt;3.1 在主服务器上的配置&lt;/h2&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;安装mariadb-server
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@localhost ~]# yum &lt;span class=&quot;nt&quot;&gt;-y&lt;/span&gt; install mariadb-server
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;编辑/etc/my.cnf
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@localhost ~]# vim /etc/my.cnf
+ skip_name_resolve &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; ON
+ innodb_file_per_table &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; ON
+ server-id &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 1
+ log-bin &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; master-log
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;授权可以复制本地数据库信息的主机&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@localhost ~]# systemctl start mariadb.service &lt;span class=&quot;c&quot;&gt;#启动mariadb server&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@localhost ~]# mysql
+ MariaDB &lt;span class=&quot;o&quot;&gt;[(&lt;/span&gt;none&lt;span class=&quot;o&quot;&gt;)]&amp;gt;&lt;/span&gt; grant replication slave,replication client on &lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;.&lt;span class=&quot;k&quot;&gt;*&lt;/span&gt; to &lt;span class=&quot;s1&quot;&gt;'repluser'&lt;/span&gt;@&lt;span class=&quot;s1&quot;&gt;'10.1.51.%'&lt;/span&gt; identified by &lt;span class=&quot;s1&quot;&gt;'replpasswd'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+ MariaDB &lt;span class=&quot;o&quot;&gt;[(&lt;/span&gt;none&lt;span class=&quot;o&quot;&gt;)]&amp;gt;&lt;/span&gt; flush privileges&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+MariaDB &lt;span class=&quot;o&quot;&gt;[(&lt;/span&gt;none&lt;span class=&quot;o&quot;&gt;)]&amp;gt;&lt;/span&gt; show master status&lt;span class=&quot;se&quot;&gt;\G&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;#查看主服务器的状态信息，在从服务器中要用到&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;***************************&lt;/span&gt; 1. row &lt;span class=&quot;k&quot;&gt;***************************&lt;/span&gt;
+File: master-log.000003 &lt;span class=&quot;c&quot;&gt;#正在使用的二进制日志文件&lt;/span&gt;
+Position: 245 &lt;span class=&quot;c&quot;&gt;#所处的位置&lt;/span&gt;
+Binlog_Do_DB:
+Binlog_Ignore_DB:
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;安装rpl semi sync_master插件，并启用
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@localhost ~]# mysql
+MariaDB &lt;span class=&quot;o&quot;&gt;[(&lt;/span&gt;none&lt;span class=&quot;o&quot;&gt;)]&amp;gt;&lt;/span&gt; install plugin rpl_semi_sync_master soname &lt;span class=&quot;s1&quot;&gt;'semisync_master.so'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+MariaDB &lt;span class=&quot;o&quot;&gt;[(&lt;/span&gt;none&lt;span class=&quot;o&quot;&gt;)]&amp;gt;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;set &lt;/span&gt;global rpl_semi_sync_master_enabled &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; ON&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+MariaDB &lt;span class=&quot;o&quot;&gt;[(&lt;/span&gt;none&lt;span class=&quot;o&quot;&gt;)]&amp;gt;&lt;/span&gt; show plugins&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;span class=&quot;c&quot;&gt;#可查看插件是否激活&lt;/span&gt;
+MariaDB &lt;span class=&quot;o&quot;&gt;[(&lt;/span&gt;none&lt;span class=&quot;o&quot;&gt;)]&amp;gt;&lt;/span&gt; show global variables like &lt;span class=&quot;s1&quot;&gt;'rpl_semi%'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;span class=&quot;c&quot;&gt;#可查看安装的插件是否启用&lt;/span&gt;
+MariaDB &lt;span class=&quot;o&quot;&gt;[(&lt;/span&gt;none&lt;span class=&quot;o&quot;&gt;)]&amp;gt;&lt;/span&gt; show global status like &lt;span class=&quot;s1&quot;&gt;'%semi%'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;span class=&quot;c&quot;&gt;#可查看从服务器的个数，此时是0个&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;32从服务器的配置&quot;&gt;3.2从服务器的配置&lt;/h2&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;安装mariadb-server
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@localhost ~]# yum &lt;span class=&quot;nt&quot;&gt;-y&lt;/span&gt; install mariadb-server
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;编辑/etc/my.cnf文件
+在[mysqld]段的最后添加以下内容
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@localhost ~]# vim /etc/my.cnf
+skip_name_resolve &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; ON
+innodb_file_per_table &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; ON
+server-id &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 2 &lt;span class=&quot;c&quot;&gt;#id号不能跟主服务器相同&lt;/span&gt;
+relay-log &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; slave-log &lt;span class=&quot;c&quot;&gt;#自定义二进制日志文件名&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;设置要从哪个主服务器的那个位置开始同步
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@localhost ~]# systemctl start mariadb.service 
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@localhost ~]# mysql 
+MariaDB &lt;span class=&quot;o&quot;&gt;[(&lt;/span&gt;none&lt;span class=&quot;o&quot;&gt;)]&amp;gt;&lt;/span&gt; change master to &lt;span class=&quot;nv&quot;&gt;master_host&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'10.1.51.60'&lt;/span&gt;,master_user&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'repluser'&lt;/span&gt;,master_password&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'replpasswd'&lt;/span&gt;,master_log_file&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'master-log.000003'&lt;/span&gt;,master_log_pos&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;245&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;安装rpl semi sync_slave插件并启用
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@localhost ~]# mysql 
+ MariaDB &lt;span class=&quot;o&quot;&gt;[(&lt;/span&gt;none&lt;span class=&quot;o&quot;&gt;)]&amp;gt;&lt;/span&gt; install plugin rpl_semi_sync_slave soname &lt;span class=&quot;s1&quot;&gt;'semisync_slave.so'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+ MariaDB &lt;span class=&quot;o&quot;&gt;[(&lt;/span&gt;none&lt;span class=&quot;o&quot;&gt;)]&amp;gt;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;set &lt;/span&gt;global rpl_semi_sync_slave_enabled &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; ON&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+ MariaDB &lt;span class=&quot;o&quot;&gt;[(&lt;/span&gt;none&lt;span class=&quot;o&quot;&gt;)]&amp;gt;&lt;/span&gt; start slave&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;完成上面配置后，可以在主服务器上查看半同步复制的相关信息，命令如下：&lt;/p&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;MariaDB &lt;span class=&quot;o&quot;&gt;[(&lt;/span&gt;none&lt;span class=&quot;o&quot;&gt;)]&amp;gt;&lt;/span&gt; show global status like &lt;span class=&quot;s1&quot;&gt;'%semi%'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+Rpl_semi_sync_master_clients 1 &lt;span class=&quot;c&quot;&gt;#从服务器有一台&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;33-测试&quot;&gt;3.3 测试&lt;/h3&gt;
+
+&lt;p&gt;测试以个人实际情况而定&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;在主服务器上导入事先准备好的数据库hellodb.sql
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;MariaDB &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;hellodb]&amp;gt; &lt;span class=&quot;nb&quot;&gt;source&lt;/span&gt; /root/hellodb.sql&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;在主服务器上查看半同步复制的状态&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;MariaDB &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;hellodb]&amp;gt; show master status&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
++-------------------+----------+--------------+------------------+
+| File    | Position | Binlog_Do_DB | Binlog_Ignore_DB |
++-------------------+----------+--------------+------------------+
+| master-log.000003 |  8102 |    |     |
++-------------------+----------+--------------+------------------+ 
+MariaDB &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;hellodb]&amp;gt; show global status like &lt;span class=&quot;s1&quot;&gt;'%semi%'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
++--------------------------------------------+-------+
+| Variable_name        | Value |
++--------------------------------------------+-------+
+| Rpl_semi_sync_master_clients    | 1  |
+| Rpl_semi_sync_master_net_avg_wait_time  | 1684 |
+| Rpl_semi_sync_master_net_wait_time   | 60630 |
+| Rpl_semi_sync_master_net_waits    | 36 |
+| Rpl_semi_sync_master_no_times    | 1  |
+| Rpl_semi_sync_master_no_tx     | 1  |
+| Rpl_semi_sync_master_status    | ON |
+| Rpl_semi_sync_master_timefunc_failures  | 0  |
+| Rpl_semi_sync_master_tx_avg_wait_time  | 1884 |
+| Rpl_semi_sync_master_tx_wait_time   | 65965 |
+| Rpl_semi_sync_master_tx_waits    | 35 |
+| Rpl_semi_sync_master_wait_pos_backtraverse | 0  |
+| Rpl_semi_sync_master_wait_sessions   | 0  |
+| Rpl_semi_sync_master_yes_tx    | 35 |
++--------------------------------------------+-------+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;在从服务器上查看是否同步
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;MariaDB &lt;span class=&quot;o&quot;&gt;[(&lt;/span&gt;none&lt;span class=&quot;o&quot;&gt;)]&amp;gt;&lt;/span&gt; show databases&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+MariaDB &lt;span class=&quot;o&quot;&gt;[(&lt;/span&gt;none&lt;span class=&quot;o&quot;&gt;)]&amp;gt;&lt;/span&gt; use hellodb&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+MariaDB &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;hellodb]&amp;gt; &lt;span class=&quot;k&quot;&gt;select&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;*&lt;/span&gt; from students&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h1 id=&quot;4-补充&quot;&gt;&lt;strong&gt;4 补充：&lt;/strong&gt;&lt;/h1&gt;
+
+&lt;p&gt;基于上面的半同步复制配置复制的过滤器，复制过滤最好在从服务器上设置，步骤如下&lt;/p&gt;
+
+&lt;h2 id=&quot;41-从服务器的配置&quot;&gt;4.1 从服务器的配置&lt;/h2&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;关闭mariadb server
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@localhost ~]# systemctl stop mariadb.service
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;编辑/etc/my.cnf文件
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@localhost ~]# vim /etc/my.cnf
+skip_name_resolve &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; ON
+innodb_file_per_table &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; ON
+server-id &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 2
+relay-log &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; slave-log
+replicate-do-db &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; mydb &lt;span class=&quot;c&quot;&gt;#只复制mydb数据库的内容&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;补充：常用的过滤选项如下&lt;/p&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;Replicate_Do_DB&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;Replicate_Ignore_DB&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;Replicate_Do_Table&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;Replicate_Ignore_Table&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;Replicate_Wild_Do_Table&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;Replicate_Wild_Ignore_Table&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;重启mariadb server
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@localhost ~]# systemctl start mariadb.service
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;重启mariadb server后，半同步复制功能将被关闭，因此要重新启动&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;MariaDB &lt;span class=&quot;o&quot;&gt;[(&lt;/span&gt;none&lt;span class=&quot;o&quot;&gt;)]&amp;gt;&lt;/span&gt; show global variables like &lt;span class=&quot;s1&quot;&gt;'%semi%'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
++---------------------------------+-------+
+| Variable_name     | Value |
++---------------------------------+-------+
+| rpl_semi_sync_slave_enabled  | OFF |
+| rpl_semi_sync_slave_trace_level | 32 |
++---------------------------------+-------+
+ 
+MariaDB &lt;span class=&quot;o&quot;&gt;[(&lt;/span&gt;none&lt;span class=&quot;o&quot;&gt;)]&amp;gt;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;set &lt;/span&gt;global rpl_semi_sync_slave_enabled &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; ON&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+MariaDB &lt;span class=&quot;o&quot;&gt;[(&lt;/span&gt;none&lt;span class=&quot;o&quot;&gt;)]&amp;gt;&lt;/span&gt; stop slave&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;span class=&quot;c&quot;&gt;#需先关闭从服务器复制功能再重启&lt;/span&gt;
+MariaDB &lt;span class=&quot;o&quot;&gt;[(&lt;/span&gt;none&lt;span class=&quot;o&quot;&gt;)]&amp;gt;&lt;/span&gt; start slave&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;42测试&quot;&gt;4.2测试&lt;/h2&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;主服务器上的hellodb数据库创建一个新表semitable
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;MariaDB &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;hellodb]&amp;gt; create table semitable &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;id int&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;在从服务器上查看hellodb数据库是否有semitable
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;MariaDB &lt;span class=&quot;o&quot;&gt;[(&lt;/span&gt;none&lt;span class=&quot;o&quot;&gt;)]&amp;gt;&lt;/span&gt; use hellodb
+MariaDB &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;hellodb]&amp;gt; show tables&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;（并没有）
++-------------------+
+| Tables_in_hellodb |
++-------------------+
+| classes   |
+| coc    |
+| courses   |
+| scores   |
+| students   |
+| teachers   |
+| toc    |
++-------------------+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;在主服务器上创建mydb数据库，并为其创建一个tbl1表
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;MariaDB &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;hellodb]&amp;gt; create database mydb&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;在从服务器上查看mydb数据库的是否有tbl1表
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;MariaDB &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;hellodb]&amp;gt; use mydb&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+MariaDB &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;mydb]&amp;gt; show tables&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; （可以查看到）
++----------------+
+| Tables_in_mydb |
++----------------+
+| tbl1   |
++----------------+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;</content><author><name>Barry New</name></author><summary type="html">这篇文章主要详细介绍了mariadb的主从复制、主主复制、半同步复制的概念和方法。 参考http://www.jb51.net/article/97786.htm</summary></entry><entry><title type="html">Gitment</title><link href="http://kago.site/2017/11/19/gitment/" rel="alternate" type="text/html" title="Gitment" /><published>2017-11-19T00:00:00+08:00</published><updated>2017-11-19T00:00:00+08:00</updated><id>http://kago.site/2017/11/19/gitment</id><content type="html" xml:base="http://kago.site/2017/11/19/gitment/"></content><author><name>Barry New</name></author><summary type="html"></summary></entry><entry><title type="html">初尝</title><link href="http://kago.site/2017/11/17/first-blog/" rel="alternate" type="text/html" title="初尝" /><published>2017-11-17T00:00:00+08:00</published><updated>2017-11-17T00:00:00+08:00</updated><id>http://kago.site/2017/11/17/first-blog</id><content type="html" xml:base="http://kago.site/2017/11/17/first-blog/">&lt;h2 id=&quot;我是标题&quot;&gt;我是标题&lt;/h2&gt;
+
+&lt;p&gt;我是正文~&lt;/p&gt;</content><author><name>Barry New</name></author><summary type="html">我是标题</summary></entry></feed>

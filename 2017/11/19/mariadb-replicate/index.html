@@ -1,0 +1,821 @@
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?f486d6d8f86740b3452a2f1926de4ee2";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans" prefix="og: http://ogp.me/ns#" class="han-init">
+<head>
+    <meta name="baidu-site-verification" content="hojmIeRrdx" />
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>mariadb的主从复制、主主复制、半同步复制的概念和方法 &mdash; 阅后即忘</title>
+    <link rel="stylesheet" href="/assets/vendor/primer-css/css/primer.css">
+    <link rel="stylesheet" href="/assets/vendor/primer-markdown/dist/user-content.min.css">
+    <link rel="stylesheet" href="/assets/vendor/octicons/octicons/octicons.css">
+    <link rel="stylesheet" href="/assets/css/components/collection.css">
+    <link rel="stylesheet" href="/assets/css/components/repo-card.css">
+    <link rel="stylesheet" href="/assets/css/sections/repo-list.css">
+    <link rel="stylesheet" href="/assets/css/sections/mini-repo-list.css">
+    <link rel="stylesheet" href="/assets/css/components/boxed-group.css">
+    <link rel="stylesheet" href="/assets/css/globals/common.css">
+    <link rel="stylesheet" href="/assets/vendor/share.js/dist/css/share.min.css">
+    <link rel="stylesheet" href="/assets/css/globals/responsive.css">
+    <link rel="stylesheet" href="/assets/css/posts/index.css">
+    <!-- Latest compiled and minified CSS -->
+    
+
+    
+    <link rel="canonical" href="http://kago.site/2017/11/19/mariadb-replicate/">
+    <link rel="alternate" type="application/atom+xml" title="阅后即忘" href="/feed.xml">
+    <link rel="shortcut icon" href="/favicon.ico">
+    
+    <meta property="og:title" content="mariadb的主从复制、主主复制、半同步复制的概念和方法">
+      
+    <meta name="keywords" content="mysql,mariadb">
+    <meta name="og:keywords" content="mysql,mariadb">
+      
+    <meta name="description" content="这篇文章主要详细介绍了mariadb的主从复制、主主复制、半同步复制的概念和方法。  参考http://www.jb51.net/article/97786.htm">
+    <meta name="og:description" content="这篇文章主要详细介绍了mariadb的主从复制、主主复制、半同步复制的概念和方法。  参考http://www.jb51.net/article/97786.htm">
+      
+    
+    
+        
+    
+    <meta property="og:url" content="http://kago.site/2017/11/19/mariadb-replicate/">
+    <meta property="og:site_name" content="阅后即忘">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="zh_CN" />
+    
+    <meta property="article:published_time" content="2017-11-19">
+    
+    <script src="/assets/vendor/jquery/dist/jquery.min.js"></script>
+    <script src="/assets/js/jquery-ui.js"></script>
+    <script type="text/javascript">
+    function toggleMenu() {
+        var nav = document.getElementsByClassName("site-header-nav")[0];
+        if (nav.style.display == "inline-flex") {
+          nav.style.display = "none";
+        } else {
+          nav.style.display = "inline-flex";
+        }
+    }
+    </script>
+</head>
+<body class="" data-mz="">
+    <header class="site-header">
+        <div class="container">
+            <h1><a href="/" title="阅后即忘"><span class="octicon octicon-mark-github"></span> 阅后即忘</a></h1>
+            <button class="collapsed mobile-visible" type="button" onclick="toggleMenu();">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <nav class="site-header-nav" role="navigation">
+                
+                <a href="/" class=" site-header-nav-item" target="" title="首页">首页</a>
+                
+                <a href="/categories/" class=" site-header-nav-item" target="" title="分类">分类</a>
+                
+                <a href="/wiki/" class=" site-header-nav-item" target="" title="维基">维基</a>
+                
+                <a href="/links/" class=" site-header-nav-item" target="" title="链接">链接</a>
+                
+                <a href="/about/" class=" site-header-nav-item" target="" title="关于">关于</a>
+                
+            </nav>
+        </div>
+    </header>
+    <!-- / header -->
+
+    <section class="collection-head small geopattern" data-pattern-id="mariadb的主从复制、主主">
+<div class="container">
+  <div class="columns">
+    <div class="column three-fourths">
+      <div class="collection-title">
+        <h1 class="collection-header">mariadb的主从复制、主主复制、半同步复制的概念和方法</h1>
+        <div class="collection-info">
+          
+          <span class="meta-info">
+            <span class="octicon octicon-calendar"></span> 2017/11/19
+          </span>
+          
+          
+          <span class="meta-info">
+            <span class="octicon octicon-file-directory"></span>
+            <a href="/categories/#mysql" title="mysql">mysql</a>
+          </span>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+<!-- / .banner -->
+<section class="container content">
+<div class="columns">
+  <div class="column three-fourths" >
+    <article class="article-content markdown-body">
+    <p>这篇文章主要详细介绍了mariadb的主从复制、主主复制、半同步复制的概念和方法。</p>
+<blockquote>
+  <p>参考<a href="http://www.jb51.net/article/97786.htm">http://www.jb51.net/article/97786.htm</a></p>
+</blockquote>
+
+<p>主从服务器的时间要同步，数据库版本最好是一致的，以免造成函数处理、日志读取、日志解析等发生异常。
+以下三个主从复制的设置是独立的。
+注意防火墙和selinux的影响。</p>
+
+<h1 id="1简单主从复制的实现"><strong>1、简单主从复制的实现</strong></h1>
+
+<h2 id="11-服务器1操作">1.1 服务器1操作</h2>
+
+<ol>
+  <li>安装mariadb-server
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@localhost ~]# yum <span class="nt">-y</span> install mariadb-server
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>编辑/etc/my.cnf文件</p>
+
+    <p>在[mysqld]段的最后添加以下内容</p>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@localhost ~]# vim /etc/my.cnf
+skip_name_resolve <span class="o">=</span> ON
+innodb_file_per_table <span class="o">=</span> ON    
+server-id <span class="o">=</span> 1 <span class="c">#id号不能跟从服务器相同</span>
+log-bin <span class="o">=</span> master-log <span class="c">#自定义二进制日志文件名</span>
+</code></pre></div>    </div>
+  </li>
+  <li>授权可以复制本地数据库信息的主机
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@localhost ~]# systemctl start mariadb.service <span class="c">#启动mariadb server   </span>
+<span class="o">[</span>root@localhost ~]# mysql
+MariaDB <span class="o">[(</span>none<span class="o">)]&gt;</span> grant replication slave,replication client on <span class="k">*</span>.<span class="k">*</span> to <span class="s1">'repluser'</span>@<span class="s1">'10.1.51.%'</span> identified by <span class="s1">'replpasswd'</span><span class="p">;</span>
+MariaDB <span class="o">[(</span>none<span class="o">)]&gt;</span> flush privileges<span class="p">;</span>   
+MariaDB <span class="o">[(</span>none<span class="o">)]&gt;</span> show master status<span class="se">\G</span> <span class="c">#查看主服务器的状态信息，在从服务器中要用到</span>
+<span class="k">***************************</span> 1. row <span class="k">***************************</span>
+File: master-log.000003 <span class="c">#正在使用的二进制日志文件</span>
+Position: 497 <span class="c">#所处的位置</span>
+Binlog_Do_DB:
+Binlog_Ignore_DB:
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h2 id="12-从服务器的配置">1.2 从服务器的配置</h2>
+
+<ol>
+  <li>安装mariadb-server
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@localhost ~]# yum <span class="nt">-y</span> install mariadb-server
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>编辑/etc/my.cnf文件</p>
+
+    <p>在[mysqld]段的最后添加以下内容</p>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@localhost ~]# vim /etc/my.cnf
+skip_name_resolve <span class="o">=</span> ON
+innodb_file_per_table <span class="o">=</span> ON
+server-id <span class="o">=</span> 2 <span class="c">#id号不能跟主服务器相同）</span>
+relay-log <span class="o">=</span> slave-log <span class="c">#自定义二进制日志文件名）</span>
+</code></pre></div>    </div>
+  </li>
+  <li>设置要从哪个主服务器的那个位置开始同步
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@localhost ~]# systemctl start mariadb.service
+<span class="o">[</span>root@localhost ~]# mysql
+MariaDB <span class="o">[(</span>none<span class="o">)]&gt;</span> change master to <span class="nv">master_host</span><span class="o">=</span><span class="s1">'10.1.51.60'</span>,master_user<span class="o">=</span><span class="s1">'repluser'</span>,master_password<span class="o">=</span><span class="s1">'replpasswd'</span>,master_log_file<span class="o">=</span><span class="s1">'master-log.000003'</span>,master_log_pos<span class="o">=</span>497<span class="p">;</span>
+MariaDB <span class="o">[(</span>none<span class="o">)]&gt;</span> start slave<span class="p">;</span> <span class="c">#启动复制功能</span>
+MariaDB <span class="o">[(</span>none<span class="o">)]&gt;</span> show slave status<span class="se">\G</span> <span class="c">#查看从服务器的状态，下面显示的是部分内容</span>
+Master_Host: 10.1.51.60
+Master_User: repluser
+Master_Port: 3306
+Connect_Retry: 60
+Master_Log_File: master-log.000003
+Read_Master_Log_Pos: 497
+Relay_Log_File: slave-log.000002
+Relay_Log_Pos: 530
+Relay_Master_Log_File: master-log.000003
+Slave_IO_Running: Yes
+Slave_SQL_Running: Yes
+Master_Server_Id: 1
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h2 id="13-测试">1.3 测试</h2>
+
+<ol>
+  <li>在主服务器导入事先准备好的数据库
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@localhost ~]# mysql &lt; hellodb.sql
+</code></pre></div>    </div>
+  </li>
+  <li>在从服务器查看是否同步
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>MariaDB <span class="o">[(</span>none<span class="o">)]&gt;</span> show databases<span class="p">;</span>
++--------------------+
+| Database   |
++--------------------+
+| information_schema |
+| hellodb   | <span class="c">#数据库已经同步</span>
+| mysql    |
+| performance_schema |
+| <span class="nb">test</span>    |
++--------------------+
+MariaDB <span class="o">[(</span>none<span class="o">)]&gt;</span> use hellodb<span class="p">;</span>
+MariaDB <span class="o">[</span>hellodb]&gt; show tables<span class="p">;</span> <span class="c">#hellodb数据库的表也是同步的</span>
++-------------------+
+| Tables_in_hellodb |
++-------------------+
+| classes   |
+| coc    |
+| courses   |
+| scores   |
+| students   |
+| teachers   |
+| toc    |
++-------------------+
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h1 id="2双主复制的实现"><strong>2、双主复制的实现</strong></h1>
+
+<h2 id="21-安装mariadb">2.1 安装MariaDB</h2>
+
+<ul>
+  <li>服务器1的操作：</li>
+</ul>
+
+<ol>
+  <li>安装mariadb-server
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@localhost ~]# yum <span class="nt">-y</span> install mariadb-server
+</code></pre></div>    </div>
+  </li>
+  <li>编辑/etc/my.cnf文件
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@localhost ~]# vim /etc/my.cnf
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<p>在[mysqld]段的最后添加以下内容</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>skip_name_resolve <span class="o">=</span> ON
+innodb_file_per_table <span class="o">=</span> ON
+server-id <span class="o">=</span> 1 <span class="c">#id号不能跟从服务器相同</span>
+log-bin <span class="o">=</span> master-log <span class="c">#自定义主服务器的二进制日志文件名</span>
+relay-log <span class="o">=</span> slave-log <span class="c">#自定义从服务器的二进制日志文件名</span>
+auto_increment_offset <span class="o">=</span> 1 
+auto_increment_increment <span class="o">=</span> 2
+</code></pre></div></div>
+
+<ol>
+  <li>启动服务
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@localhost ~]# systemctl start mariadb.service	
+<span class="o">[</span>root@localhost ~]#systemctl <span class="nb">enable </span>mariadb.servic
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<p><em>服务器2的操作：</em></p>
+
+<ol>
+  <li>安装mariadb-server
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@localhost ~]# yum <span class="nt">-y</span> install mariadb-server
+</code></pre></div>    </div>
+  </li>
+  <li>编辑/etc/my.cnf文件
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@localhost ~]# vim /etc/my.cnf
+skip_name_resolve <span class="o">=</span> ON
+innodb_file_per_table <span class="o">=</span> ON
+server-id <span class="o">=</span> 2
+relay-log <span class="o">=</span> slave-log
+lob-bin <span class="o">=</span> master-log
+auto_increment_offset <span class="o">=</span> 2 
+auto_increment_increment <span class="o">=</span> 2
+</code></pre></div>    </div>
+  </li>
+  <li>启动服务
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@localhost ~]# systemctl start mariadb.service	
+<span class="o">[</span>root@localhost ~]#systemctl <span class="nb">enable </span>mariadb.service
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h2 id="22-配置双主复制">2.2 配置双主复制</h2>
+
+<ol>
+  <li>在服务器2上查看的master状态</li>
+</ol>
+
+<p><em>说明：记录数据，在服务器2上配置时会用到。</em></p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>MariaDB <span class="o">[(</span>none<span class="o">)]&gt;</span> show master status<span class="se">\G</span>
+<span class="k">***************************</span> 1. row <span class="k">***************************</span>
+File: master-log.000003
+Position: 521
+Binlog_Do_DB:
+Binlog_Ignore_DB:
+</code></pre></div></div>
+
+<ol>
+  <li>服务器1上进行如下配置</li>
+</ol>
+
+<p><em>说明：以下配置的内容为服务器2的IP及服务器2上查到的master数据。</em></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@localhost ~]# mysql
+MariaDB <span class="o">[(</span>none<span class="o">)]&gt;</span> grant replication slave,replication client on <span class="k">*</span>.<span class="k">*</span> to <span class="s1">'repluser'</span>@<span class="s1">'192.168.1.%'</span> identified by <span class="s1">'replpasswd'</span><span class="p">;</span>
+MariaDB <span class="o">[(</span>none<span class="o">)]&gt;</span> change master to <span class="nv">master_host</span><span class="o">=</span><span class="s1">'192.168.1.188'</span>,master_user<span class="o">=</span><span class="s1">'repluser'</span>,master_password<span class="o">=</span><span class="s1">'replpasswd'</span>,master_log_file<span class="o">=</span><span class="s1">'master-log.000003'</span>,master_log_pos<span class="o">=</span>521<span class="p">;</span>
+MariaDB <span class="o">[(</span>none<span class="o">)]&gt;</span> start slave<span class="p">;</span>
+MariaDB <span class="o">[(</span>none<span class="o">)]&gt;</span> SHOW SLAVE STATUS<span class="se">\G</span>
+<span class="k">***************************</span> 1. row <span class="k">***************************</span>
+              Slave_IO_State: Waiting <span class="k">for </span>master to send event
+                  Master_Host: 192.168.1.188
+                  Master_User: repluser
+                  Master_Port: 3306
+                Connect_Retry: 60
+              Master_Log_File: master-log.000003
+          Read_Master_Log_Pos: 521
+              Relay_Log_File: slave-log.000002
+                Relay_Log_Pos: 806
+        Relay_Master_Log_File: master-log.000003
+            Slave_IO_Running: Yes
+            Slave_SQL_Running: Yes
+              Replicate_Do_DB:
+          Replicate_Ignore_DB:
+          Replicate_Do_Table:
+      Replicate_Ignore_Table:
+      Replicate_Wild_Do_Table:
+  Replicate_Wild_Ignore_Table:
+                  Last_Errno: 0
+                  Last_Error:
+                Skip_Counter: 0
+          Exec_Master_Log_Pos: 521
+              Relay_Log_Space: 1094
+              Until_Condition: None
+              Until_Log_File:
+                Until_Log_Pos: 0
+          Master_SSL_Allowed: No
+          Master_SSL_CA_File:
+          Master_SSL_CA_Path:
+              Master_SSL_Cert:
+            Master_SSL_Cipher:
+              Master_SSL_Key:
+        Seconds_Behind_Master: 0
+Master_SSL_Verify_Server_Cert: No
+                Last_IO_Errno: 0
+                Last_IO_Error:
+              Last_SQL_Errno: 0
+              Last_SQL_Error:
+  Replicate_Ignore_Server_Ids:
+            Master_Server_Id: 2
+1 row <span class="k">in </span><span class="nb">set</span> <span class="o">(</span>0.00 sec<span class="o">)</span>
+</code></pre></div></div>
+
+<ol>
+  <li>在服务器1查看master状态
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>MariaDB <span class="o">[(</span>none<span class="o">)]&gt;</span> show master status<span class="se">\G</span>
+<span class="k">***************************</span> 1. row <span class="k">***************************</span>
+File: master-log.000003
+Position: 795
+Binlog_Do_DB: 
+Binlog_Ignore_DB:
+</code></pre></div>    </div>
+  </li>
+  <li>服务器2上进行如下配置</li>
+</ol>
+
+<p><em>说明：以下的配置内容为服务器1的IP及服务器1中查到的master信息</em></p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@localhost ~]# mysql
+ MariaDB <span class="o">[(</span>none<span class="o">)]&gt;</span> grant replication slave,replication client on <span class="k">*</span>.<span class="k">*</span> to <span class="s1">'repluser'</span>@<span class="s1">'192.168.1.%'</span> identified by <span class="s1">'replpasswd'</span><span class="p">;</span>
+ MariaDB <span class="o">[(</span>none<span class="o">)]&gt;</span> change master to <span class="nv">master_host</span><span class="o">=</span><span class="s1">'192.168.1.187'</span>,master_user<span class="o">=</span><span class="s1">'repluser'</span>,master_password<span class="o">=</span><span class="s1">'replpasswd'</span>,master_log_file<span class="o">=</span><span class="s1">'master-log.000003'</span>,master_log_pos<span class="o">=</span>795<span class="p">;</span>
+ MariaDB <span class="o">[(</span>none<span class="o">)]&gt;</span> start slave<span class="p">;</span>
+ MariaDB <span class="o">[(</span>none<span class="o">)]&gt;</span> show slave status<span class="se">\G</span>
+<span class="k">***************************</span> 1. row <span class="k">***************************</span>
+              Slave_IO_State: Waiting <span class="k">for </span>master to send event
+                  Master_Host: 192.168.1.187
+                  Master_User: repluser
+                  Master_Port: 3306
+                Connect_Retry: 60
+              Master_Log_File: master-log.000003
+          Read_Master_Log_Pos: 795
+              Relay_Log_File: slave-log.000002
+                Relay_Log_Pos: 530
+        Relay_Master_Log_File: master-log.000003
+            Slave_IO_Running: Yes
+            Slave_SQL_Running: Yes
+              Replicate_Do_DB:
+          Replicate_Ignore_DB:
+          Replicate_Do_Table:
+      Replicate_Ignore_Table:
+      Replicate_Wild_Do_Table:
+  Replicate_Wild_Ignore_Table:
+                  Last_Errno: 0
+                  Last_Error:
+                Skip_Counter: 0
+          Exec_Master_Log_Pos: 795
+              Relay_Log_Space: 818
+              Until_Condition: None
+              Until_Log_File:
+                Until_Log_Pos: 0
+          Master_SSL_Allowed: No
+          Master_SSL_CA_File:
+          Master_SSL_CA_Path:
+              Master_SSL_Cert:
+            Master_SSL_Cipher:
+              Master_SSL_Key:
+        Seconds_Behind_Master: 0
+Master_SSL_Verify_Server_Cert: No
+                Last_IO_Errno: 0
+                Last_IO_Error:
+              Last_SQL_Errno: 0
+              Last_SQL_Error:
+  Replicate_Ignore_Server_Ids:
+            Master_Server_Id: 1
+1 row <span class="k">in </span><span class="nb">set</span> <span class="o">(</span>0.00 sec<span class="o">)</span>
+</code></pre></div></div>
+
+<h2 id="23-测试">2.3 测试</h2>
+
+<ol>
+  <li>在任意一台服务器上创建mydb数据库
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>MariaDB <span class="o">[(</span>none<span class="o">)]&gt;</span> create database mydb<span class="p">;</span>
+</code></pre></div>    </div>
+  </li>
+  <li>在另一台服务器上查看
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>MariaDB <span class="o">[(</span>none<span class="o">)]&gt;</span> show databases<span class="p">;</span>
++--------------------+
+| Database   |
++--------------------+
+| information_schema |
+| mydb    |
+| mysql    |
+| performance_schema |
+| <span class="nb">test</span>    |
++--------------------+
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h1 id="3半同步复制的实现"><strong>3、半同步复制的实现</strong></h1>
+
+<h2 id="31-在主服务器上的配置">3.1 在主服务器上的配置</h2>
+
+<ol>
+  <li>安装mariadb-server
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@localhost ~]# yum <span class="nt">-y</span> install mariadb-server
+</code></pre></div>    </div>
+  </li>
+  <li>编辑/etc/my.cnf
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@localhost ~]# vim /etc/my.cnf
+ skip_name_resolve <span class="o">=</span> ON
+ innodb_file_per_table <span class="o">=</span> ON
+ server-id <span class="o">=</span> 1
+ log-bin <span class="o">=</span> master-log
+</code></pre></div>    </div>
+  </li>
+  <li>授权可以复制本地数据库信息的主机</li>
+</ol>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@localhost ~]# systemctl start mariadb.service <span class="c">#启动mariadb server</span>
+<span class="o">[</span>root@localhost ~]# mysql
+ MariaDB <span class="o">[(</span>none<span class="o">)]&gt;</span> grant replication slave,replication client on <span class="k">*</span>.<span class="k">*</span> to <span class="s1">'repluser'</span>@<span class="s1">'10.1.51.%'</span> identified by <span class="s1">'replpasswd'</span><span class="p">;</span>
+ MariaDB <span class="o">[(</span>none<span class="o">)]&gt;</span> flush privileges<span class="p">;</span>
+MariaDB <span class="o">[(</span>none<span class="o">)]&gt;</span> show master status<span class="se">\G</span> <span class="c">#查看主服务器的状态信息，在从服务器中要用到</span>
+<span class="k">***************************</span> 1. row <span class="k">***************************</span>
+File: master-log.000003 <span class="c">#正在使用的二进制日志文件</span>
+Position: 245 <span class="c">#所处的位置</span>
+Binlog_Do_DB:
+Binlog_Ignore_DB:
+</code></pre></div></div>
+
+<ol>
+  <li>安装rpl semi sync_master插件，并启用
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@localhost ~]# mysql
+MariaDB <span class="o">[(</span>none<span class="o">)]&gt;</span> install plugin rpl_semi_sync_master soname <span class="s1">'semisync_master.so'</span><span class="p">;</span>
+MariaDB <span class="o">[(</span>none<span class="o">)]&gt;</span> <span class="nb">set </span>global rpl_semi_sync_master_enabled <span class="o">=</span> ON<span class="p">;</span>
+MariaDB <span class="o">[(</span>none<span class="o">)]&gt;</span> show plugins<span class="p">;</span><span class="c">#可查看插件是否激活</span>
+MariaDB <span class="o">[(</span>none<span class="o">)]&gt;</span> show global variables like <span class="s1">'rpl_semi%'</span><span class="p">;</span><span class="c">#可查看安装的插件是否启用</span>
+MariaDB <span class="o">[(</span>none<span class="o">)]&gt;</span> show global status like <span class="s1">'%semi%'</span><span class="p">;</span><span class="c">#可查看从服务器的个数，此时是0个</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h2 id="32从服务器的配置">3.2从服务器的配置</h2>
+
+<ol>
+  <li>安装mariadb-server
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@localhost ~]# yum <span class="nt">-y</span> install mariadb-server
+</code></pre></div>    </div>
+  </li>
+  <li>编辑/etc/my.cnf文件
+在[mysqld]段的最后添加以下内容
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@localhost ~]# vim /etc/my.cnf
+skip_name_resolve <span class="o">=</span> ON
+innodb_file_per_table <span class="o">=</span> ON
+server-id <span class="o">=</span> 2 <span class="c">#id号不能跟主服务器相同</span>
+relay-log <span class="o">=</span> slave-log <span class="c">#自定义二进制日志文件名</span>
+</code></pre></div>    </div>
+  </li>
+  <li>设置要从哪个主服务器的那个位置开始同步
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@localhost ~]# systemctl start mariadb.service 
+<span class="o">[</span>root@localhost ~]# mysql 
+MariaDB <span class="o">[(</span>none<span class="o">)]&gt;</span> change master to <span class="nv">master_host</span><span class="o">=</span><span class="s1">'10.1.51.60'</span>,master_user<span class="o">=</span><span class="s1">'repluser'</span>,master_password<span class="o">=</span><span class="s1">'replpasswd'</span>,master_log_file<span class="o">=</span><span class="s1">'master-log.000003'</span>,master_log_pos<span class="o">=</span>245<span class="p">;</span>
+</code></pre></div>    </div>
+  </li>
+  <li>安装rpl semi sync_slave插件并启用
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@localhost ~]# mysql 
+ MariaDB <span class="o">[(</span>none<span class="o">)]&gt;</span> install plugin rpl_semi_sync_slave soname <span class="s1">'semisync_slave.so'</span><span class="p">;</span>
+ MariaDB <span class="o">[(</span>none<span class="o">)]&gt;</span> <span class="nb">set </span>global rpl_semi_sync_slave_enabled <span class="o">=</span> ON<span class="p">;</span>
+ MariaDB <span class="o">[(</span>none<span class="o">)]&gt;</span> start slave<span class="p">;</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<p>完成上面配置后，可以在主服务器上查看半同步复制的相关信息，命令如下：</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>MariaDB <span class="o">[(</span>none<span class="o">)]&gt;</span> show global status like <span class="s1">'%semi%'</span><span class="p">;</span>
+Rpl_semi_sync_master_clients 1 <span class="c">#从服务器有一台</span>
+</code></pre></div></div>
+
+<h3 id="33-测试">3.3 测试</h3>
+
+<p>测试以个人实际情况而定</p>
+
+<ol>
+  <li>在主服务器上导入事先准备好的数据库hellodb.sql
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>MariaDB <span class="o">[</span>hellodb]&gt; <span class="nb">source</span> /root/hellodb.sql<span class="p">;</span>
+</code></pre></div>    </div>
+  </li>
+  <li>在主服务器上查看半同步复制的状态</li>
+</ol>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>MariaDB <span class="o">[</span>hellodb]&gt; show master status<span class="p">;</span>
++-------------------+----------+--------------+------------------+
+| File    | Position | Binlog_Do_DB | Binlog_Ignore_DB |
++-------------------+----------+--------------+------------------+
+| master-log.000003 |  8102 |    |     |
++-------------------+----------+--------------+------------------+ 
+MariaDB <span class="o">[</span>hellodb]&gt; show global status like <span class="s1">'%semi%'</span><span class="p">;</span>
++--------------------------------------------+-------+
+| Variable_name        | Value |
++--------------------------------------------+-------+
+| Rpl_semi_sync_master_clients    | 1  |
+| Rpl_semi_sync_master_net_avg_wait_time  | 1684 |
+| Rpl_semi_sync_master_net_wait_time   | 60630 |
+| Rpl_semi_sync_master_net_waits    | 36 |
+| Rpl_semi_sync_master_no_times    | 1  |
+| Rpl_semi_sync_master_no_tx     | 1  |
+| Rpl_semi_sync_master_status    | ON |
+| Rpl_semi_sync_master_timefunc_failures  | 0  |
+| Rpl_semi_sync_master_tx_avg_wait_time  | 1884 |
+| Rpl_semi_sync_master_tx_wait_time   | 65965 |
+| Rpl_semi_sync_master_tx_waits    | 35 |
+| Rpl_semi_sync_master_wait_pos_backtraverse | 0  |
+| Rpl_semi_sync_master_wait_sessions   | 0  |
+| Rpl_semi_sync_master_yes_tx    | 35 |
++--------------------------------------------+-------+
+</code></pre></div></div>
+
+<ol>
+  <li>在从服务器上查看是否同步
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>MariaDB <span class="o">[(</span>none<span class="o">)]&gt;</span> show databases<span class="p">;</span>
+MariaDB <span class="o">[(</span>none<span class="o">)]&gt;</span> use hellodb<span class="p">;</span>
+MariaDB <span class="o">[</span>hellodb]&gt; <span class="k">select</span> <span class="k">*</span> from students<span class="p">;</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h1 id="4-补充"><strong>4 补充：</strong></h1>
+
+<p>基于上面的半同步复制配置复制的过滤器，复制过滤最好在从服务器上设置，步骤如下</p>
+
+<h2 id="41-从服务器的配置">4.1 从服务器的配置</h2>
+
+<ol>
+  <li>关闭mariadb server
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@localhost ~]# systemctl stop mariadb.service
+</code></pre></div>    </div>
+  </li>
+  <li>编辑/etc/my.cnf文件
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@localhost ~]# vim /etc/my.cnf
+skip_name_resolve <span class="o">=</span> ON
+innodb_file_per_table <span class="o">=</span> ON
+server-id <span class="o">=</span> 2
+relay-log <span class="o">=</span> slave-log
+replicate-do-db <span class="o">=</span> mydb <span class="c">#只复制mydb数据库的内容</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<p>补充：常用的过滤选项如下</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">Replicate_Do_DB</span><span class="o">=</span>
+<span class="nv">Replicate_Ignore_DB</span><span class="o">=</span>
+<span class="nv">Replicate_Do_Table</span><span class="o">=</span>
+<span class="nv">Replicate_Ignore_Table</span><span class="o">=</span>
+<span class="nv">Replicate_Wild_Do_Table</span><span class="o">=</span>
+<span class="nv">Replicate_Wild_Ignore_Table</span><span class="o">=</span>
+</code></pre></div></div>
+
+<ol>
+  <li>重启mariadb server
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@localhost ~]# systemctl start mariadb.service
+</code></pre></div>    </div>
+  </li>
+  <li>重启mariadb server后，半同步复制功能将被关闭，因此要重新启动</li>
+</ol>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>MariaDB <span class="o">[(</span>none<span class="o">)]&gt;</span> show global variables like <span class="s1">'%semi%'</span><span class="p">;</span>
++---------------------------------+-------+
+| Variable_name     | Value |
++---------------------------------+-------+
+| rpl_semi_sync_slave_enabled  | OFF |
+| rpl_semi_sync_slave_trace_level | 32 |
++---------------------------------+-------+
+ 
+MariaDB <span class="o">[(</span>none<span class="o">)]&gt;</span> <span class="nb">set </span>global rpl_semi_sync_slave_enabled <span class="o">=</span> ON<span class="p">;</span>
+MariaDB <span class="o">[(</span>none<span class="o">)]&gt;</span> stop slave<span class="p">;</span><span class="c">#需先关闭从服务器复制功能再重启</span>
+MariaDB <span class="o">[(</span>none<span class="o">)]&gt;</span> start slave<span class="p">;</span>
+</code></pre></div></div>
+
+<h2 id="42测试">4.2测试</h2>
+
+<ol>
+  <li>主服务器上的hellodb数据库创建一个新表semitable
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>MariaDB <span class="o">[</span>hellodb]&gt; create table semitable <span class="o">(</span>id int<span class="o">)</span><span class="p">;</span>
+</code></pre></div>    </div>
+  </li>
+  <li>在从服务器上查看hellodb数据库是否有semitable
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>MariaDB <span class="o">[(</span>none<span class="o">)]&gt;</span> use hellodb
+MariaDB <span class="o">[</span>hellodb]&gt; show tables<span class="p">;</span>（并没有）
++-------------------+
+| Tables_in_hellodb |
++-------------------+
+| classes   |
+| coc    |
+| courses   |
+| scores   |
+| students   |
+| teachers   |
+| toc    |
++-------------------+
+</code></pre></div>    </div>
+  </li>
+  <li>在主服务器上创建mydb数据库，并为其创建一个tbl1表
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>MariaDB <span class="o">[</span>hellodb]&gt; create database mydb<span class="p">;</span>
+</code></pre></div>    </div>
+  </li>
+  <li>在从服务器上查看mydb数据库的是否有tbl1表
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>MariaDB <span class="o">[</span>hellodb]&gt; use mydb<span class="p">;</span>
+MariaDB <span class="o">[</span>mydb]&gt; show tables<span class="p">;</span> （可以查看到）
++----------------+
+| Tables_in_mydb |
++----------------+
+| tbl1   |
++----------------+
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+
+    
+<hr>
+<center>
+    <p>欢迎关注我的微信公众号</p>
+    <p><strong>格凸记</strong></p>
+    <img src="/assets/images/qrcode.jpg" alt="格凸记" />
+</center>
+
+
+    </article>
+    <div class="share">
+      <div class="share-component"></div>
+    </div>
+    <div class="comment">
+      
+  
+
+
+    </div>
+  </div>
+  <div class="column one-fourth">
+    
+<h3>Search</h3>
+<div id="site_search">
+    <input type="text" id="search_box" placeholder="Search">
+    <button class="btn btn-default" id="site_search_do"><span class="octicon octicon-search"></span></button>
+</div>
+
+<ul id="search_results"></ul>
+
+<link rel="stylesheet" type="text/css" href="/assets/css/modules/sidebar-search.css">
+<script src="/assets/js/lunr.min.js"></script>
+<script src="/assets/js/search.js"></script>
+
+
+    
+<h3 class="mobile-hidden">Post Directory</h3>
+<div id="post-directory-module" class="mobile-hidden">
+  <section class="post-directory">
+  <!-- Links that trigger the jumping -->
+  <!-- Added by javascript below -->
+  <dl></dl>
+  </section>
+</div>
+
+<script src="/assets/js/jquery.toc.js"></script>
+
+  </div>
+</div>
+</section>
+<!-- /section.content -->
+
+<div id="gitmentContainer"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+    var gitment = new Gitment({
+        owner: 'niuchp',
+        repo: 'niuchp.github.io',
+        oauth: {
+            client_id: '13ca9e37d66192b6d1aa',
+            client_secret: '38eb70456b1985e40541a37a928d4d2062bec7b7',
+        },
+    });
+    gitment.render('gitmentContainer');
+</script>
+
+    <footer class="container">
+        <div class="site-footer" role="contentinfo">
+            <div class="copyright left mobile-block">
+                    © 2015
+                    <span title="Barry New">Barry New</span>
+                    <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a>
+            </div>
+
+            <ul class="site-footer-links right mobile-hidden">
+                <li>
+                    <a href="javascript:window.scrollTo(0,0)" >TOP</a>
+                </li>
+            </ul>
+            <a href="http://github.com/niuchp/niuchp.github.io" target="_blank" aria-label="view source code">
+                <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
+            </a>
+            <ul class="site-footer-links mobile-hidden">
+                
+                <li>
+                    <a href="/" title="首页" target="">首页</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/" title="分类" target="">分类</a>
+                </li>
+                
+                <li>
+                    <a href="/wiki/" title="维基" target="">维基</a>
+                </li>
+                
+                <li>
+                    <a href="/links/" title="链接" target="">链接</a>
+                </li>
+                
+                <li>
+                    <a href="/about/" title="关于" target="">关于</a>
+                </li>
+                
+                <li><a href="/feed.xml"><span class="octicon octicon-rss" style="color:orange;"></span></a></li>
+            </ul>
+
+        </div>
+    </footer>
+    <!-- / footer -->
+    <script src="/assets/vendor/share.js/dist/js/share.min.js"></script>
+    <script src="/assets/js/geopattern.js"></script>
+    <script src="/assets/js/prism.js"></script>
+    <link rel="stylesheet" href="/assets/css/globals/prism.css">
+    <script>
+      jQuery(document).ready(function($) {
+        // geopattern
+        $('.geopattern').each(function(){
+          $(this).geopattern($(this).data('pattern-id'));
+        });
+       // hljs.initHighlightingOnLoad();
+      });
+    </script>
+    
+    <div style="display:none">
+      <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-80669434-1', 'auto');
+        ga('send', 'pageview');
+
+      </script>
+    </div>
+    
+</body>
+</html>
