@@ -1,21 +1,24 @@
-FROM nginx:1.13.6-alpine 
+FROM ruby:2.3.1-alpine
 
-LABEL maintainer="Barry New <niuchp@126.com>"
+MAINTAINER Barry New <kago.site>
 
-ARG TZ='Asia/Shanghai'
+ENV TZ 'Asia/Shanghai'
 
-ENV TZ ${TZ}
+RUN apk upgrade --no-cache && \
+    apk add --no-cache bash tzdata nodejs py-pygments git gcc musl-dev make && \
+    git clone https://github.com/niuchp/niuchp.github.io.git /root/niuchp.github.io && \
+    cd /root/niuchp.github.io && \
+    gem install --no-document bundle && \
+    bundle install && \
+    ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
+    echo "Asia/Shanghai" > /etc/timezone && \
+    apk del gcc musl-dev make && \
+    rm -rf /var/cache/apk/*
 
-RUN apk upgrade --update \
-    && apk add bash git \
-    && rm -rf /usr/share/nginx/html \
-    && git clone https://github.com/niuchp/kago.site.git /usr/share/nginx/html \
-    && ln -sf /usr/share/zoneinfo/${TZ} /etc/localtime \
-    && echo ${TZ} > /etc/timezone \
-    && rm -rf /var/cache/apk/*
+ADD cron/15min/* /etc/periodic/15min
 
-ADD entrypoint.sh /entrypoint.sh
+ADD entrypoint.sh /root/entrypoint.sh
 
-WORKDIR /usr/share/nginx/html
+WORKDIR /root
 
-CMD ["/entrypoint.sh"]
+CMD ["/root/entrypoint.sh"]
