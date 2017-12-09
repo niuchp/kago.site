@@ -19,9 +19,9 @@
   },
   
   "2017-11-19-gitment": {
-    "title": "template page",
+    "title": "jekyll中添加gitment留言板",
     "url": " /2017/11/19/gitment/",
-    "category": "cate1"
+    "category": "jekyll"
   },
   
   "2017-11-17-first-blog": {
@@ -95,9 +95,9 @@
   },
   
   "2017-11-19-gitment": {
-    "title": "template page",
+    "title": "jekyll中添加gitment留言板",
     "url": "/2017/11/19/gitment/",
-    "category": "[&quot;cate1&quot;, &quot;cate2&quot;]"
+    "category": "[&quot;jekyll&quot;]"
   },
   
   "2017-11-19-mariadb-replicate": {
