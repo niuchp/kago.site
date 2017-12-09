@@ -1,5 +1,11 @@
 {
   
+  "2017-12-09-gitment": {
+    "title": "jekyll中添加gitment留言板",
+    "url": " /2017/12/09/gitment/",
+    "category": "jekyll"
+  },
+  
   "2017-12-06-travis": {
     "title": "Travis",
     "url": " /2017/12/06/travis/",
@@ -116,6 +122,12 @@
     "title": "Travis",
     "url": "/2017/12/06/travis/",
     "category": "[&quot;随笔&quot;]"
+  },
+  
+  "2017-12-09-gitment": {
+    "title": "jekyll中添加gitment留言板",
+    "url": "/2017/12/09/gitment/",
+    "category": "[&quot;jekyll&quot;]"
   },
   
   "wiki-android-studio": {

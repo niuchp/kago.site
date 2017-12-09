@@ -15,7 +15,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <title>Categories &mdash; 阅后即忘</title>
+    <title>jekyll中添加gitment留言板 &mdash; 阅后即忘</title>
     <link rel="stylesheet" href="/assets/vendor/primer-css/css/primer.css">
     <link rel="stylesheet" href="/assets/vendor/primer-markdown/dist/user-content.min.css">
     <link rel="stylesheet" href="/assets/vendor/octicons/octicons/octicons.css">
@@ -32,26 +32,28 @@
     
 
     
-    <link rel="canonical" href="https://kago.site/categories/">
+    <link rel="canonical" href="https://kago.site/2017/12/09/gitment/">
     <link rel="alternate" type="application/atom+xml" title="阅后即忘" href="/feed.xml">
     <link rel="shortcut icon" href="/favicon.ico">
     
-    <meta property="og:title" content="Categories">
+    <meta property="og:title" content="jekyll中添加gitment留言板">
       
-    <meta name="keywords" content="分类">
-    <meta name="og:keywords" content="分类">
+    <meta name="keywords" content="jekyll, gitment">
+    <meta name="og:keywords" content="jekyll, gitment">
       
-    <meta name="description" content="哈哈，你找到了我的文章基因库">
-    <meta name="og:description" content="哈哈，你找到了我的文章基因库">
+    <meta name="description" content="前言最近使用jekyll搭建了个人博客（https://kago.site），参考网友资料为博客添加了gitment作为留言板，罗列一下基本步骤，希望可以帮到大家。">
+    <meta name="og:description" content="前言最近使用jekyll搭建了个人博客（https://kago.site），参考网友资料为博客添加了gitment作为留言板，罗列一下基本步骤，希望可以帮到大家。">
       
     
     
         
     
-    <meta property="og:url" content="https://kago.site/categories/">
+    <meta property="og:url" content="https://kago.site/2017/12/09/gitment/">
     <meta property="og:site_name" content="阅后即忘">
     <meta property="og:type" content="article">
     <meta property="og:locale" content="zh_CN" />
+    
+    <meta property="article:published_time" content="2017-12-09">
     
     <script src="/assets/vendor/jquery/dist/jquery.min.js"></script>
     <script src="/assets/js/jquery-ui.js"></script>
@@ -79,7 +81,7 @@
                 
                 <a href="/" class=" site-header-nav-item" target="" title="首页">首页</a>
                 
-                <a href="/categories/" class=" selected  site-header-nav-item" target="" title="分类">分类</a>
+                <a href="/categories/" class=" site-header-nav-item" target="" title="分类">分类</a>
                 
                 <a href="/wiki/" class=" site-header-nav-item" target="" title="维基">维基</a>
                 
@@ -92,84 +94,107 @@
     </header>
     <!-- / header -->
 
-    <section class="collection-head small geopattern" data-pattern-id="Categories">
-    <div class="container">
-        <div class="columns">
-            <div class="column three-fourths">
-                <div class="collection-title">
-                    <h1 class="collection-header">Categories</h1>
-                </div>
-            </div>
+    <section class="collection-head small geopattern" data-pattern-id="jekyll中添加gitmen">
+<div class="container">
+  <div class="columns">
+    <div class="column three-fourths">
+      <div class="collection-title">
+        <h1 class="collection-header">jekyll中添加gitment留言板</h1>
+        <div class="collection-info">
+          
+          <span class="meta-info">
+            <span class="octicon octicon-calendar"></span> 2017/12/09
+          </span>
+          
+          
+          <span class="meta-info">
+            <span class="octicon octicon-file-directory"></span>
+            <a href="/categories/#jekyll" title="jekyll">jekyll</a>
+          </span>
+          
         </div>
+      </div>
     </div>
+  </div>
+</div>
 </section>
 <!-- / .banner -->
 <section class="container content">
-    <div class="columns">
-        <div class="column three-fourths" >
-            <article class="article-content markdown-body">
-                <section class="container posts-content">
+<div class="columns">
+  <div class="column three-fourths" >
+    <article class="article-content markdown-body">
+    <h1 id="前言">前言</h1>
+<p>最近使用jekyll搭建了个人博客（https://kago.site），参考网友资料为博客添加了gitment作为留言板，罗列一下基本步骤，希望可以帮到大家。</p>
 
-
-<h3>jekyll</h3>
-<ol class="posts-list" id="jekyll">
-
-<li class="posts-list-item">
-<span class="posts-list-meta">2017-12-09</span>
-<a class="posts-list-name" href="/2017/12/09/gitment/">jekyll中添加gitment留言板</a>
-</li>
-
-<li class="posts-list-item">
-<span class="posts-list-meta">2017-11-19</span>
-<a class="posts-list-name" href="/2017/11/19/gitment/">jekyll中添加gitment留言板</a>
-</li>
-
+<h1 id="申请github-oauth-application">申请Github OAuth Application</h1>
+<p>Github头像下拉菜单 &gt; Settings &gt; 左边Developer settings下的OAuth Apps &gt; New OAuth App，填写相关信息：</p>
+<ol>
+  <li>Application name, Homepage URL, Application description 都可以随意填写</li>
+  <li>Authorization callback URL 一定要写自己Github Pages的URL</li>
+  <li>填写完上述信息后按Register application按钮，得到Client ID和Client Secret</li>
+  <li>记录Client ID和Client Secret，稍后会用到</li>
 </ol>
 
-<h3>mysql</h3>
-<ol class="posts-list" id="mysql">
+<h1 id="在jekyll添加调用gitment">在jekyll添加调用gitment</h1>
+<p>在_layout/目录下的 post.html, 添加一下代码：</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;div id="gitmentContainer"&gt;&lt;/div&gt;
+&lt;link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css"&gt;
+&lt;script src="https://imsun.github.io/gitment/dist/gitment.browser.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+var gitment = new Gitment({
+    owner: 'Your GitHub username',
+    repo: 'The repo to store comments',
+    oauth: {
+        client_id: 'Your client ID',
+        client_secret: 'Your client secret',
+    },
+});
+gitment.render('gitmentContainer');
+&lt;/script&gt;
+</code></pre></div></div>
+<p>需要修改的有4个地方</p>
 
-<li class="posts-list-item">
-<span class="posts-list-meta">2017-11-19</span>
-<a class="posts-list-name" href="/2017/11/19/mariadb-replicate/">mariadb的主从复制、主主复制、半同步复制的概念和方法</a>
-</li>
-
+<ol>
+  <li>Your GitHub username：填写你的Github Pages博客所在的github账户名</li>
+  <li>The repo to store comments：填写用来存放评论的github仓库，由于评论是 通过issues来存放的，个人建议这里可以直接填Github Pages个人博客所在的仓库</li>
+  <li>Your client ID：上一步所申请到的应用的Client ID</li>
+  <li>Your client secret：上一步所申请到的应用的Client Secret</li>
 </ol>
 
-<h3>随笔</h3>
-<ol class="posts-list" id="随笔">
+<p>填写完这4项把代码push到github。</p>
 
-<li class="posts-list-item">
-<span class="posts-list-meta">2017-12-06</span>
-<a class="posts-list-name" href="/2017/12/06/travis/">Travis</a>
-</li>
-
-<li class="posts-list-item">
-<span class="posts-list-meta">2017-11-19</span>
-<a class="posts-list-name" href="/2017/11/19/mypets/">没想到是这样的...</a>
-</li>
-
-<li class="posts-list-item">
-<span class="posts-list-meta">2017-11-17</span>
-<a class="posts-list-name" href="/2017/11/17/first-blog/">初尝</a>
-</li>
-
+<h1 id="为博客初始化留言板">为博客初始化留言板</h1>
+<p>gitment的原理是为每一遍博文以其URL作为标识创建一个github issue， 对该篇博客的评论就是对这个issue的评论。因此，需要对博客初始化， 初始化后，评论信息会添加到github上对应的issue。</p>
+<ol>
+  <li>上传代码成功后，博客文章下方会出现留言板，显示<code class="highlighter-rouge">Error: Comments Not Initialized</code>,提示需要初始化</li>
+  <li>点击<code class="highlighter-rouge">login with github</code>,使用自己github账号登录，错误信息会变成<code class="highlighter-rouge">Initialize Comments</code>按钮</li>
+  <li>点击按钮，完成对博文的初始化，同时创建相应的issue
+<img src="/images/posts/gitment/gitment.png" alt="gitment" /></li>
 </ol>
 
-</section>
-<!-- /section.content -->
 
-            </article>
-            <div class="share">
-                <div class="share-component"></div>
-            </div>
-            <div class="comment">
-                
+    
+<hr>
+<center>
+    <p>欢迎关注我的微信公众号</p>
+    <p><strong>阅后即忘</strong></p>
+    <img src="/assets/images/qrcode.jpg" alt="阅后即忘" />
+</center>
 
-            </div>
-        </div>
-        <div class="column one-fourth">
-            
+
+    </article>
+    <div class="share">
+      <div class="share-component"></div>
+    </div>
+    <div class="comment">
+      
+  
+
+
+    </div>
+  </div>
+  <div class="column one-fourth">
+    
 <h3>Search</h3>
 <div id="site_search">
     <input type="text" id="search_box" placeholder="Search">
@@ -183,43 +208,37 @@
 <script src="/assets/js/search.js"></script>
 
 
-            
-<h3>Blog Categories</h3>
-<div id="blog-categories">
-  <ul class="list-group">
     
-    
-    <li class="list-group-item">
-    <a href="#jekyll">jekyll</a>
-    <span class="badge">2</span>
-    </li>
-    
-    <li class="list-group-item">
-    <a href="#mysql">mysql</a>
-    <span class="badge">1</span>
-    </li>
-    
-    <li class="list-group-item">
-    <a href="#随笔">随笔</a>
-    <span class="badge">3</span>
-    </li>
-    
-  </ul>
+<h3 class="mobile-hidden">Post Directory</h3>
+<div id="post-directory-module" class="mobile-hidden">
+  <section class="post-directory">
+  <!-- Links that trigger the jumping -->
+  <!-- Added by javascript below -->
+  <dl></dl>
+  </section>
 </div>
 
-<script type="text/javascript">
+<script src="/assets/js/jquery.toc.js"></script>
 
-  $(document).ready(function(){
-    $("#blog-categories li").css('text-transform','capitalize')
-  });
-
-</script>
-
-
-        </div>
-    </div>
+  </div>
+</div>
 </section>
 <!-- /section.content -->
+
+<div id="gitmentContainer"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+    var gitment = new Gitment({
+        owner: 'niuchp',
+        repo: 'niuchp.github.io',
+        oauth: {
+            client_id: '13ca9e37d66192b6d1aa',
+            client_secret: '5e445db5115795eb975945722d60359a6738dfce',
+        },
+    });
+    gitment.render('gitmentContainer');
+</script>
 
     <footer class="container">
         <div class="site-footer" role="contentinfo">
