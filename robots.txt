@@ -1,1 +1,1 @@
-Sitemap: http://kago.site/sitemap.xml
+Sitemap: https://kago.site/sitemap.xml
