@@ -19,9 +19,9 @@
   },
   
   "2017-11-19-gitment": {
-    "title": "Gitment",
+    "title": "template page",
     "url": " /2017/11/19/gitment/",
-    "category": ""
+    "category": "cate1"
   },
   
   "2017-11-17-first-blog": {
@@ -95,9 +95,9 @@
   },
   
   "2017-11-19-gitment": {
-    "title": "Gitment",
+    "title": "template page",
     "url": "/2017/11/19/gitment/",
-    "category": "[]"
+    "category": "[&quot;cate1&quot;, &quot;cate2&quot;]"
   },
   
   "2017-11-19-mariadb-replicate": {
