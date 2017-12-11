@@ -1,11 +1,5 @@
 {
   
-  "2017-12-10-markdown-grammar": {
-    "title": "markdown语法",
-    "url": " /2017/12/10/markdown-grammar/",
-    "category": "markdown"
-  },
-  
   "2017-12-09-gitment": {
     "title": "jekyll中添加gitment留言板",
     "url": " /2017/12/09/gitment/",
@@ -122,12 +116,6 @@
     "title": "jekyll中添加gitment留言板",
     "url": "/2017/12/09/gitment/",
     "category": "[&quot;jekyll&quot;]"
-  },
-  
-  "2017-12-10-markdown-grammar": {
-    "title": "markdown语法",
-    "url": "/2017/12/10/markdown-grammar/",
-    "category": "[&quot;markdown&quot;]"
   },
   
   "wiki-android-studio": {
