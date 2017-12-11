@@ -1,4 +1,656 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.6.2">Jekyll</generator><link href="https://kago.site/feed.xml" rel="self" type="application/atom+xml" /><link href="https://kago.site/" rel="alternate" type="text/html" /><updated>2017-12-11T09:07:07+08:00</updated><id>https://kago.site/</id><title type="html">阅后即忘</title><subtitle>Barry New的博客</subtitle><author><name>Barry New</name></author><entry><title type="html">jekyll中添加gitment留言板</title><link href="https://kago.site/2017/12/09/gitment/" rel="alternate" type="text/html" title="jekyll中添加gitment留言板" /><published>2017-12-09T00:00:00+08:00</published><updated>2017-12-09T00:00:00+08:00</updated><id>https://kago.site/2017/12/09/gitment</id><content type="html" xml:base="https://kago.site/2017/12/09/gitment/">&lt;h1 id=&quot;前言&quot;&gt;前言&lt;/h1&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.6.2">Jekyll</generator><link href="https://kago.site/feed.xml" rel="self" type="application/atom+xml" /><link href="https://kago.site/" rel="alternate" type="text/html" /><updated>2017-12-11T09:18:57+08:00</updated><id>https://kago.site/</id><title type="html">阅后即忘</title><subtitle>Barry New的博客</subtitle><author><name>Barry New</name></author><entry><title type="html">markdown语法</title><link href="https://kago.site/2017/12/10/markdown-grammar/" rel="alternate" type="text/html" title="markdown语法" /><published>2017-12-10T00:00:00+08:00</published><updated>2017-12-10T00:00:00+08:00</updated><id>https://kago.site/2017/12/10/markdown-grammar</id><content type="html" xml:base="https://kago.site/2017/12/10/markdown-grammar/">&lt;h1 id=&quot;markdown-plus&quot;&gt;Markdown Plus&lt;/h1&gt;
+
+&lt;p&gt;Markdown Plus (“M+” or “mdp” for short) is a markdown editor with extra features.&lt;/p&gt;
+
+&lt;h2 id=&quot;apps&quot;&gt;Apps&lt;/h2&gt;
+
+&lt;p&gt;We currently &lt;strong&gt;&lt;em&gt;don’t&lt;/em&gt;&lt;/strong&gt; accept donations.
+The best way to support our development is to buy our apps.&lt;/p&gt;
+
+&lt;h3 id=&quot;markdown-plus-1&quot;&gt;Markdown Plus&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://tylingsoft.com/markdown-plus/&quot;&gt;&lt;img src=&quot;http://tylingsoft.com/img/mdp/icon.png&quot; height=&quot;64px&quot; /&gt;&lt;/a&gt;
+&lt;a href=&quot;http://tylingsoft.com/markdown-plus/&quot;&gt;Markdown Plus&lt;/a&gt; is available for both OS X and Windows. You get every feature of the web version plus lots of advanced features.&lt;/p&gt;
+
+&lt;h3 id=&quot;markdown-mate&quot;&gt;Markdown Mate&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://tylingsoft.com/markdown-mate/&quot;&gt;&lt;img src=&quot;http://tylingsoft.com/img/mdm/icon.png&quot; height=&quot;64px&quot; /&gt;&lt;/a&gt;
+&lt;a href=&quot;http://tylingsoft.com/markdown-mate/&quot;&gt;Markdown Mate&lt;/a&gt; is a markdown previewer, it’s not going to replace your favorite editor but handles everything about markdown.&lt;/p&gt;
+
+&lt;p&gt;::: success
+We provide email support to those who have purchased the apps: &lt;strong&gt;service@tylingsoft.com&lt;/strong&gt;
+:::&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h1 id=&quot;table-of-contents&quot;&gt;Table of Contents&lt;/h1&gt;
+
+&lt;p&gt;[toc]&lt;/p&gt;
+
+&lt;p&gt;Note: Only &lt;code class=&quot;highlighter-rouge&quot;&gt;h2&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;h3&lt;/code&gt; are shown in toc.&lt;/p&gt;
+
+&lt;h2 id=&quot;mastering-markdown&quot;&gt;Mastering Markdown&lt;/h2&gt;
+
+&lt;p&gt;Markdown allows you to write using an easy-to-read, easy-to-write plain text format, which then converts to valid &lt;abbr title=&quot;Hyper Text Markup Language&quot;&gt;HTML&lt;/abbr&gt; for viewing.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://guides.github.com/features/mastering-markdown/&quot;&gt;Mastering Markdown Guide&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;strikethrough&quot;&gt;&lt;del&gt;strikethrough&lt;/del&gt;&lt;/h2&gt;
+
+&lt;h2 id=&quot;insert&quot;&gt;++insert++&lt;/h2&gt;
+
+&lt;h2 id=&quot;mark&quot;&gt;==mark==&lt;/h2&gt;
+
+&lt;h2 id=&quot;subscript-h2o&quot;&gt;Subscript: H~2~O&lt;/h2&gt;
+
+&lt;p&gt;You can also use inline math: &lt;code class=&quot;highlighter-rouge&quot;&gt;$H_2O$&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;superscript-29th&quot;&gt;Superscript: 29^th^&lt;/h2&gt;
+
+&lt;p&gt;You can also use inline math: &lt;code class=&quot;highlighter-rouge&quot;&gt;$29^{th}$&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;emoji-panda_face-sparkles-camel-boom-pig&quot;&gt;Emoji: :panda_face: :sparkles: :camel: :boom: :pig:&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://www.emoji-cheat-sheet.com/&quot;&gt;Emoji Cheat Sheet&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;fontawesome-fa-cab-fa-flag-fa-bicycle-fa-leaf-fa-heart&quot;&gt;Fontawesome: :fa-cab: :fa-flag: :fa-bicycle: :fa-leaf: :fa-heart:&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://fontawesome.io/icons/&quot;&gt;All the Font Awesome icons&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;print-hello-code&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;print 'hello code'&lt;/code&gt;&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;evens = [1, 2, 3, 4, 5].collect do |item|
+  item * 2
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;ready&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'pre code'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;each&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;block&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;hljs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;highlightBlock&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;block&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://help.github.com/articles/markdown-basics/#code-formatting&quot;&gt;Code Formatting&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;tables-and-alignment&quot;&gt;Tables and alignment&lt;/h2&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;First Header&lt;/th&gt;
+      &lt;th&gt;Second Header&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Content from cell 1&lt;/td&gt;
+      &lt;td&gt;Content from cell 2&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Content in the first column&lt;/td&gt;
+      &lt;td&gt;Content in the second column&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;Left-Aligned&lt;/th&gt;
+      &lt;th style=&quot;text-align: center&quot;&gt;Center Aligned&lt;/th&gt;
+      &lt;th style=&quot;text-align: right&quot;&gt;Right Aligned&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;col 3 is&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;some wordy text&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;$1600&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;col 2 is&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;centered&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;$12&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://help.github.com/articles/github-flavored-markdown/#tables&quot;&gt;Table Syntax&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;task-list&quot;&gt;Task list&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;[ ] a bigger project
+    &lt;ul&gt;
+      &lt;li&gt;[x] first subtask&lt;/li&gt;
+      &lt;li&gt;[x] follow up subtask&lt;/li&gt;
+      &lt;li&gt;[ ] final subtask&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;[ ] a separate task&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://help.github.com/articles/writing-on-github/#task-lists&quot;&gt;Task List Syntax&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;abbreviation&quot;&gt;Abbreviation&lt;/h2&gt;
+
+&lt;p&gt;Markup is based on &lt;a href=&quot;https://michelf.ca/projects/php-markdown/extra/#abbr&quot;&gt;php markdown extra&lt;/a&gt; definition, but without multiline support:&lt;/p&gt;
+
+&lt;p&gt;The &lt;abbr title=&quot;Hyper Text Markup Language&quot;&gt;HTML&lt;/abbr&gt; specification
+is maintained by the &lt;abbr title=&quot;World Wide Web Consortium&quot;&gt;W3C&lt;/abbr&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;footnote&quot;&gt;Footnote&lt;/h2&gt;
+
+&lt;p&gt;Here is a footnote reference,&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt; and another.&lt;sup id=&quot;fnref:longnote&quot;&gt;&lt;a href=&quot;#fn:longnote&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+
+&lt;p&gt;Here is an inline note.^[Inlines notes are easier to write, since
+you don’t have to pick an identifier and move down to type the
+note.]&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://pandoc.org/README.html#footnotes&quot;&gt;Footnote Syntax&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;mathematical-formula-y--x2&quot;&gt;Mathematical formula &lt;code class=&quot;highlighter-rouge&quot;&gt;$y = x^2$&lt;/code&gt;&lt;/h2&gt;
+
+&lt;p&gt;Inline math: &lt;code class=&quot;highlighter-rouge&quot;&gt;$\dfrac{ \tfrac{1}{2}[1-(\tfrac{1}{2})^n] }{ 1-\tfrac{1}{2} } = s_n$&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Math block:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-katex&quot;&gt;\oint_C x^3\, dx + 4y^2\, dy
+
+2 = \left(
+ \frac{\left(3-x\right) \times 2}{3-x}
+ \right)
+
+\sum_{m=1}^\infty\sum_{n=1}^\infty\frac{m^2\,n}
+ {3^m\left(m\,3^n+n\,3^m\right)}
+
+\phi_n(\kappa) =
+ \frac{1}{4\pi^2\kappa^2} \int_0^\infty
+ \frac{\sin(\kappa R)}{\kappa R}
+ \frac{\partial}{\partial R}
+ \left[R^2\frac{\partial D_n(R)}{\partial R}\right]\,dR
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://meta.wikimedia.org/wiki/Help:Displaying_a_formula&quot;&gt;Mathematical Formula Syntax&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;asciimath&quot;&gt;AsciiMath&lt;/h2&gt;
+
+&lt;p&gt;Inline AsciiMath: &lt;code class=&quot;highlighter-rouge&quot;&gt;@(1/2[1-(1/2)^n])/(1-(1/2))=s_n@&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-AsciiMath&quot;&gt;oint_Cx^3 dx+4y^2 dy
+
+2=(((3-x)xx2)/(3-x))
+
+sum_(m=1)^oosum_(n=1)^oo(m^2 n)/(3^m(m3^n+n3^m)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-ASCIIMath&quot;&gt;phi_n(kappa) = 1/(4pi^2 kappa^2)
+ int_0^oo (sin(kappa R))/(kappa R)
+ del/(del R)
+[R^2 (del D_n (R))/(del R)] del R
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://asciimath.org/&quot;&gt;AsciiMath Documentation&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;mermaid-charts&quot;&gt;mermaid charts&lt;/h2&gt;
+
+&lt;h3 id=&quot;flowchart&quot;&gt;Flowchart&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-mermaid&quot;&gt;graph TD
+A[Christmas] --&amp;gt;|Get money| B(Go shopping)
+B --&amp;gt; C{Let me think}
+C --&amp;gt;|One| D[Laptop]
+C --&amp;gt;|Two| E[iPhone]
+C --&amp;gt;|Three| F[Car]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://knsv.github.io/mermaid/#flowcharts-basic-syntax&quot;&gt;Flowchart Syntax&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;::: warning
+Adding many flowcharts will slow down the editor.
+:::&lt;/p&gt;
+
+&lt;h3 id=&quot;sequence-diagram&quot;&gt;Sequence diagram&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-mermaid&quot;&gt;sequenceDiagram
+loop every day
+    Alice-&amp;gt;&amp;gt;John: Hello John, how are you?
+    John--&amp;gt;&amp;gt;Alice: Great!
+end
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://knsv.github.io/mermaid/#sequence-diagrams&quot;&gt;Sequence Diagram Syntax&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;::: warning
+Adding many sequence diagrams will slow down the editor.
+:::&lt;/p&gt;
+
+&lt;h3 id=&quot;gantt-diagram&quot;&gt;Gantt diagram&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-mermaid&quot;&gt;gantt
+dateFormat  YYYY-MM-DD
+title Adding GANTT diagram to mermaid
+
+section A section
+Completed task            :done,    des1, 2014-01-06,2014-01-08
+Active task               :active,  des2, 2014-01-09, 3d
+Future task               :         des3, after des2, 5d
+Future task2               :         des4, after des3, 5d
+
+section Critical tasks
+Completed task in the critical line :crit, done, 2014-01-06,24h
+Implement parser and jison          :crit, done, after des1, 2d
+Create tests for parser             :crit, active, 3d
+Future task in critical line        :crit, 5d
+Create tests for renderer           :2d
+Add to mermaid                      :1d
+
+section Documentation
+Describe gantt syntax               :active, a1, after des1, 3d
+Add gantt diagram to demo page      :after a1  , 20h
+Add another diagram to demo page    :doc1, after a1  , 48h
+
+section Last section
+Describe gantt syntax               :after doc1, 3d
+Add gantt diagram to demo page      : 20h
+Add another diagram to demo page    : 48h
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://knsv.github.io/mermaid/#gant-diagrams&quot;&gt;Gantt Diagram Syntax&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;::: warning
+Adding many gantt diagrams will slow down the editor.
+:::&lt;/p&gt;
+
+&lt;h3 id=&quot;class-diagram&quot;&gt;Class diagram&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-mermaid&quot;&gt;classDiagram
+Class01 &amp;lt;|-- AveryLongClass : Cool
+Class03 *-- Class04
+Class05 o-- Class06
+Class07 .. Class08
+Class09 --&amp;gt; C2 : Where am i?
+Class09 --* C3
+Class09 --|&amp;gt; Class07
+Class07 : equals()
+Class07 : Object[] elementData
+Class01 : size()
+Class01 : int chimp
+Class01 : int gorilla
+Class08 &amp;lt;--&amp;gt; C2: Cool label
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Class diagram is powered by &lt;a href=&quot;https://github.com/knsv/mermaid&quot;&gt;mermaid&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;::: warning
+Adding many class diagrams will slow down the editor.
+:::&lt;/p&gt;
+
+&lt;h2 id=&quot;custom-container&quot;&gt;Custom Container&lt;/h2&gt;
+
+&lt;p&gt;Markup is similar to fenced code blocks. Valid container types are &lt;code class=&quot;highlighter-rouge&quot;&gt;success&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;info&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;warning&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;danger&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;::: info
+You have new mail.
+:::&lt;/p&gt;
+
+&lt;p&gt;::: danger
+Staying up all night is bad for health.
+:::&lt;/p&gt;
+
+&lt;h2 id=&quot;definition-list&quot;&gt;Definition list&lt;/h2&gt;
+
+&lt;p&gt;Term 1
+  ~ Definition 1&lt;/p&gt;
+
+&lt;p&gt;Term 2
+  ~ Definition 2a
+  ~ Definition 2b&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://pandoc.org/README.html#definition-lists&quot;&gt;Definition List Syntax&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;html&quot;&gt;&lt;abbr title=&quot;Hyper Text Markup Language&quot;&gt;HTML&lt;/abbr&gt;&lt;/h2&gt;
+
+&lt;p&gt;If you find the markdown syntax too limited, you can try some &lt;span style=&quot;color: blue;&quot;&gt;&lt;abbr title=&quot;Hyper Text Markup Language&quot;&gt;HTML&lt;/abbr&gt;&lt;span&gt;:&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;
+
+&lt;p style=&quot;text-align:center;&quot;&gt;&lt;img src=&quot;https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/HTML5_logo_and_wordmark.svg/120px-HTML5_logo_and_wordmark.svg.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/tylingsoft/markdown-plus&quot; target=&quot;_blank&quot;&gt;&lt;img style=&quot;position: absolute; top: 0; right: 0; border: 0;&quot; src=&quot;http://aral.github.com/fork-me-on-github-retina-ribbons/right-green.png&quot; alt=&quot;Fork me on GitHub&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;charts&quot;&gt;Charts&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://www.chartjs.org/docs/&quot;&gt;Documentation for charts&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;line-chart&quot;&gt;Line Chart&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-chart&quot;&gt;{
+  &quot;type&quot;: &quot;line&quot;,
+  &quot;data&quot;: {
+    &quot;labels&quot;: [
+      &quot;January&quot;,
+      &quot;February&quot;,
+      &quot;March&quot;,
+      &quot;April&quot;,
+      &quot;May&quot;,
+      &quot;June&quot;,
+      &quot;July&quot;
+    ],
+    &quot;datasets&quot;: [
+      {
+        &quot;label&quot;: &quot;# of bugs&quot;,
+        &quot;fill&quot;: false,
+        &quot;lineTension&quot;: 0.1,
+        &quot;backgroundColor&quot;: &quot;rgba(75,192,192,0.4)&quot;,
+        &quot;borderColor&quot;: &quot;rgba(75,192,192,1)&quot;,
+        &quot;borderCapStyle&quot;: &quot;butt&quot;,
+        &quot;borderDash&quot;: [],
+        &quot;borderDashOffset&quot;: 0,
+        &quot;borderJoinStyle&quot;: &quot;miter&quot;,
+        &quot;pointBorderColor&quot;: &quot;rgba(75,192,192,1)&quot;,
+        &quot;pointBackgroundColor&quot;: &quot;#fff&quot;,
+        &quot;pointBorderWidth&quot;: 1,
+        &quot;pointHoverRadius&quot;: 5,
+        &quot;pointHoverBackgroundColor&quot;: &quot;rgba(75,192,192,1)&quot;,
+        &quot;pointHoverBorderColor&quot;: &quot;rgba(220,220,220,1)&quot;,
+        &quot;pointHoverBorderWidth&quot;: 2,
+        &quot;pointRadius&quot;: 1,
+        &quot;pointHitRadius&quot;: 10,
+        &quot;data&quot;: [
+          65,
+          59,
+          80,
+          81,
+          56,
+          55,
+          40
+        ],
+        &quot;spanGaps&quot;: false
+      }
+    ]
+  },
+  &quot;options&quot;: {}
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://www.chartjs.org/docs/#line-chart&quot;&gt;Documentation for Line Chart&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;bar-chart&quot;&gt;Bar Chart&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-chart&quot;&gt;{
+  &quot;type&quot;: &quot;bar&quot;,
+  &quot;data&quot;: {
+  &quot;labels&quot;: [
+    &quot;Red&quot;,
+    &quot;Blue&quot;,
+    &quot;Yellow&quot;,
+    &quot;Green&quot;,
+    &quot;Purple&quot;,
+    &quot;Orange&quot;
+  ],
+  &quot;datasets&quot;: [
+    {
+    &quot;label&quot;: &quot;# of Votes&quot;,
+    &quot;data&quot;: [
+      12,
+      19,
+      3,
+      5,
+      2,
+      3
+    ],
+    &quot;backgroundColor&quot;: [
+      &quot;rgba(255, 99, 132, 0.2)&quot;,
+      &quot;rgba(54, 162, 235, 0.2)&quot;,
+      &quot;rgba(255, 206, 86, 0.2)&quot;,
+      &quot;rgba(75, 192, 192, 0.2)&quot;,
+      &quot;rgba(153, 102, 255, 0.2)&quot;,
+      &quot;rgba(255, 159, 64, 0.2)&quot;
+    ],
+    &quot;borderColor&quot;: [
+      &quot;rgba(255,99,132,1)&quot;,
+      &quot;rgba(54, 162, 235, 1)&quot;,
+      &quot;rgba(255, 206, 86, 1)&quot;,
+      &quot;rgba(75, 192, 192, 1)&quot;,
+      &quot;rgba(153, 102, 255, 1)&quot;,
+      &quot;rgba(255, 159, 64, 1)&quot;
+    ],
+    &quot;borderWidth&quot;: 1
+    }
+  ]
+  },
+  &quot;options&quot;: {}
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://www.chartjs.org/docs/#bar-chart&quot;&gt;Documentation for Bar Chart&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;radar-chart&quot;&gt;Radar Chart&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-chart&quot;&gt;{
+  &quot;type&quot;: &quot;radar&quot;,
+  &quot;data&quot;: {
+    &quot;labels&quot;: [
+      &quot;Eating&quot;,
+      &quot;Drinking&quot;,
+      &quot;Sleeping&quot;,
+      &quot;Designing&quot;,
+      &quot;Coding&quot;,
+      &quot;Cycling&quot;,
+      &quot;Running&quot;
+    ],
+    &quot;datasets&quot;: [
+      {
+        &quot;label&quot;: &quot;My First dataset&quot;,
+        &quot;backgroundColor&quot;: &quot;rgba(179,181,198,0.2)&quot;,
+        &quot;borderColor&quot;: &quot;rgba(179,181,198,1)&quot;,
+        &quot;pointBackgroundColor&quot;: &quot;rgba(179,181,198,1)&quot;,
+        &quot;pointBorderColor&quot;: &quot;#fff&quot;,
+        &quot;pointHoverBackgroundColor&quot;: &quot;#fff&quot;,
+        &quot;pointHoverBorderColor&quot;: &quot;rgba(179,181,198,1)&quot;,
+        &quot;data&quot;: [
+          65,
+          59,
+          90,
+          81,
+          56,
+          55,
+          40
+        ]
+      },
+      {
+        &quot;label&quot;: &quot;My Second dataset&quot;,
+        &quot;backgroundColor&quot;: &quot;rgba(255,99,132,0.2)&quot;,
+        &quot;borderColor&quot;: &quot;rgba(255,99,132,1)&quot;,
+        &quot;pointBackgroundColor&quot;: &quot;rgba(255,99,132,1)&quot;,
+        &quot;pointBorderColor&quot;: &quot;#fff&quot;,
+        &quot;pointHoverBackgroundColor&quot;: &quot;#fff&quot;,
+        &quot;pointHoverBorderColor&quot;: &quot;rgba(255,99,132,1)&quot;,
+        &quot;data&quot;: [
+          28,
+          48,
+          40,
+          19,
+          96,
+          27,
+          100
+        ]
+      }
+    ]
+  },
+  &quot;options&quot;: {}
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://www.chartjs.org/docs/#radar-chart&quot;&gt;Documentation for Radar Chart&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;polar-area-chart&quot;&gt;Polar Area Chart&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-chart&quot;&gt;{
+  &quot;type&quot;: &quot;polarArea&quot;,
+  &quot;data&quot;: {
+    &quot;datasets&quot;: [
+      {
+        &quot;data&quot;: [
+          11,
+          16,
+          7,
+          3,
+          14
+        ],
+        &quot;backgroundColor&quot;: [
+          &quot;#FF6384&quot;,
+          &quot;#4BC0C0&quot;,
+          &quot;#FFCE56&quot;,
+          &quot;#E7E9ED&quot;,
+          &quot;#36A2EB&quot;
+        ],
+        &quot;label&quot;: &quot;My dataset&quot;
+      }
+    ],
+    &quot;labels&quot;: [
+      &quot;Red&quot;,
+      &quot;Green&quot;,
+      &quot;Yellow&quot;,
+      &quot;Grey&quot;,
+      &quot;Blue&quot;
+    ]
+  },
+  &quot;options&quot;: {}
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://www.chartjs.org/docs/#polar-area-chart&quot;&gt;Documentation for Polar Area Chart&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;pie-chart&quot;&gt;Pie Chart&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-chart&quot;&gt;{
+  &quot;type&quot;: &quot;pie&quot;,
+  &quot;data&quot;: {
+    &quot;labels&quot;: [
+      &quot;Red&quot;,
+      &quot;Blue&quot;,
+      &quot;Yellow&quot;
+    ],
+    &quot;datasets&quot;: [
+      {
+        &quot;data&quot;: [
+          300,
+          50,
+          100
+        ],
+        &quot;backgroundColor&quot;: [
+          &quot;#FF6384&quot;,
+          &quot;#36A2EB&quot;,
+          &quot;#FFCE56&quot;
+        ],
+        &quot;hoverBackgroundColor&quot;: [
+          &quot;#FF6384&quot;,
+          &quot;#36A2EB&quot;,
+          &quot;#FFCE56&quot;
+        ]
+      }
+    ]
+  },
+  &quot;options&quot;: {}
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://www.chartjs.org/docs/#doughnut-pie-chart&quot;&gt;Documentation for Pie Chart&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;doughnut-chart&quot;&gt;Doughnut Chart&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-chart&quot;&gt;{
+  &quot;type&quot;: &quot;doughnut&quot;,
+  &quot;data&quot;: {
+    &quot;labels&quot;: [
+      &quot;Red&quot;,
+      &quot;Blue&quot;,
+      &quot;Yellow&quot;
+    ],
+    &quot;datasets&quot;: [
+      {
+        &quot;data&quot;: [
+          300,
+          50,
+          100
+        ],
+        &quot;backgroundColor&quot;: [
+          &quot;#FF6384&quot;,
+          &quot;#36A2EB&quot;,
+          &quot;#FFCE56&quot;
+        ],
+        &quot;hoverBackgroundColor&quot;: [
+          &quot;#FF6384&quot;,
+          &quot;#36A2EB&quot;,
+          &quot;#FFCE56&quot;
+        ]
+      }
+    ]
+  },
+  &quot;options&quot;: {}
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://www.chartjs.org/docs/#doughnut-pie-chart&quot;&gt;Documentation for Doughnut Chart&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;bubble-chart&quot;&gt;Bubble Chart&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-chart&quot;&gt;{
+  &quot;type&quot;: &quot;bubble&quot;,
+  &quot;data&quot;: {
+    &quot;datasets&quot;: [
+      {
+        &quot;label&quot;: &quot;First Dataset&quot;,
+        &quot;data&quot;: [
+          {
+            &quot;x&quot;: 20,
+            &quot;y&quot;: 30,
+            &quot;r&quot;: 15
+          },
+          {
+            &quot;x&quot;: 40,
+            &quot;y&quot;: 10,
+            &quot;r&quot;: 10
+          }
+        ],
+        &quot;backgroundColor&quot;: &quot;#FF6384&quot;,
+        &quot;hoverBackgroundColor&quot;: &quot;#FF6384&quot;
+      }
+    ]
+  },
+  &quot;options&quot;: {}
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://www.chartjs.org/docs/#bubble-chart&quot;&gt;Documentation for Bubble Chart&lt;/a&gt;&lt;/p&gt;
+&lt;div class=&quot;footnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:1&quot;&gt;
+      &lt;p&gt;Here is the footnote.&amp;nbsp;&lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:longnote&quot;&gt;
+      &lt;p&gt;Here’s one with multiple blocks.&lt;/p&gt;
+
+      &lt;p&gt;Subsequent paragraphs are indented to show that they
+belong to the previous footnote.&amp;nbsp;&lt;a href=&quot;#fnref:longnote&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;</content><author><name>Barry New</name></author><summary type="html">Markdown Plus</summary></entry><entry><title type="html">jekyll中添加gitment留言板</title><link href="https://kago.site/2017/12/09/gitment/" rel="alternate" type="text/html" title="jekyll中添加gitment留言板" /><published>2017-12-09T00:00:00+08:00</published><updated>2017-12-09T00:00:00+08:00</updated><id>https://kago.site/2017/12/09/gitment</id><content type="html" xml:base="https://kago.site/2017/12/09/gitment/">&lt;h1 id=&quot;前言&quot;&gt;前言&lt;/h1&gt;
 &lt;p&gt;最近使用jekyll搭建了个人博客（https://kago.site），参考网友资料为博客添加了gitment作为留言板，罗列一下基本步骤，希望可以帮到大家。&lt;/p&gt;
 
 &lt;h1 id=&quot;申请github-oauth-application&quot;&gt;申请Github OAuth Application&lt;/h1&gt;
