@@ -15,7 +15,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <title>OneNote &mdash; 阅后即忘</title>
+    <title>nip.io域名的使用 &mdash; 阅后即忘</title>
     <link rel="stylesheet" href="/assets/vendor/primer-css/css/primer.css">
     <link rel="stylesheet" href="/assets/vendor/primer-markdown/dist/user-content.min.css">
     <link rel="stylesheet" href="/assets/vendor/octicons/octicons/octicons.css">
@@ -32,23 +32,23 @@
     
 
     
-    <link rel="canonical" href="https://kago.site/wiki/onenote/">
+    <link rel="canonical" href="https://kago.site/2017/12/29/nipio/">
     <link rel="alternate" type="application/atom+xml" title="阅后即忘" href="/feed.xml">
     <link rel="shortcut icon" href="/favicon.ico">
     
-    <meta property="og:title" content="OneNote">
+    <meta property="og:title" content="nip.io域名的使用">
       
-    <meta name="keywords" content="OneNote, GTD">
-    <meta name="og:keywords" content="OneNote, GTD">
+    <meta name="keywords" content="nip.io DNS">
+    <meta name="og:keywords" content="nip.io DNS">
       
-    <meta name="description" content="快捷键">
-    <meta name="og:description" content="快捷键">
+    <meta name="description" content="  昨天小毛同学告诉我说发现一个很流弊的东西叫nip.io，可以凭域名自动解析为IP地址，极大的方便了kubernetes中ingress部分的测试。在cmd中试了一下还真是好用，记录一下~">
+    <meta name="og:description" content="  昨天小毛同学告诉我说发现一个很流弊的东西叫nip.io，可以凭域名自动解析为IP地址，极大的方便了kubernetes中ingress部分的测试。在cmd中试了一下还真是好用，记录一下~">
       
     
     
         
     
-    <meta property="og:url" content="https://kago.site/wiki/onenote/">
+    <meta property="og:url" content="https://kago.site/2017/12/29/nipio/">
     <meta property="og:site_name" content="阅后即忘">
     <meta property="og:type" content="article">
     <meta property="og:locale" content="zh_CN" />
@@ -94,12 +94,25 @@
     </header>
     <!-- / header -->
 
-    <section class="collection-head small geopattern" data-pattern-id="OneNote">
+    <section class="collection-head small geopattern" data-pattern-id="nip.io域名的使用">
 <div class="container">
   <div class="columns">
     <div class="column three-fourths">
       <div class="collection-title">
-        <h1 class="collection-header">OneNote</h1>
+        <h1 class="collection-header">nip.io域名的使用</h1>
+        <div class="collection-info">
+          
+          <span class="meta-info">
+            <span class="octicon octicon-calendar"></span> 2017/12/29
+          </span>
+          
+          
+          <span class="meta-info">
+            <span class="octicon octicon-file-directory"></span>
+            <a href="/categories/#小知识" title="小知识">小知识</a>
+          </span>
+          
+        </div>
       </div>
     </div>
   </div>
@@ -110,82 +123,40 @@
 <div class="columns">
   <div class="column three-fourths" >
     <article class="article-content markdown-body">
-    <h2 id="快捷键">快捷键</h2>
+    <blockquote>
+  <p>昨天小毛同学告诉我说发现一个很流弊的东西叫nip.io，可以凭域名自动解析为IP地址，极大的方便了kubernetes中ingress部分的测试。在cmd中试了一下还真是好用，记录一下~</p>
+</blockquote>
 
-<p>C –&gt; Ctrl</p>
+<h3 id="官方介绍">官方介绍</h3>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>NIP.IO
 
-<p>S –&gt; Shift</p>
+Dead simple wildcard DNS for any IP Address
 
-<p>M –&gt; Alt</p>
+NIP.IO allows you to map any IP Address in the following DNS wildcard entries:
 
-<p>Cmd –&gt; Command</p>
+10.0.0.1.nip.io maps to 10.0.0.1
+app.10.0.0.1.nip.io maps to 10.0.0.1
+customer1.app.10.0.0.1.nip.io maps to 10.0.0.1
+customer2.app.10.0.0.1.nip.io maps to 10.0.0.1
+otherapp.10.0.0.1.nip.io maps to 10.0.0.1
 
-<table>
-  <thead>
-    <tr>
-      <th style="text-align: left">功能</th>
-      <th style="text-align: left">Windows</th>
-      <th style="text-align: left">Mac OS X</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align: left">插入日期</td>
-      <td style="text-align: left">M-S-d</td>
-      <td style="text-align: left">Cmd-d</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">插入日期+时间</td>
-      <td style="text-align: left">M-S-f</td>
-      <td style="text-align: left">Cmd-S-d</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">插入链接</td>
-      <td style="text-align: left">C-k</td>
-      <td style="text-align: left">Cmd-k</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">新建页面</td>
-      <td style="text-align: left">C-n</td>
-      <td style="text-align: left">Cmd-n</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">返回访问的上一页</td>
-      <td style="text-align: left">M-Left</td>
-      <td style="text-align: left">C-Cmd-Left</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">返回访问的下一页</td>
-      <td style="text-align: left">M-Right</td>
-      <td style="text-align: left">C-Cmd-Right</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">清除所有格式</td>
-      <td style="text-align: left">C-S-n</td>
-      <td style="text-align: left"> </td>
-    </tr>
-    <tr>
-      <td style="text-align: left">停靠到桌面</td>
-      <td style="text-align: left">C-M-d</td>
-      <td style="text-align: left"> </td>
-    </tr>
-  </tbody>
-</table>
+NIP.IO maps &lt;anything&gt;.&lt;IP Address&gt;.nip.io to the corresponding &lt;IP Address&gt;, even 127.0.0.1.nip.io maps to 127.0.0.1
 
-<p>参考：<a href="https://support.office.com/zh-cn/article/OneNote-2010-%E7%9A%84%E9%94%AE%E7%9B%98%E5%BF%AB%E6%8D%B7%E9%94%AE-7504cf95-1a03-40d9-9544-090901174620?ui=zh-CN&amp;rs=zh-CN&amp;ad=CN&amp;fromAR=1">OneNote 2010 的键盘快捷键</a></p>
 
-<h2 id="小技巧">小技巧</h2>
+This service is a blatant rip-off of xip.io, with one big difference: NIP.IO is powered by PowerDNS with a simple, custom PipeBackend. So, it actually works :) (no messy, custom DNS server here!)
 
-<ul>
-  <li>
-    <p>搜索带特殊字符如「空格」等，用 <code class="highlighter-rouge">"</code> 将搜索关键字括起来。</p>
-  </li>
-  <li>
-    <p>删除「我的模板」</p>
+The custom PipeBackend is a single script written in Python and the source can be found on XP-Dev.com.
 
-    <p>在 Windows 下的 <code class="highlighter-rouge">C:\Users\&lt;username&gt;\AppData\Roaming\Microsoft\Templates</code> 里找到文件 <code class="highlighter-rouge">我的模板.one</code>，双击打开将显示你所有的模板页面，删除你想要删除的然后关闭即可。</p>
-  </li>
-</ul>
+This is a free service provided by Exentrique Solutions (the same guys who run XP-Dev.com which offers Git, Mercurial and Subversion hosting). The infrastructure runs on a couple of Virtual Machines in the US West Coast and Germany.
+
+Feedback is appreciated, just drop us a mail at info@exentriquesolutions.com or use this web form.
+</code></pre></div></div>
+<p>原来nip.io像xip.io一样是一个欺骗性的映射，可以方便的把xxx.192.168.1.1.nip.io这样的域名解析成192.168.1.1，在web测试中十分方便。不必频繁地修改DNS或者hosts文件即可实现域名和地址的解析关系。
+xip.io和nip.io还有一个区别是，nip.io后端是有powerDNS，是实际发生了解析操作。</p>
+<h3 id="实测">实测</h3>
+
+<p>使用cmd对域名进行了简单测试，结果如下：
+<img src="/images/posts/nipio.png" alt="cmd测试截图" /></p>
 
     
 <hr>
@@ -238,6 +209,21 @@
 </div>
 </section>
 <!-- /section.content -->
+
+<div id="gitmentContainer"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+    var gitment = new Gitment({
+        owner: 'niuchp',
+        repo: 'niuchp.github.io',
+        oauth: {
+            client_id: '13ca9e37d66192b6d1aa',
+            client_secret: '5e445db5115795eb975945722d60359a6738dfce',
+        },
+    });
+    gitment.render('gitmentContainer');
+</script>
 
     <footer class="container">
         <div class="site-footer" role="contentinfo">
