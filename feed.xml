@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.6.2">Jekyll</generator><link href="https://kago.site/feed.xml" rel="self" type="application/atom+xml" /><link href="https://kago.site/" rel="alternate" type="text/html" /><updated>2017-12-29T15:35:33+08:00</updated><id>https://kago.site/</id><title type="html">阅后即忘</title><subtitle>kago.site——牛昌平（Barry New）的点滴积累</subtitle><author><name>Barry New</name></author><entry><title type="html">nip.io域名的使用</title><link href="https://kago.site/2017/12/29/nipio/" rel="alternate" type="text/html" title="nip.io域名的使用" /><published>2017-12-29T00:00:00+08:00</published><updated>2017-12-29T00:00:00+08:00</updated><id>https://kago.site/2017/12/29/nipio</id><content type="html" xml:base="https://kago.site/2017/12/29/nipio/">&lt;blockquote&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.6.2">Jekyll</generator><link href="https://kago.site/feed.xml" rel="self" type="application/atom+xml" /><link href="https://kago.site/" rel="alternate" type="text/html" /><updated>2017-12-29T16:05:14+08:00</updated><id>https://kago.site/</id><title type="html">阅后即忘</title><subtitle>kago.site——牛昌平（Barry New）的点滴积累</subtitle><author><name>Barry New</name></author><entry><title type="html">nip.io域名的使用</title><link href="https://kago.site/2017/12/29/nipio/" rel="alternate" type="text/html" title="nip.io域名的使用" /><published>2017-12-29T00:00:00+08:00</published><updated>2017-12-29T00:00:00+08:00</updated><id>https://kago.site/2017/12/29/nipio</id><content type="html" xml:base="https://kago.site/2017/12/29/nipio/">&lt;blockquote&gt;
   &lt;p&gt;昨天小毛同学告诉我说发现一个很流弊的东西叫 nip.io，可以凭域名自动解析为 IP 地址，极大的方便了 kubernetes 中 ingress 部分的测试。在 cmd 中试了一下还真是好用，记录一下~&lt;/p&gt;
 &lt;/blockquote&gt;
 
@@ -26,12 +26,13 @@ This is a free service provided by Exentrique Solutions (the same guys who run X
 
 Feedback is appreciated, just drop us a mail at info@exentriquesolutions.com or use this web form.
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;原来 nip.io 像 xip.io 一样是一个欺骗性的映射，可以方便的把 xxx.192.168.1.1.nip.io 这样的域名解析成 192.168.1.1 ，在 web 测试中十分方便。不必频繁地修改 DNS 或者 hosts 文件即可实现域名和地址的解析关系。
+&lt;p&gt;原来 nip.io 像 xip.io 一样是一个欺骗性的映射，可以方便的把 xxx.192.168.1.1.nip.io 这样的域名解析成 192.168.1.1 ，在 web 测试中十分方便。不必频繁地修改 DNS 或者 hosts 文件即可实现域名解析为 IP 地址，尤其在 kubernetes 环境中配置 ingress 的 hosts 部分。
 xip.io 和 nip.io 还有一个区别是，nip.io 后端是有 powerDNS ，是实际发生了解析操作。&lt;/p&gt;
 &lt;blockquote&gt;
   &lt;p&gt;注意：离线模式下不可用哦~&lt;/p&gt;
-  &lt;h3 id=&quot;实测&quot;&gt;实测&lt;/h3&gt;
 &lt;/blockquote&gt;
+
+&lt;h3 id=&quot;实测&quot;&gt;实测&lt;/h3&gt;
 
 &lt;p&gt;使用 cmd 对域名进行了简单测试，结果如下：
 &lt;img src=&quot;/images/posts/nipio.png&quot; alt=&quot;cmd测试截图&quot; /&gt;&lt;/p&gt;</content><author><name>Barry New</name></author><summary type="html">昨天小毛同学告诉我说发现一个很流弊的东西叫 nip.io，可以凭域名自动解析为 IP 地址，极大的方便了 kubernetes 中 ingress 部分的测试。在 cmd 中试了一下还真是好用，记录一下~</summary></entry><entry><title type="html">jekyll中添加gitment留言板</title><link href="https://kago.site/2017/12/09/gitment/" rel="alternate" type="text/html" title="jekyll中添加gitment留言板" /><published>2017-12-09T00:00:00+08:00</published><updated>2017-12-09T00:00:00+08:00</updated><id>https://kago.site/2017/12/09/gitment</id><content type="html" xml:base="https://kago.site/2017/12/09/gitment/">&lt;h1 id=&quot;前言&quot;&gt;前言&lt;/h1&gt;
