@@ -1,5 +1,11 @@
 {
   
+  "2018-01-24-etcd-cluster": {
+    "title": "etcd集群安装及基本操作",
+    "url": " /2018/01/24/etcd-cluster/",
+    "category": "etcd"
+  },
+  
   "2017-12-29-nipio": {
     "title": "nip.io域名的使用",
     "url": " /2017/12/29/nipio/",
@@ -116,6 +122,12 @@
     "title": "nip.io域名的使用",
     "url": "/2017/12/29/nipio/",
     "category": "[&quot;小知识&quot;]"
+  },
+  
+  "2018-01-24-etcd-cluster": {
+    "title": "etcd集群安装及基本操作",
+    "url": "/2018/01/24/etcd-cluster/",
+    "category": "[&quot;etcd&quot;]"
   },
   
   "wiki-android-studio": {
