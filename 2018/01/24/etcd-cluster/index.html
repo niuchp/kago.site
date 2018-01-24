@@ -144,17 +144,14 @@
 
 <p>etcd 是一个用于共享配置和服务的高可用键值存储系统，由 CoreOS 使用开发并作为 CoreOS 的基础服务启动。etcd 的灵感来源于 Apache ZooKeeper 和 doozer，其特点：</p>
 
-<p>· 简单：可用 curl 进行操作（HTTP+JSON）</p>
-
-<p>· 安全：可使用 SSL 客户端证书验证</p>
-
-<p>· 快速：基准测试在每个实例 1000 次写入每秒</p>
-
-<p>· 可靠: 使用 Raft 协议来进行合理的分布式</p>
+<p>· 简单：可用 curl 进行操作（HTTP+JSON） <br />
+· 安全：可使用 SSL 客户端证书验证<br />
+· 快速：基准测试在每个实例 1000 次写入每秒<br />
+· 可靠: 使用 Raft 协议来进行合理的分布式</p>
 
 <h3 id="官方网站">官方网站</h3>
 
-<p>https://github.com/coreos/etcd/</p>
+<p><a href="https://github.com/coreos/etcd/">https://github.com/coreos/etcd/</a></p>
 
 <h3 id="安装环境">安装环境</h3>
 
@@ -177,7 +174,7 @@ chmod +x /usr/local/bin/<span class="o">{</span>etcd,etcdctl<span class="o">}</s
 </code></pre></div></div>
 <h4 id="二配置etcd">二、配置etcd</h4>
 
-<p>https://github.com/coreos/etcd/blob/master/Documentation/op-guide/clustering.md<br />
+<p><a href="https://github.com/coreos/etcd/blob/master/Documentation/op-guide/clustering.md">https://github.com/coreos/etcd/blob/master/Documentation/op-guide/clustering.md</a><br />
 cluster帮助文档<br />
 etcd-v3.0.4-linux-amd64/Documentation/op-guide/clustering.md<br />
 This guide will cover the following mechanisms for bootstrapping an etcd cluster:</p>
@@ -191,7 +188,7 @@ This guide will cover the following mechanisms for bootstrapping an etcd cluster
 <p>目前支持三种发现方式，Static适用于有固定IP的主机节点，etcd Discovery适用于DHCP环境，DNS Discovery依赖DNS SRV记录</p>
 
 <p><em>提示：etcd支持ssl/tls,详见官方文档<br />
-https://github.com/coreos/etcd/blob/master/Documentation/op-guide/security.md</em></p>
+<a href="https://github.com/coreos/etcd/blob/master/Documentation/op-guide/security.md">https://github.com/coreos/etcd/blob/master/Documentation/op-guide/security.md</a></em></p>
 
 <p><strong>以下使用static方式</strong></p>
 
@@ -281,7 +278,7 @@ Created symlink from /etc/systemd/system/multi-user.target.wants/etcd.service to
 <h3 id="etcd集群管理">etcd集群管理</h3>
 
 <p>官方地址<br />
-https://github.com/coreos/etcd/blob/master/Documentation/op-guide/maintenance.md</p>
+<a href="https://github.com/coreos/etcd/blob/master/Documentation/op-guide/maintenance.md">https://github.com/coreos/etcd/blob/master/Documentation/op-guide/maintenance.md</a></p>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@node3 ~]# etcdctl <span class="nt">--version</span>
 etcdctl version: 3.0.4
@@ -320,22 +317,22 @@ cluster is healthy
 
 <h4 id="二集群成员查看">二、集群成员查看</h4>
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@node3 ~]# etcdctl member list
-2947dd07df9e44da: <span class="nv">name</span><span class="o">=</span>etcd2 <span class="nv">peerURLs</span><span class="o">=</span>http://192.168.8.102:2380 <span class="nv">clientURLs</span><span class="o">=</span>http://192.168.8.102:2379 <span class="nv">isLeader</span><span class="o">=</span><span class="nb">false
-</span>571bf93ce7760601: <span class="nv">name</span><span class="o">=</span>etcd1 <span class="nv">peerURLs</span><span class="o">=</span>http://192.168.8.101:2380 <span class="nv">clientURLs</span><span class="o">=</span>http://192.168.8.101:2379 <span class="nv">isLeader</span><span class="o">=</span><span class="nb">true
-</span>b200a8bec19bd22e: <span class="nv">name</span><span class="o">=</span>etcd3 <span class="nv">peerURLs</span><span class="o">=</span>http://192.168.8.103:2380 <span class="nv">clientURLs</span><span class="o">=</span>http://192.168.8.103:2379 <span class="nv">isLeader</span><span class="o">=</span><span class="nb">false</span>
+2947dd07df9e44da: <span class="nv">name</span><span class="o">=</span>etcd1 <span class="nv">peerURLs</span><span class="o">=</span>http://192.168.8.102:2380 <span class="nv">clientURLs</span><span class="o">=</span>http://192.168.8.102:2379 <span class="nv">isLeader</span><span class="o">=</span><span class="nb">false
+</span>571bf93ce7760601: <span class="nv">name</span><span class="o">=</span>etcd0 <span class="nv">peerURLs</span><span class="o">=</span>http://192.168.8.101:2380 <span class="nv">clientURLs</span><span class="o">=</span>http://192.168.8.101:2379 <span class="nv">isLeader</span><span class="o">=</span><span class="nb">true
+</span>b200a8bec19bd22e: <span class="nv">name</span><span class="o">=</span>etcd2 <span class="nv">peerURLs</span><span class="o">=</span>http://192.168.8.103:2380 <span class="nv">clientURLs</span><span class="o">=</span>http://192.168.8.103:2379 <span class="nv">isLeader</span><span class="o">=</span><span class="nb">false</span>
 </code></pre></div></div>
 
 <h4 id="三删除集群成员">三、删除集群成员</h4>
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@node2 ~]# etcdctl member remove b200a8bec19bd22e 
 Removed member 4d11141f72b2744c from cluster
 <span class="o">[</span>root@node2 ~]# etcdctl member list
-2947dd07df9e44da: <span class="nv">name</span><span class="o">=</span>etcd2 <span class="nv">peerURLs</span><span class="o">=</span>http://192.168.8.102:2380 <span class="nv">clientURLs</span><span class="o">=</span>http://192.168.8.102:2379 <span class="nv">isLeader</span><span class="o">=</span><span class="nb">false
-</span>571bf93ce7760601: <span class="nv">name</span><span class="o">=</span>etcd1 <span class="nv">peerURLs</span><span class="o">=</span>http://192.168.8.101:2380 <span class="nv">clientURLs</span><span class="o">=</span>http://192.168.8.101:2379 <span class="nv">isLeader</span><span class="o">=</span><span class="nb">true</span>
+2947dd07df9e44da: <span class="nv">name</span><span class="o">=</span>etcd1 <span class="nv">peerURLs</span><span class="o">=</span>http://192.168.8.102:2380 <span class="nv">clientURLs</span><span class="o">=</span>http://192.168.8.102:2379 <span class="nv">isLeader</span><span class="o">=</span><span class="nb">false
+</span>571bf93ce7760601: <span class="nv">name</span><span class="o">=</span>etcd0 <span class="nv">peerURLs</span><span class="o">=</span>http://192.168.8.101:2380 <span class="nv">clientURLs</span><span class="o">=</span>http://192.168.8.101:2379 <span class="nv">isLeader</span><span class="o">=</span><span class="nb">true</span>
 </code></pre></div></div>
 
 <h4 id="四添加集群成员">四、添加集群成员</h4>
 <p>官方说明：
-https://github.com/coreos/etcd/blob/master/Documentation/op-guide/runtime-configuration.md<br />
+<a href="https://github.com/coreos/etcd/blob/master/Documentation/op-guide/runtime-configuration.md">https://github.com/coreos/etcd/blob/master/Documentation/op-guide/runtime-configuration.md</a><br />
 <em>注意:步骤很重要，不然会报集群ID不匹配</em></p>
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@node2 ~]# etcdctl member add <span class="nt">--help</span>
 NAME:
@@ -345,15 +342,15 @@ USAGE:
 </code></pre></div></div>
 
 <p>1.将目标节点添加到集群</p>
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@node2 ~]# etcdctl member add etcd3 http://192.168.8.103:2380
-Added member named etcd3 with ID 28e0d98e7ec15cd4 to cluster
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@node2 ~]# etcdctl member add etcd2 http://192.168.8.103:2380
+Added member named etcd2 with ID 28e0d98e7ec15cd4 to cluster
 
-<span class="nv">ETCD_NAME</span><span class="o">=</span><span class="s2">"etcd3"</span>
-<span class="nv">ETCD_INITIAL_CLUSTER</span><span class="o">=</span><span class="s2">"etcd3=http://192.168.8.103:2380,etcd2=http://192.168.8.102:2380,etcd1=http://192.168.8.101:2380"</span>
+<span class="nv">ETCD_NAME</span><span class="o">=</span><span class="s2">"etcd2"</span>
+<span class="nv">ETCD_INITIAL_CLUSTER</span><span class="o">=</span><span class="s2">"etcd2=http://192.168.8.103:2380,etcd1=http://192.168.8.102:2380,etcd0=http://192.168.8.101:2380"</span>
 <span class="nv">ETCD_INITIAL_CLUSTER_STATE</span><span class="o">=</span><span class="s2">"existing"</span>
 <span class="o">[</span>root@node2 ~]# etcdctl member list
-2947dd07df9e44da: <span class="nv">name</span><span class="o">=</span>etcd2 <span class="nv">peerURLs</span><span class="o">=</span>http://192.168.8.102:2380 <span class="nv">clientURLs</span><span class="o">=</span>http://192.168.8.102:2379 <span class="nv">isLeader</span><span class="o">=</span><span class="nb">false
-</span>571bf93ce7760601: <span class="nv">name</span><span class="o">=</span>etcd1 <span class="nv">peerURLs</span><span class="o">=</span>http://192.168.8.101:2380 <span class="nv">clientURLs</span><span class="o">=</span>http://192.168.8.101:2379 <span class="nv">isLeader</span><span class="o">=</span><span class="nb">true
+2947dd07df9e44da: <span class="nv">name</span><span class="o">=</span>etcd1 <span class="nv">peerURLs</span><span class="o">=</span>http://192.168.8.102:2380 <span class="nv">clientURLs</span><span class="o">=</span>http://192.168.8.102:2379 <span class="nv">isLeader</span><span class="o">=</span><span class="nb">false
+</span>571bf93ce7760601: <span class="nv">name</span><span class="o">=</span>etcd0 <span class="nv">peerURLs</span><span class="o">=</span>http://192.168.8.101:2380 <span class="nv">clientURLs</span><span class="o">=</span>http://192.168.8.101:2379 <span class="nv">isLeader</span><span class="o">=</span><span class="nb">true
 </span>d4f257d2b5f99b64[unstarted]: <span class="nv">peerURLs</span><span class="o">=</span>http://192.168.8.103:2380
 </code></pre></div></div>
 <p>此时，集群会为目标节点生成一个唯一的member ID</p>
@@ -369,21 +366,21 @@ Added member named etcd3 with ID 28e0d98e7ec15cd4 to cluster
 </code></pre></div></div>
 
 <p>3.在目标节点上启动etcd</p>
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>etcd <span class="nt">--name</span> etcd3 <span class="nt">--data-dir</span> /opt/etcd <span class="se">\</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>etcd <span class="nt">--name</span> etcd2 <span class="nt">--data-dir</span> /opt/etcd <span class="se">\</span>
  <span class="nt">--initial-advertise-peer-urls</span> http://192.168.8.103:2380 <span class="se">\</span>
  <span class="nt">--listen-peer-urls</span> http://192.168.8.103:2380 <span class="se">\</span>
  <span class="nt">--listen-client-urls</span> http://192.168.8.103:2379,http://127.0.0.1:2379 <span class="se">\</span>
  <span class="nt">--advertise-client-urls</span> http://192.168.8.103:2379 <span class="se">\</span>
  <span class="nt">--initial-cluster-token</span> etcd-cluster-1 <span class="se">\</span>
- <span class="nt">--initial-cluster</span> <span class="nv">etcd1</span><span class="o">=</span>http://192.168.8.101:2380,etcd2<span class="o">=</span>http://192.168.8.102:2380,etcd3<span class="o">=</span>http://192.168.8.103:2380 <span class="se">\</span>
+ <span class="nt">--initial-cluster</span> <span class="nv">etcd0</span><span class="o">=</span>http://192.168.8.101:2380,etcd1<span class="o">=</span>http://192.168.8.102:2380,etcd2<span class="o">=</span>http://192.168.8.103:2380 <span class="se">\</span>
  <span class="nt">--initial-cluster-state</span> existing
 </code></pre></div></div>
 
 <p><em>注意:这里的initial标记一定要指定为existing,如果为new则会自动生成一个新的member ID,和前面添加节点时生成的ID不一致，故日志中会报节点ID不匹配的错</em></p>
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@node2 ~]# etcdctl member list
-28e0d98e7ec15cd4: <span class="nv">name</span><span class="o">=</span>etcd3 <span class="nv">peerURLs</span><span class="o">=</span>http://192.168.8.103:2380 <span class="nv">clientURLs</span><span class="o">=</span>http://192.168.8.103:2379 <span class="nv">isLeader</span><span class="o">=</span><span class="nb">false
-</span>2947dd07df9e44da: <span class="nv">name</span><span class="o">=</span>etcd2 <span class="nv">peerURLs</span><span class="o">=</span>http://192.168.8.102:2380 <span class="nv">clientURLs</span><span class="o">=</span>http://192.168.8.102:2379 <span class="nv">isLeader</span><span class="o">=</span><span class="nb">false
-</span>571bf93ce7760601: <span class="nv">name</span><span class="o">=</span>etcd1 <span class="nv">peerURLs</span><span class="o">=</span>http://192.168.8.101:2380 <span class="nv">clientURLs</span><span class="o">=</span>http://192.168.8.101:2379 <span class="nv">isLeader</span><span class="o">=</span><span class="nb">true</span>
+28e0d98e7ec15cd4: <span class="nv">name</span><span class="o">=</span>etcd2 <span class="nv">peerURLs</span><span class="o">=</span>http://192.168.8.103:2380 <span class="nv">clientURLs</span><span class="o">=</span>http://192.168.8.103:2379 <span class="nv">isLeader</span><span class="o">=</span><span class="nb">false
+</span>2947dd07df9e44da: <span class="nv">name</span><span class="o">=</span>etcd1 <span class="nv">peerURLs</span><span class="o">=</span>http://192.168.8.102:2380 <span class="nv">clientURLs</span><span class="o">=</span>http://192.168.8.102:2379 <span class="nv">isLeader</span><span class="o">=</span><span class="nb">false
+</span>571bf93ce7760601: <span class="nv">name</span><span class="o">=</span>etcd0 <span class="nv">peerURLs</span><span class="o">=</span>http://192.168.8.101:2380 <span class="nv">clientURLs</span><span class="o">=</span>http://192.168.8.101:2379 <span class="nv">isLeader</span><span class="o">=</span><span class="nb">true</span>
 </code></pre></div></div>
 
 <h4 id="五增删改查">五、增删改查</h4>
@@ -412,16 +409,16 @@ etcd cluster is ok
 starting to import snapshot /opt/etcd/member/snap/db with 10 clients
 2016-08-12 01:18:17.281921 I | entering dir: /
 finished importing 0 keys
-REST API
-https://github.com/coreos/etcd/tree/master/Documentation/learning
-<span class="o">[</span>root@node1 ~]# curl 192.168.8.101:2379/v2/keys
 </code></pre></div></div>
-<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="s2">"action"</span><span class="p">:</span><span class="s2">"get"</span><span class="p">,</span><span class="s2">"node"</span><span class="p">:{</span><span class="s2">"dir"</span><span class="p">:</span><span class="kc">true</span><span class="p">,</span><span class="s2">"nodes"</span><span class="p">:[{</span><span class="s2">"key"</span><span class="p">:</span><span class="s2">"/foo"</span><span class="p">,</span><span class="s2">"value"</span><span class="p">:</span><span class="s2">"etcd cluster is ok"</span><span class="p">,</span><span class="s2">"modifiedIndex"</span><span class="p">:</span><span class="mi">28</span><span class="p">,</span><span class="s2">"createdIndex"</span><span class="p">:</span><span class="mi">9</span><span class="p">},{</span><span class="s2">"key"</span><span class="p">:</span><span class="s2">"/hello"</span><span class="p">,</span><span class="s2">"dir"</span><span class="p">:</span><span class="kc">true</span><span class="p">,</span><span class="s2">"modifiedIndex"</span><span class="p">:</span><span class="mi">10</span><span class="p">,</span><span class="s2">"createdIndex"</span><span class="p">:</span><span class="mi">10</span><span class="p">},{</span><span class="s2">"key"</span><span class="p">:</span><span class="s2">"/registry"</span><span class="p">,</span><span class="s2">"dir"</span><span class="p">:</span><span class="kc">true</span><span class="p">,</span><span class="s2">"modifiedIndex"</span><span class="p">:</span><span class="mi">47</span><span class="p">,</span><span class="s2">"createdIndex"</span><span class="p">:</span><span class="mi">47</span><span class="p">}]}}</span><span class="w">
-</span><span class="p">[</span><span class="err">root@node</span><span class="mi">1</span><span class="w"> </span><span class="err">~</span><span class="p">]</span><span class="err">#</span><span class="w"> </span><span class="err">curl</span><span class="w"> </span><span class="err">-fs</span><span class="w"> </span><span class="err">-X</span><span class="w"> </span><span class="err">PUT</span><span class="w"> </span><span class="mf">192.168</span><span class="err">.</span><span class="mf">8.101</span><span class="p">:</span><span class="mi">2379</span><span class="err">/v</span><span class="mi">2</span><span class="err">/keys/_test</span><span class="w">
-</span><span class="p">{</span><span class="s2">"action"</span><span class="p">:</span><span class="s2">"set"</span><span class="p">,</span><span class="s2">"node"</span><span class="p">:{</span><span class="s2">"key"</span><span class="p">:</span><span class="s2">"/_test"</span><span class="p">,</span><span class="s2">"value"</span><span class="p">:</span><span class="s2">""</span><span class="p">,</span><span class="s2">"modifiedIndex"</span><span class="p">:</span><span class="mi">1439</span><span class="p">,</span><span class="s2">"createdIndex"</span><span class="p">:</span><span class="mi">1439</span><span class="p">}}</span><span class="w">
-</span><span class="p">[</span><span class="err">root@node</span><span class="mi">1</span><span class="w"> </span><span class="err">~</span><span class="p">]</span><span class="err">#</span><span class="w"> </span><span class="err">curl</span><span class="w"> </span><span class="err">-X</span><span class="w"> </span><span class="err">GET</span><span class="w"> </span><span class="mf">192.168</span><span class="err">.</span><span class="mf">8.101</span><span class="p">:</span><span class="mi">2379</span><span class="err">/v</span><span class="mi">2</span><span class="err">/keys/_test</span><span class="w">
-</span><span class="p">{</span><span class="s2">"action"</span><span class="p">:</span><span class="s2">"get"</span><span class="p">,</span><span class="s2">"node"</span><span class="p">:{</span><span class="s2">"key"</span><span class="p">:</span><span class="s2">"/_test"</span><span class="p">,</span><span class="s2">"value"</span><span class="p">:</span><span class="s2">""</span><span class="p">,</span><span class="s2">"modifiedIndex"</span><span class="p">:</span><span class="mi">1439</span><span class="p">,</span><span class="s2">"createdIndex"</span><span class="p">:</span><span class="mi">1439</span><span class="p">}}</span><span class="w">
-</span></code></pre></div></div>
+<h4 id="rest-api">REST API</h4>
+<p><a href="https://github.com/coreos/etcd/tree/master/Documentation/learning">https://github.com/coreos/etcd/tree/master/Documentation/learning</a></p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@node1 ~]# curl 192.168.8.101:2379/v2/keys 
+<span class="o">{</span><span class="s2">"action"</span>:<span class="s2">"get"</span>,<span class="s2">"node"</span>:<span class="o">{</span><span class="s2">"dir"</span>:true,<span class="s2">"nodes"</span>:[<span class="o">{</span><span class="s2">"key"</span>:<span class="s2">"/foo"</span>,<span class="s2">"value"</span>:<span class="s2">"etcd cluster is ok"</span>,<span class="s2">"modifiedIndex"</span>:28,<span class="s2">"createdIndex"</span>:9<span class="o">}</span>,<span class="o">{</span><span class="s2">"key"</span>:<span class="s2">"/hello"</span>,<span class="s2">"dir"</span>:true,<span class="s2">"modifiedIndex"</span>:10,<span class="s2">"createdIndex"</span>:10<span class="o">}</span>,<span class="o">{</span><span class="s2">"key"</span>:<span class="s2">"/registry"</span>,<span class="s2">"dir"</span>:true,<span class="s2">"modifiedIndex"</span>:47,<span class="s2">"createdIndex"</span>:47<span class="o">}]}}</span>
+<span class="o">[</span>root@node1 ~]# curl <span class="nt">-fs</span> <span class="nt">-X</span> PUT 192.168.8.101:2379/v2/keys/_test
+<span class="o">{</span><span class="s2">"action"</span>:<span class="s2">"set"</span>,<span class="s2">"node"</span>:<span class="o">{</span><span class="s2">"key"</span>:<span class="s2">"/_test"</span>,<span class="s2">"value"</span>:<span class="s2">""</span>,<span class="s2">"modifiedIndex"</span>:1439,<span class="s2">"createdIndex"</span>:1439<span class="o">}}</span>
+<span class="o">[</span>root@node1 ~]# curl <span class="nt">-X</span> GET 192.168.8.101:2379/v2/keys/_test
+<span class="o">{</span><span class="s2">"action"</span>:<span class="s2">"get"</span>,<span class="s2">"node"</span>:<span class="o">{</span><span class="s2">"key"</span>:<span class="s2">"/_test"</span>,<span class="s2">"value"</span>:<span class="s2">""</span>,<span class="s2">"modifiedIndex"</span>:1439,<span class="s2">"createdIndex"</span>:1439<span class="o">}}</span>
+</code></pre></div></div>
 
     
 <hr>
