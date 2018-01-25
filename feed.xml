@@ -1,4 +1,301 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.6.2">Jekyll</generator><link href="https://kago.site/feed.xml" rel="self" type="application/atom+xml" /><link href="https://kago.site/" rel="alternate" type="text/html" /><updated>2018-01-25T14:35:58+08:00</updated><id>https://kago.site/</id><title type="html">阅后即忘 | 牛昌平的个人博客</title><subtitle>点滴积累，聚沙成塔</subtitle><author><name>Barry New</name></author><entry><title type="html">etcd集群安装及基本操作</title><link href="https://kago.site/2018/01/24/etcd-cluster/" rel="alternate" type="text/html" title="etcd集群安装及基本操作" /><published>2018-01-24T00:00:00+08:00</published><updated>2018-01-24T00:00:00+08:00</updated><id>https://kago.site/2018/01/24/etcd-cluster</id><content type="html" xml:base="https://kago.site/2018/01/24/etcd-cluster/">&lt;blockquote&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.6.2">Jekyll</generator><link href="https://kago.site/feed.xml" rel="self" type="application/atom+xml" /><link href="https://kago.site/" rel="alternate" type="text/html" /><updated>2018-01-25T14:39:09+08:00</updated><id>https://kago.site/</id><title type="html">阅后即忘 | 牛昌平的个人博客</title><subtitle>点滴积累，聚沙成塔</subtitle><author><name>Barry New</name></author><entry><title type="html">用 Travis CI 免费自动构建和部署 Jekyll</title><link href="https://kago.site/2018/01/25/travis-ci-for-jekyll/" rel="alternate" type="text/html" title="用 Travis CI 免费自动构建和部署 Jekyll" /><published>2018-01-25T00:00:00+08:00</published><updated>2018-01-25T00:00:00+08:00</updated><id>https://kago.site/2018/01/25/travis-ci-for-jekyll</id><content type="html" xml:base="https://kago.site/2018/01/25/travis-ci-for-jekyll/">&lt;blockquote&gt;
+  &lt;p&gt;前一段时间搭建了个人博客，一直说要记录一下搭建过程，由于懒拖到现在……我的博客的搭建过程分为两阶段，第一阶段是利用 Github Pages 蹭免费环境，启动博客；第二阶段是利用 Travsi 持续集成，把环境迁到自己的云服务器。之所以迁到自己的云服务器，主要原因是 Github Pages 禁止百度蜘蛛，意味着百度不能收录网站，搜索站点名称的时候就搜索不到，这对于我这种喜欢“炫耀”的银来说必须不能接受。本文介绍在云服务器中搭建博客的完整过程。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;整个搭建过程思路如下：&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;fork 博客到 Github ，修改博客属性&lt;/li&gt;
+  &lt;li&gt;本地 Markdown 编写博客，push md 文件到 Github&lt;/li&gt;
+  &lt;li&gt;配置 Travis CI 执行自动编译，生成 html 文件&lt;/li&gt;
+  &lt;li&gt;编译后 Travis CI push html文件到新的 Github 仓库&lt;/li&gt;
+  &lt;li&gt;Travis CI 重启云服务器中的容器，拉取 Github 中的 html 文件完成更新&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;1-利用-github-pages-搭建个人博客&quot;&gt;1. 利用 Github Pages 搭建个人博客&lt;/h3&gt;
+
+&lt;p&gt;利用 Github Pages 搭建个人博客在网上已经有很多资料了，有的人可能会觉得这是在占小便宜，其实完全是多虑了， Github 是鼓励个人建站滴，所以放下大胆的享受红利吧。&lt;/p&gt;
+
+&lt;p&gt;想要享受 Github 的红利当然前提条件是要有 Github 账户，注册方法就不提了，我们直接开始 fork 博客模板。&lt;/p&gt;
+
+&lt;p&gt;这里我使用的是大佬&lt;a href=&quot;https://github.com/mzlogin/mzlogin.github.io&quot;&gt;马壮&lt;/a&gt;修改样式后的模板，fork 以后需要做以下修改：&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;正确设置项目名称与分支。&lt;/p&gt;
+
+    &lt;p&gt;按照 GitHub Pages 的规定，名称为 username.github.io 的项目的 master 分支，或者其它名称的项目的 gh-pages 分支可以自动生成 GitHub Pages 页面。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;修改域名。&lt;/p&gt;
+
+    &lt;p&gt;如果你需要绑定自己的域名，那么修改 CNAME 文件的内容；如果不需要绑定自己的域名，那么删掉 CNAME 文件。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;修改配置。&lt;/p&gt;
+
+    &lt;p&gt;网站的配置基本都集中在 _config.yml 文件中，将其中与个人信息相关的部分替换成你自己的，比如网站的 url、title、subtitle 和第三方评论模块的配置等。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;评论模块:&lt;br /&gt;
+ 目前支持 disqus、gitment 和 gitalk，选用其中一种就可以了。可参看以前的博文 &lt;a href=&quot;https://kago.site/2017/12/09/gitment/&quot;&gt;「jekyll中添加gitment留言板」&lt;/a&gt;。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;删除原有的文章与图片。&lt;/p&gt;
+
+    &lt;p&gt;如下文件夹中除了 template.md 文件外，都可以全部删除，然后添加你自己的内容。&lt;br /&gt;
+     _posts 文件夹中是已发布的博客文章。&lt;br /&gt;
+     _drafts 文件夹中是尚未发布的博客文章。&lt;br /&gt;
+     _wiki 文件夹中是已发布的 wiki 页面。&lt;br /&gt;
+     images 文件夹中是文章和页面里使用的图片。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;修改「关于」页面。&lt;/p&gt;
+
+    &lt;p&gt;pages/about.md 文件内容对应网站的「关于」页面，里面的内容多为个人相关，将它们替换成你自己的信息，包括 _data 目录下的 skills.yml 和 social.yml 文件里的数据。&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;修改完后，增加 CNAME 中的域名与 Github Pages 解析关系，登录到购买域名的网站增加域名到 192.30.252.153 的解析。其中， 192.30.252.153 是Github Pages 的服务器地址。接下来，就可以打开浏览器访问你的博客啦~&lt;/p&gt;
+
+&lt;p&gt;Clone 你的网站代码库到本地，使用常见的编辑器（本人使用的是 vs code ）写博客，然后再push到 Github 即可。由于该该博客模板是利用 Jekyll 实现的静态网站，支持 Markdown ，这简直是太方便了，按照 Markdown 的语法尽情的写博客就好了， Github Pages 会自动识别 Markdown 格式的。&lt;/p&gt;
+
+&lt;h3 id=&quot;2-利用-travis-持续集成&quot;&gt;2. 利用 Travis 持续集成&lt;/h3&gt;
+
+&lt;h4 id=&quot;21-添加-github-仓库至-travis&quot;&gt;2.1 添加 Github 仓库至 Travis&lt;/h4&gt;
+
+&lt;p&gt;利用 Travis 部分要感谢 &lt;a href=&quot;https://mritd.me/&quot;&gt;漠然&lt;/a&gt; 在博客中分析的他的实现方法。&lt;/p&gt;
+
+&lt;p&gt;注册 Travis CI 账号，然后点击最左侧 + 按钮添加项目&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/travis/增加仓库.png&quot; alt=&quot;增加仓库&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;选择添加到 Travis 的仓库&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/travis/选择仓库.png&quot; alt=&quot;选择仓库&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;点击仓库旁的设置&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/travis/配置仓库.png&quot; alt=&quot;配置仓库&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;22-创建travisyaml&quot;&gt;2.2 创建.travis.yaml&lt;/h4&gt;
+&lt;p&gt;在博客的根路径下创建 .travis.yaml 配置文件，实现基本集成配置：&lt;/p&gt;
+&lt;div class=&quot;language-yaml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;na&quot;&gt;language&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;ruby&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;rvm&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+&lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;2.3.3&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;script&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+&lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;bundle install&lt;/span&gt;
+&lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;bundle exec jekyll build&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;branches&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;only&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;master&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;env&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;global&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;NOKOGIRI_USE_SYSTEM_LIBRARIES=true&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;更多travis.yaml配置参考官方文档 &lt;a href=&quot;https://docs.travis-ci.com/&quot;&gt;https://docs.travis-ci.com/&lt;/a&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;23-添加-deploy-keys&quot;&gt;2.3 添加 deploy keys&lt;/h4&gt;
+
+&lt;p&gt;在 .travis.yaml 中进行加密配置，是为了使 Travis CI 可以免密码访问 Github&lt;/p&gt;
+
+&lt;p&gt;生成密钥对，并添加公钥至 Github 的Deploy keys&lt;/p&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ssh-keygen &lt;span class=&quot;nt&quot;&gt;-t&lt;/span&gt; rsa &lt;span class=&quot;nt&quot;&gt;-C&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;youremail@example.com&quot;&lt;/span&gt;  
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;&lt;img src=&quot;/images/posts/travis/deploy_keys.png&quot; alt=&quot;deploy_keys&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;24-安装并登陆travis&quot;&gt;2.4 安装并登陆travis&lt;/h4&gt;
+
+&lt;p&gt;此步骤主要是为了生成 travis 的 keys&lt;/p&gt;
+
+&lt;p&gt;安装&lt;/p&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;gem install travis
+travis login &lt;span class=&quot;nt&quot;&gt;--auto&lt;/span&gt;
+Successfully logged &lt;span class=&quot;k&quot;&gt;in &lt;/span&gt;as niuchp!
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;25-加密&quot;&gt;2.5 加密&lt;/h4&gt;
+
+&lt;p&gt;在加密之前我们先在项目根目录下需有 .travis.yaml 文件。加密的就是第一步生成的密钥id_rsa&lt;/p&gt;
+
+&lt;p&gt;拷贝在 2.3 步骤中生成密钥对至项目根目录下，并执行：&lt;/p&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;travis encrypt-file ssh_key &lt;span class=&quot;nt&quot;&gt;--add&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;这时候看最后一句**Commit all changes to your .travis.yml.。&lt;/p&gt;
+
+&lt;p&gt;我们的 .travis.yaml 文件中多了一句:(私人内容使用XXX代替)&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;openssl aes-256-cbc -K $encrypted_XXXXXXXX_key -iv $encrypted_XXXXXXXX_iv -in id_rsa.enc -out ~/.ssh/id_rsa -d&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;例如：&lt;/p&gt;
+&lt;div class=&quot;language-yaml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;na&quot;&gt;language&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;ruby&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;rvm&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+&lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;2.3.3&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;before_install&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+&lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;openssl aes-256-cbc -K $encrypted_xxxxxxx_key -iv $encrypted_xxxxxxx_iv -in id_rsa.enc -out ~/.ssh/id_rsa -d&lt;/span&gt;
+&lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;chmod 600 ~/.ssh/id_rsa&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;script&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+&lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;bundle install&lt;/span&gt;
+&lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;bundle exec jekyll build&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;env&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;global&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;NOKOGIRI_USE_SYSTEM_LIBRARIES=true&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;再次查看我们的 Travis CI 网页，发现多了一些变化&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/travis/加密.png&quot; alt=&quot;加密&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;记得要删除 id_rsa 文件，私钥文件已经由 id_rsa.enc 替代&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;26-配置自动更新&quot;&gt;2.6 配置自动更新&lt;/h4&gt;
+
+&lt;p&gt;自动更新部分是利用 Travis CI push 编译后的文件至一个新的代码库，重启容器触发 git pull 实现的。&lt;/p&gt;
+
+&lt;p&gt;Travis CI push 静态文件到 Github 通过 Github 的 token 实现授权，代码如下&lt;/p&gt;
+&lt;div class=&quot;language-yaml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;na&quot;&gt;after_success&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+&lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;git clone https://github.com/niuchp/kago.site.git&lt;/span&gt;
+&lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;cd kago.site &amp;amp;&amp;amp; rm -rf * &amp;amp;&amp;amp; cp -r ../_site/* .&lt;/span&gt;
+&lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;git config user.name &quot;niuchp&quot;&lt;/span&gt;
+&lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;git config user.email &quot;niuchp@126.com&quot;&lt;/span&gt;
+&lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;git add --all .&lt;/span&gt;
+&lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;git commit -m &quot;Travis CI Auto Builder&quot;&lt;/span&gt;
+&lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;git push --force https://$JEKYLL_GITHUB_TOKEN@github.com/niuchp/kago.site.git master&lt;/span&gt;
+&lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;ssh root@kago.site &quot;docker restart kago_site&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;注意： 配置文件中的kago.site.git为新仓库！&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;其中，JEKYLL_GITHUB_TOKEN 是从 Github 授权得到的，然后给于相应权限即可&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/travis/travis_deploy_keys.png&quot; alt=&quot;travis_deploy_keys&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;得到JEKYLL_GITHUB_TOKEN后在 Travish CI的项目配置中添加环境变量$JEKYLL_GITHUB_TOKEN 如下图:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/travis/env.png&quot; alt=&quot;env&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;完整的 .travis.yaml 配置文件如下：&lt;/p&gt;
+&lt;div class=&quot;language-yaml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;na&quot;&gt;language&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;ruby&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;rvm&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+&lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;2.3.3&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;before_install&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+&lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;openssl aes-256-cbc -K $encrypted_xxxxxxx_key -iv $encrypted_xxxxxxx_iv -in id_rsa.enc -out ~/.ssh/id_rsa -d&lt;/span&gt;
+&lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;chmod 600 ~/.ssh/id_rsa&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;script&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+&lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;bundle install&lt;/span&gt;
+&lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;bundle exec jekyll build&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;after_success&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+&lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;git clone https://github.com/niuchp/kago.site.git&lt;/span&gt;
+&lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;cd kago.site &amp;amp;&amp;amp; rm -rf * &amp;amp;&amp;amp; cp -r ../_site/* .&lt;/span&gt;
+&lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;git config user.name &quot;niuchp&quot;&lt;/span&gt;
+&lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;git config user.email &quot;niuchp@126.com&quot;&lt;/span&gt;
+&lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;git add --all .&lt;/span&gt;
+&lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;git commit -m &quot;Travis CI Auto Builder&quot;&lt;/span&gt;
+&lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;git push --force https://$JEKYLL_GITHUB_TOKEN@github.com/niuchp/kago.site.git master&lt;/span&gt;
+&lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;ssh root@kago.site &quot;docker restart kago_site&quot;&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;branches&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;only&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;master&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;env&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;global&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;NOKOGIRI_USE_SYSTEM_LIBRARIES=true&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;addons&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;ssh_known_hosts&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;kago.site&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;3-配置-docker-容器&quot;&gt;3. 配置 docker 容器&lt;/h3&gt;
+
+&lt;p&gt;Travis CI 持续集成后会重启云服务器中的 docker 容器，触发 git pull 完成更新。&lt;/p&gt;
+
+&lt;p&gt;Dockerfile&lt;/p&gt;
+
+&lt;div class=&quot;language-dockerfile highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;FROM&lt;/span&gt;&lt;span class=&quot;s&quot;&gt; nginx:1.13.6-alpine &lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;LABEL&lt;/span&gt;&lt;span class=&quot;s&quot;&gt; maintainer=&quot;Barry New &amp;lt;niuchp@126.com&amp;gt;&quot;&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;ARG&lt;/span&gt;&lt;span class=&quot;s&quot;&gt; TZ='Asia/Shanghai'&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;ENV&lt;/span&gt;&lt;span class=&quot;s&quot;&gt; TZ ${TZ}&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;RUN &lt;/span&gt;apk upgrade &lt;span class=&quot;nt&quot;&gt;--update&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\
+&lt;/span&gt;    &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; apk add bash git &lt;span class=&quot;se&quot;&gt;\
+&lt;/span&gt;    &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; rm &lt;span class=&quot;nt&quot;&gt;-rf&lt;/span&gt; /usr/share/nginx/html &lt;span class=&quot;se&quot;&gt;\
+&lt;/span&gt;    &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; git clone https://github.com/niuchp/kago.site.git /usr/share/nginx/html &lt;span class=&quot;se&quot;&gt;\
+&lt;/span&gt;    &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; ln &lt;span class=&quot;nt&quot;&gt;-sf&lt;/span&gt; /usr/share/zoneinfo/&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;TZ&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt; /etc/localtime &lt;span class=&quot;se&quot;&gt;\
+&lt;/span&gt;    &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;TZ&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; /etc/timezone &lt;span class=&quot;se&quot;&gt;\
+&lt;/span&gt;    &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; rm &lt;span class=&quot;nt&quot;&gt;-rf&lt;/span&gt; /var/cache/apk/&lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;ADD&lt;/span&gt;&lt;span class=&quot;s&quot;&gt; entrypoint.sh /entrypoint.sh&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;COPY&lt;/span&gt;&lt;span class=&quot;s&quot;&gt; default.conf /etc/nginx/conf.d/&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;WORKDIR&lt;/span&gt;&lt;span class=&quot;s&quot;&gt; /usr/share/nginx/html&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;CMD&lt;/span&gt;&lt;span class=&quot;s&quot;&gt; [&quot;/entrypoint.sh&quot;]&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;entrypoint.sh&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;#!/bin/bash&lt;/span&gt;
+
+git pull
+nginx &lt;span class=&quot;nt&quot;&gt;-g&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;daemon off;&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;default.conf&lt;/p&gt;
+
+&lt;div class=&quot;language-conf highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;server&lt;/span&gt; {
+    &lt;span class=&quot;n&quot;&gt;listen&lt;/span&gt;       &lt;span class=&quot;m&quot;&gt;443&lt;/span&gt;;
+    &lt;span class=&quot;n&quot;&gt;server_name&lt;/span&gt;  &lt;span class=&quot;n&quot;&gt;localhost&lt;/span&gt;;
+    &lt;span class=&quot;n&quot;&gt;ssl&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;on&lt;/span&gt;;
+    &lt;span class=&quot;n&quot;&gt;ssl_certificate&lt;/span&gt;  /&lt;span class=&quot;n&quot;&gt;usr&lt;/span&gt;/&lt;span class=&quot;n&quot;&gt;share&lt;/span&gt;/&lt;span class=&quot;n&quot;&gt;nginx&lt;/span&gt;/&lt;span class=&quot;n&quot;&gt;ssl&lt;/span&gt;/&lt;span class=&quot;n&quot;&gt;fullchain&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;cer&lt;/span&gt;;
+    &lt;span class=&quot;n&quot;&gt;ssl_certificate_key&lt;/span&gt;  /&lt;span class=&quot;n&quot;&gt;usr&lt;/span&gt;/&lt;span class=&quot;n&quot;&gt;share&lt;/span&gt;/&lt;span class=&quot;n&quot;&gt;nginx&lt;/span&gt;/&lt;span class=&quot;n&quot;&gt;ssl&lt;/span&gt;/&lt;span class=&quot;n&quot;&gt;server&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;;
+    &lt;span class=&quot;c&quot;&gt;#charset koi8-r;
+&lt;/span&gt;    &lt;span class=&quot;c&quot;&gt;#access_log  /var/log/nginx/host.access.log  main;
+&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;location&lt;/span&gt; / {
+        &lt;span class=&quot;n&quot;&gt;root&lt;/span&gt;   /&lt;span class=&quot;n&quot;&gt;usr&lt;/span&gt;/&lt;span class=&quot;n&quot;&gt;share&lt;/span&gt;/&lt;span class=&quot;n&quot;&gt;nginx&lt;/span&gt;/&lt;span class=&quot;n&quot;&gt;html&lt;/span&gt;;
+        &lt;span class=&quot;n&quot;&gt;index&lt;/span&gt;  &lt;span class=&quot;n&quot;&gt;index&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;html&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;index&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;htm&lt;/span&gt;;
+    }
+
+    &lt;span class=&quot;c&quot;&gt;#error_page  404              /404.html;
+&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;# redirect server error pages to the static page /50x.html
+&lt;/span&gt;    &lt;span class=&quot;c&quot;&gt;#
+&lt;/span&gt;    &lt;span class=&quot;n&quot;&gt;error_page&lt;/span&gt;   &lt;span class=&quot;m&quot;&gt;500&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;502&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;503&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;504&lt;/span&gt;  /&lt;span class=&quot;m&quot;&gt;50&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;html&lt;/span&gt;;
+    &lt;span class=&quot;n&quot;&gt;location&lt;/span&gt; = /&lt;span class=&quot;m&quot;&gt;50&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;html&lt;/span&gt; {
+        &lt;span class=&quot;n&quot;&gt;root&lt;/span&gt;   /&lt;span class=&quot;n&quot;&gt;usr&lt;/span&gt;/&lt;span class=&quot;n&quot;&gt;share&lt;/span&gt;/&lt;span class=&quot;n&quot;&gt;nginx&lt;/span&gt;/&lt;span class=&quot;n&quot;&gt;html&lt;/span&gt;;
+    }
+
+    &lt;span class=&quot;c&quot;&gt;# proxy the PHP scripts to Apache listening on 127.0.0.1:80
+&lt;/span&gt;    &lt;span class=&quot;c&quot;&gt;#
+&lt;/span&gt;    &lt;span class=&quot;c&quot;&gt;#location ~ \.php$ {
+&lt;/span&gt;    &lt;span class=&quot;c&quot;&gt;#    proxy_pass   http://127.0.0.1;
+&lt;/span&gt;    &lt;span class=&quot;c&quot;&gt;#}
+&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;# pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
+&lt;/span&gt;    &lt;span class=&quot;c&quot;&gt;#
+&lt;/span&gt;    &lt;span class=&quot;c&quot;&gt;#location ~ \.php$ {
+&lt;/span&gt;    &lt;span class=&quot;c&quot;&gt;#    root           html;
+&lt;/span&gt;    &lt;span class=&quot;c&quot;&gt;#    fastcgi_pass   127.0.0.1:9000;
+&lt;/span&gt;    &lt;span class=&quot;c&quot;&gt;#    fastcgi_index  index.php;
+&lt;/span&gt;    &lt;span class=&quot;c&quot;&gt;#    fastcgi_param  SCRIPT_FILENAME  /scripts$fastcgi_script_name;
+&lt;/span&gt;    &lt;span class=&quot;c&quot;&gt;#    include        fastcgi_params;
+&lt;/span&gt;    &lt;span class=&quot;c&quot;&gt;#}
+&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;# deny access to .htaccess files, if Apache's document root
+&lt;/span&gt;    &lt;span class=&quot;c&quot;&gt;# concurs with nginx's one
+&lt;/span&gt;    &lt;span class=&quot;c&quot;&gt;#
+&lt;/span&gt;    &lt;span class=&quot;c&quot;&gt;#location ~ /\.ht {
+&lt;/span&gt;    &lt;span class=&quot;c&quot;&gt;#    deny  all;
+&lt;/span&gt;    &lt;span class=&quot;c&quot;&gt;#}
+&lt;/span&gt;}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;到此，整个配置过程就结束了，可以通过 git push 触发 Travis CI 进行测试。&lt;/p&gt;</content><author><name>Barry New</name></author><summary type="html">前一段时间搭建了个人博客，一直说要记录一下搭建过程，由于懒拖到现在……我的博客的搭建过程分为两阶段，第一阶段是利用 Github Pages 蹭免费环境，启动博客；第二阶段是利用 Travsi 持续集成，把环境迁到自己的云服务器。之所以迁到自己的云服务器，主要原因是 Github Pages 禁止百度蜘蛛，意味着百度不能收录网站，搜索站点名称的时候就搜索不到，这对于我这种喜欢“炫耀”的银来说必须不能接受。本文介绍在云服务器中搭建博客的完整过程。</summary></entry><entry><title type="html">etcd集群安装及基本操作</title><link href="https://kago.site/2018/01/24/etcd-cluster/" rel="alternate" type="text/html" title="etcd集群安装及基本操作" /><published>2018-01-24T00:00:00+08:00</published><updated>2018-01-24T00:00:00+08:00</updated><id>https://kago.site/2018/01/24/etcd-cluster</id><content type="html" xml:base="https://kago.site/2018/01/24/etcd-cluster/">&lt;blockquote&gt;
   &lt;p&gt;etcd 是 kubernetes 中默认使用的键值存储系统，相当于是 kubernetes 集群的大脑，那么 etcd 怎么安装使用呢？下面为常用的集群配置及基本操作。&lt;/p&gt;
 &lt;/blockquote&gt;
 

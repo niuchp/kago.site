@@ -1,0 +1,580 @@
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?f486d6d8f86740b3452a2f1926de4ee2";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+<script type='text/javascript'>
+    var _vds = _vds || [];
+    window._vds = _vds;
+    (function(){
+      _vds.push(['setAccountId', '9444fe7f33717705']);
+      (function() {
+        var vds = document.createElement('script');
+        vds.type='text/javascript';
+        vds.async = true;
+        vds.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'assets.growingio.com/vds.js';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(vds, s);
+      })();
+    })();
+</script>
+
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans" prefix="og: http://ogp.me/ns#" class="han-init">
+<head>
+    <meta name="baidu-site-verification" content="hojmIeRrdx" />
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>用 Travis CI 免费自动构建和部署 Jekyll &mdash; 阅后即忘 | 牛昌平的个人博客</title>
+    <link rel="stylesheet" href="/assets/vendor/primer-css/css/primer.css">
+    <link rel="stylesheet" href="/assets/vendor/primer-markdown/dist/user-content.min.css">
+    <link rel="stylesheet" href="/assets/vendor/octicons/octicons/octicons.css">
+    <link rel="stylesheet" href="/assets/css/components/collection.css">
+    <link rel="stylesheet" href="/assets/css/components/repo-card.css">
+    <link rel="stylesheet" href="/assets/css/sections/repo-list.css">
+    <link rel="stylesheet" href="/assets/css/sections/mini-repo-list.css">
+    <link rel="stylesheet" href="/assets/css/components/boxed-group.css">
+    <link rel="stylesheet" href="/assets/css/globals/common.css">
+    <link rel="stylesheet" href="/assets/vendor/share.js/dist/css/share.min.css">
+    <link rel="stylesheet" href="/assets/css/globals/responsive.css">
+    <link rel="stylesheet" href="/assets/css/posts/index.css">
+    <!-- Latest compiled and minified CSS -->
+    
+
+    
+    <link rel="canonical" href="https://kago.site/2018/01/25/travis-ci-for-jekyll/">
+    <link rel="alternate" type="application/atom+xml" title="阅后即忘 | 牛昌平的个人博客" href="/feed.xml">
+    <link rel="shortcut icon" href="/favicon.ico">
+    
+    <meta property="og:title" content="用 Travis CI 免费自动构建和部署 Jekyll">
+      
+    <meta name="keywords" content="jekyll, travis-ci">
+    <meta name="og:keywords" content="jekyll, travis-ci">
+      
+    <meta name="description" content="  前一段时间搭建了个人博客，一直说要记录一下搭建过程，由于懒拖到现在……我的博客的搭建过程分为两阶段，第一阶段是利用 Github Pages 蹭免费环境，启动博客；第二阶段是利用 Travsi 持续集成，把环境迁到自己的云服务器。之所以迁到自己的云服务器，主要原因是 Github Pages 禁止百度蜘蛛，意味着百度不能收录网站，搜索站点名称的时候就搜索不到，这对于我这种喜欢“炫耀”的银来说必须不能接受。本文介绍在云服务器中搭建博客的完整过程。">
+    <meta name="og:description" content="  前一段时间搭建了个人博客，一直说要记录一下搭建过程，由于懒拖到现在……我的博客的搭建过程分为两阶段，第一阶段是利用 Github Pages 蹭免费环境，启动博客；第二阶段是利用 Travsi 持续集成，把环境迁到自己的云服务器。之所以迁到自己的云服务器，主要原因是 Github Pages 禁止百度蜘蛛，意味着百度不能收录网站，搜索站点名称的时候就搜索不到，这对于我这种喜欢“炫耀”的银来说必须不能接受。本文介绍在云服务器中搭建博客的完整过程。">
+      
+    
+    
+        
+    
+    <meta property="og:url" content="https://kago.site/2018/01/25/travis-ci-for-jekyll/">
+    <meta property="og:site_name" content="阅后即忘 | 牛昌平的个人博客">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="zh_CN" />
+    
+    <meta property="article:published_time" content="2018-01-25">
+    
+    <script src="/assets/vendor/jquery/dist/jquery.min.js"></script>
+    <script src="/assets/js/jquery-ui.js"></script>
+    <script type="text/javascript">
+    function toggleMenu() {
+        var nav = document.getElementsByClassName("site-header-nav")[0];
+        if (nav.style.display == "inline-flex") {
+          nav.style.display = "none";
+        } else {
+          nav.style.display = "inline-flex";
+        }
+    }
+    </script>
+</head>
+<body class="" data-mz="">
+    <header class="site-header">
+        <div class="container">
+            <h1><a href="/" title="阅后即忘 | 牛昌平的个人博客"><span class="octicon octicon-mark-github"></span> 阅后即忘 | 牛昌平的个人博客</a></h1>
+            <button class="collapsed mobile-visible" type="button" onclick="toggleMenu();">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <nav class="site-header-nav" role="navigation">
+                
+                <a href="/" class=" site-header-nav-item" target="" title="首页">首页</a>
+                
+                <a href="/categories/" class=" site-header-nav-item" target="" title="分类">分类</a>
+                
+                <a href="/wiki/" class=" site-header-nav-item" target="" title="维基">维基</a>
+                
+                <a href="/links/" class=" site-header-nav-item" target="" title="链接">链接</a>
+                
+                <a href="/about/" class=" site-header-nav-item" target="" title="关于">关于</a>
+                
+            </nav>
+        </div>
+    </header>
+    <!-- / header -->
+
+    <section class="collection-head small geopattern" data-pattern-id="用 Travis CI 免费自">
+<div class="container">
+  <div class="columns">
+    <div class="column three-fourths">
+      <div class="collection-title">
+        <h1 class="collection-header">用 Travis CI 免费自动构建和部署 Jekyll</h1>
+        <div class="collection-info">
+          
+          <span class="meta-info">
+            <span class="octicon octicon-calendar"></span> 2018/01/25
+          </span>
+          
+          
+          <span class="meta-info">
+            <span class="octicon octicon-file-directory"></span>
+            <a href="/categories/#Jekyll" title="Jekyll">Jekyll</a>
+          </span>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+<!-- / .banner -->
+<section class="container content">
+<div class="columns">
+  <div class="column three-fourths" >
+    <article class="article-content markdown-body">
+    <blockquote>
+  <p>前一段时间搭建了个人博客，一直说要记录一下搭建过程，由于懒拖到现在……我的博客的搭建过程分为两阶段，第一阶段是利用 Github Pages 蹭免费环境，启动博客；第二阶段是利用 Travsi 持续集成，把环境迁到自己的云服务器。之所以迁到自己的云服务器，主要原因是 Github Pages 禁止百度蜘蛛，意味着百度不能收录网站，搜索站点名称的时候就搜索不到，这对于我这种喜欢“炫耀”的银来说必须不能接受。本文介绍在云服务器中搭建博客的完整过程。</p>
+</blockquote>
+
+<p>整个搭建过程思路如下：</p>
+
+<ol>
+  <li>fork 博客到 Github ，修改博客属性</li>
+  <li>本地 Markdown 编写博客，push md 文件到 Github</li>
+  <li>配置 Travis CI 执行自动编译，生成 html 文件</li>
+  <li>编译后 Travis CI push html文件到新的 Github 仓库</li>
+  <li>Travis CI 重启云服务器中的容器，拉取 Github 中的 html 文件完成更新</li>
+</ol>
+
+<h3 id="1-利用-github-pages-搭建个人博客">1. 利用 Github Pages 搭建个人博客</h3>
+
+<p>利用 Github Pages 搭建个人博客在网上已经有很多资料了，有的人可能会觉得这是在占小便宜，其实完全是多虑了， Github 是鼓励个人建站滴，所以放下大胆的享受红利吧。</p>
+
+<p>想要享受 Github 的红利当然前提条件是要有 Github 账户，注册方法就不提了，我们直接开始 fork 博客模板。</p>
+
+<p>这里我使用的是大佬<a href="https://github.com/mzlogin/mzlogin.github.io">马壮</a>修改样式后的模板，fork 以后需要做以下修改：</p>
+
+<ol>
+  <li>
+    <p>正确设置项目名称与分支。</p>
+
+    <p>按照 GitHub Pages 的规定，名称为 username.github.io 的项目的 master 分支，或者其它名称的项目的 gh-pages 分支可以自动生成 GitHub Pages 页面。</p>
+  </li>
+  <li>
+    <p>修改域名。</p>
+
+    <p>如果你需要绑定自己的域名，那么修改 CNAME 文件的内容；如果不需要绑定自己的域名，那么删掉 CNAME 文件。</p>
+  </li>
+  <li>
+    <p>修改配置。</p>
+
+    <p>网站的配置基本都集中在 _config.yml 文件中，将其中与个人信息相关的部分替换成你自己的，比如网站的 url、title、subtitle 和第三方评论模块的配置等。</p>
+  </li>
+  <li>
+    <p>评论模块:<br />
+ 目前支持 disqus、gitment 和 gitalk，选用其中一种就可以了。可参看以前的博文 <a href="https://kago.site/2017/12/09/gitment/">「jekyll中添加gitment留言板」</a>。</p>
+  </li>
+  <li>
+    <p>删除原有的文章与图片。</p>
+
+    <p>如下文件夹中除了 template.md 文件外，都可以全部删除，然后添加你自己的内容。<br />
+     _posts 文件夹中是已发布的博客文章。<br />
+     _drafts 文件夹中是尚未发布的博客文章。<br />
+     _wiki 文件夹中是已发布的 wiki 页面。<br />
+     images 文件夹中是文章和页面里使用的图片。</p>
+  </li>
+  <li>
+    <p>修改「关于」页面。</p>
+
+    <p>pages/about.md 文件内容对应网站的「关于」页面，里面的内容多为个人相关，将它们替换成你自己的信息，包括 _data 目录下的 skills.yml 和 social.yml 文件里的数据。</p>
+  </li>
+</ol>
+
+<p>修改完后，增加 CNAME 中的域名与 Github Pages 解析关系，登录到购买域名的网站增加域名到 192.30.252.153 的解析。其中， 192.30.252.153 是Github Pages 的服务器地址。接下来，就可以打开浏览器访问你的博客啦~</p>
+
+<p>Clone 你的网站代码库到本地，使用常见的编辑器（本人使用的是 vs code ）写博客，然后再push到 Github 即可。由于该该博客模板是利用 Jekyll 实现的静态网站，支持 Markdown ，这简直是太方便了，按照 Markdown 的语法尽情的写博客就好了， Github Pages 会自动识别 Markdown 格式的。</p>
+
+<h3 id="2-利用-travis-持续集成">2. 利用 Travis 持续集成</h3>
+
+<h4 id="21-添加-github-仓库至-travis">2.1 添加 Github 仓库至 Travis</h4>
+
+<p>利用 Travis 部分要感谢 <a href="https://mritd.me/">漠然</a> 在博客中分析的他的实现方法。</p>
+
+<p>注册 Travis CI 账号，然后点击最左侧 + 按钮添加项目</p>
+
+<p><img src="/images/posts/travis/增加仓库.png" alt="增加仓库" /></p>
+
+<p>选择添加到 Travis 的仓库</p>
+
+<p><img src="/images/posts/travis/选择仓库.png" alt="选择仓库" /></p>
+
+<p>点击仓库旁的设置</p>
+
+<p><img src="/images/posts/travis/配置仓库.png" alt="配置仓库" /></p>
+
+<h4 id="22-创建travisyaml">2.2 创建.travis.yaml</h4>
+<p>在博客的根路径下创建 .travis.yaml 配置文件，实现基本集成配置：</p>
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">language</span><span class="pi">:</span> <span class="s">ruby</span>
+<span class="na">rvm</span><span class="pi">:</span>
+<span class="pi">-</span> <span class="s">2.3.3</span>
+<span class="na">script</span><span class="pi">:</span>
+<span class="pi">-</span> <span class="s">bundle install</span>
+<span class="pi">-</span> <span class="s">bundle exec jekyll build</span>
+<span class="na">branches</span><span class="pi">:</span>
+  <span class="na">only</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="s">master</span>
+<span class="na">env</span><span class="pi">:</span>
+  <span class="na">global</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="s">NOKOGIRI_USE_SYSTEM_LIBRARIES=true</span>
+</code></pre></div></div>
+<p>更多travis.yaml配置参考官方文档 <a href="https://docs.travis-ci.com/">https://docs.travis-ci.com/</a></p>
+
+<h4 id="23-添加-deploy-keys">2.3 添加 deploy keys</h4>
+
+<p>在 .travis.yaml 中进行加密配置，是为了使 Travis CI 可以免密码访问 Github</p>
+
+<p>生成密钥对，并添加公钥至 Github 的Deploy keys</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ssh-keygen <span class="nt">-t</span> rsa <span class="nt">-C</span> <span class="s2">"youremail@example.com"</span>  
+</code></pre></div></div>
+<p><img src="/images/posts/travis/deploy_keys.png" alt="deploy_keys" /></p>
+
+<h4 id="24-安装并登陆travis">2.4 安装并登陆travis</h4>
+
+<p>此步骤主要是为了生成 travis 的 keys</p>
+
+<p>安装</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gem install travis
+travis login <span class="nt">--auto</span>
+Successfully logged <span class="k">in </span>as niuchp!
+</code></pre></div></div>
+
+<h4 id="25-加密">2.5 加密</h4>
+
+<p>在加密之前我们先在项目根目录下需有 .travis.yaml 文件。加密的就是第一步生成的密钥id_rsa</p>
+
+<p>拷贝在 2.3 步骤中生成密钥对至项目根目录下，并执行：</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>travis encrypt-file ssh_key <span class="nt">--add</span>
+</code></pre></div></div>
+
+<p>这时候看最后一句**Commit all changes to your .travis.yml.。</p>
+
+<p>我们的 .travis.yaml 文件中多了一句:(私人内容使用XXX代替)</p>
+
+<ul>
+  <li>openssl aes-256-cbc -K $encrypted_XXXXXXXX_key -iv $encrypted_XXXXXXXX_iv -in id_rsa.enc -out ~/.ssh/id_rsa -d</li>
+</ul>
+
+<p>例如：</p>
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">language</span><span class="pi">:</span> <span class="s">ruby</span>
+<span class="na">rvm</span><span class="pi">:</span>
+<span class="pi">-</span> <span class="s">2.3.3</span>
+<span class="na">before_install</span><span class="pi">:</span>
+<span class="pi">-</span> <span class="s">openssl aes-256-cbc -K $encrypted_xxxxxxx_key -iv $encrypted_xxxxxxx_iv -in id_rsa.enc -out ~/.ssh/id_rsa -d</span>
+<span class="pi">-</span> <span class="s">chmod 600 ~/.ssh/id_rsa</span>
+<span class="na">script</span><span class="pi">:</span>
+<span class="pi">-</span> <span class="s">bundle install</span>
+<span class="pi">-</span> <span class="s">bundle exec jekyll build</span>
+<span class="na">env</span><span class="pi">:</span>
+  <span class="na">global</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="s">NOKOGIRI_USE_SYSTEM_LIBRARIES=true</span>
+</code></pre></div></div>
+<p>再次查看我们的 Travis CI 网页，发现多了一些变化</p>
+
+<p><img src="/images/posts/travis/加密.png" alt="加密" /></p>
+
+<ul>
+  <li>记得要删除 id_rsa 文件，私钥文件已经由 id_rsa.enc 替代</li>
+</ul>
+
+<h4 id="26-配置自动更新">2.6 配置自动更新</h4>
+
+<p>自动更新部分是利用 Travis CI push 编译后的文件至一个新的代码库，重启容器触发 git pull 实现的。</p>
+
+<p>Travis CI push 静态文件到 Github 通过 Github 的 token 实现授权，代码如下</p>
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">after_success</span><span class="pi">:</span>
+<span class="pi">-</span> <span class="s">git clone https://github.com/niuchp/kago.site.git</span>
+<span class="pi">-</span> <span class="s">cd kago.site &amp;&amp; rm -rf * &amp;&amp; cp -r ../_site/* .</span>
+<span class="pi">-</span> <span class="s">git config user.name "niuchp"</span>
+<span class="pi">-</span> <span class="s">git config user.email "niuchp@126.com"</span>
+<span class="pi">-</span> <span class="s">git add --all .</span>
+<span class="pi">-</span> <span class="s">git commit -m "Travis CI Auto Builder"</span>
+<span class="pi">-</span> <span class="s">git push --force https://$JEKYLL_GITHUB_TOKEN@github.com/niuchp/kago.site.git master</span>
+<span class="pi">-</span> <span class="s">ssh root@kago.site "docker restart kago_site"</span>
+</code></pre></div></div>
+<ul>
+  <li>注意： 配置文件中的kago.site.git为新仓库！</li>
+</ul>
+
+<p>其中，JEKYLL_GITHUB_TOKEN 是从 Github 授权得到的，然后给于相应权限即可</p>
+
+<p><img src="/images/posts/travis/travis_deploy_keys.png" alt="travis_deploy_keys" /></p>
+
+<p>得到JEKYLL_GITHUB_TOKEN后在 Travish CI的项目配置中添加环境变量$JEKYLL_GITHUB_TOKEN 如下图:</p>
+
+<p><img src="/images/posts/travis/env.png" alt="env" /></p>
+
+<p>完整的 .travis.yaml 配置文件如下：</p>
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">language</span><span class="pi">:</span> <span class="s">ruby</span>
+<span class="na">rvm</span><span class="pi">:</span>
+<span class="pi">-</span> <span class="s">2.3.3</span>
+<span class="na">before_install</span><span class="pi">:</span>
+<span class="pi">-</span> <span class="s">openssl aes-256-cbc -K $encrypted_xxxxxxx_key -iv $encrypted_xxxxxxx_iv -in id_rsa.enc -out ~/.ssh/id_rsa -d</span>
+<span class="pi">-</span> <span class="s">chmod 600 ~/.ssh/id_rsa</span>
+<span class="na">script</span><span class="pi">:</span>
+<span class="pi">-</span> <span class="s">bundle install</span>
+<span class="pi">-</span> <span class="s">bundle exec jekyll build</span>
+<span class="na">after_success</span><span class="pi">:</span>
+<span class="pi">-</span> <span class="s">git clone https://github.com/niuchp/kago.site.git</span>
+<span class="pi">-</span> <span class="s">cd kago.site &amp;&amp; rm -rf * &amp;&amp; cp -r ../_site/* .</span>
+<span class="pi">-</span> <span class="s">git config user.name "niuchp"</span>
+<span class="pi">-</span> <span class="s">git config user.email "niuchp@126.com"</span>
+<span class="pi">-</span> <span class="s">git add --all .</span>
+<span class="pi">-</span> <span class="s">git commit -m "Travis CI Auto Builder"</span>
+<span class="pi">-</span> <span class="s">git push --force https://$JEKYLL_GITHUB_TOKEN@github.com/niuchp/kago.site.git master</span>
+<span class="pi">-</span> <span class="s">ssh root@kago.site "docker restart kago_site"</span>
+<span class="na">branches</span><span class="pi">:</span>
+  <span class="na">only</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="s">master</span>
+<span class="na">env</span><span class="pi">:</span>
+  <span class="na">global</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="s">NOKOGIRI_USE_SYSTEM_LIBRARIES=true</span>
+<span class="na">addons</span><span class="pi">:</span>
+  <span class="na">ssh_known_hosts</span><span class="pi">:</span> <span class="s">kago.site</span>
+</code></pre></div></div>
+
+<h3 id="3-配置-docker-容器">3. 配置 docker 容器</h3>
+
+<p>Travis CI 持续集成后会重启云服务器中的 docker 容器，触发 git pull 完成更新。</p>
+
+<p>Dockerfile</p>
+
+<div class="language-dockerfile highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">FROM</span><span class="s"> nginx:1.13.6-alpine </span>
+
+<span class="k">LABEL</span><span class="s"> maintainer="Barry New &lt;niuchp@126.com&gt;"</span>
+
+<span class="k">ARG</span><span class="s"> TZ='Asia/Shanghai'</span>
+
+<span class="k">ENV</span><span class="s"> TZ ${TZ}</span>
+
+<span class="k">RUN </span>apk upgrade <span class="nt">--update</span> <span class="se">\
+</span>    <span class="o">&amp;&amp;</span> apk add bash git <span class="se">\
+</span>    <span class="o">&amp;&amp;</span> rm <span class="nt">-rf</span> /usr/share/nginx/html <span class="se">\
+</span>    <span class="o">&amp;&amp;</span> git clone https://github.com/niuchp/kago.site.git /usr/share/nginx/html <span class="se">\
+</span>    <span class="o">&amp;&amp;</span> ln <span class="nt">-sf</span> /usr/share/zoneinfo/<span class="k">${</span><span class="nv">TZ</span><span class="k">}</span> /etc/localtime <span class="se">\
+</span>    <span class="o">&amp;&amp;</span> <span class="nb">echo</span> <span class="k">${</span><span class="nv">TZ</span><span class="k">}</span> <span class="o">&gt;</span> /etc/timezone <span class="se">\
+</span>    <span class="o">&amp;&amp;</span> rm <span class="nt">-rf</span> /var/cache/apk/<span class="k">*</span>
+
+<span class="k">ADD</span><span class="s"> entrypoint.sh /entrypoint.sh</span>
+<span class="k">COPY</span><span class="s"> default.conf /etc/nginx/conf.d/</span>
+
+<span class="k">WORKDIR</span><span class="s"> /usr/share/nginx/html</span>
+
+<span class="k">CMD</span><span class="s"> ["/entrypoint.sh"]</span>
+</code></pre></div></div>
+<p>entrypoint.sh</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+
+git pull
+nginx <span class="nt">-g</span> <span class="s2">"daemon off;"</span>
+</code></pre></div></div>
+
+<p>default.conf</p>
+
+<div class="language-conf highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">server</span> {
+    <span class="n">listen</span>       <span class="m">443</span>;
+    <span class="n">server_name</span>  <span class="n">localhost</span>;
+    <span class="n">ssl</span> <span class="n">on</span>;
+    <span class="n">ssl_certificate</span>  /<span class="n">usr</span>/<span class="n">share</span>/<span class="n">nginx</span>/<span class="n">ssl</span>/<span class="n">fullchain</span>.<span class="n">cer</span>;
+    <span class="n">ssl_certificate_key</span>  /<span class="n">usr</span>/<span class="n">share</span>/<span class="n">nginx</span>/<span class="n">ssl</span>/<span class="n">server</span>.<span class="n">key</span>;
+    <span class="c">#charset koi8-r;
+</span>    <span class="c">#access_log  /var/log/nginx/host.access.log  main;
+</span>
+    <span class="n">location</span> / {
+        <span class="n">root</span>   /<span class="n">usr</span>/<span class="n">share</span>/<span class="n">nginx</span>/<span class="n">html</span>;
+        <span class="n">index</span>  <span class="n">index</span>.<span class="n">html</span> <span class="n">index</span>.<span class="n">htm</span>;
+    }
+
+    <span class="c">#error_page  404              /404.html;
+</span>
+    <span class="c"># redirect server error pages to the static page /50x.html
+</span>    <span class="c">#
+</span>    <span class="n">error_page</span>   <span class="m">500</span> <span class="m">502</span> <span class="m">503</span> <span class="m">504</span>  /<span class="m">50</span><span class="n">x</span>.<span class="n">html</span>;
+    <span class="n">location</span> = /<span class="m">50</span><span class="n">x</span>.<span class="n">html</span> {
+        <span class="n">root</span>   /<span class="n">usr</span>/<span class="n">share</span>/<span class="n">nginx</span>/<span class="n">html</span>;
+    }
+
+    <span class="c"># proxy the PHP scripts to Apache listening on 127.0.0.1:80
+</span>    <span class="c">#
+</span>    <span class="c">#location ~ \.php$ {
+</span>    <span class="c">#    proxy_pass   http://127.0.0.1;
+</span>    <span class="c">#}
+</span>
+    <span class="c"># pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
+</span>    <span class="c">#
+</span>    <span class="c">#location ~ \.php$ {
+</span>    <span class="c">#    root           html;
+</span>    <span class="c">#    fastcgi_pass   127.0.0.1:9000;
+</span>    <span class="c">#    fastcgi_index  index.php;
+</span>    <span class="c">#    fastcgi_param  SCRIPT_FILENAME  /scripts$fastcgi_script_name;
+</span>    <span class="c">#    include        fastcgi_params;
+</span>    <span class="c">#}
+</span>
+    <span class="c"># deny access to .htaccess files, if Apache's document root
+</span>    <span class="c"># concurs with nginx's one
+</span>    <span class="c">#
+</span>    <span class="c">#location ~ /\.ht {
+</span>    <span class="c">#    deny  all;
+</span>    <span class="c">#}
+</span>}
+</code></pre></div></div>
+
+<p>到此，整个配置过程就结束了，可以通过 git push 触发 Travis CI 进行测试。</p>
+
+
+    
+<hr>
+<center>
+    <p>欢迎关注我的微信公众号</p>
+    <p><strong>阅后即忘</strong></p>
+    <img src="/assets/images/qrcode.jpg" alt="阅后即忘" />
+</center>
+
+
+    </article>
+    <div class="share">
+      <div class="share-component"></div>
+    </div>
+    <div class="comment">
+      
+  
+
+
+    </div>
+  </div>
+  <div class="column one-fourth">
+    
+<h3>Search</h3>
+<div id="site_search">
+    <input type="text" id="search_box" placeholder="Search">
+    <button class="btn btn-default" id="site_search_do"><span class="octicon octicon-search"></span></button>
+</div>
+
+<ul id="search_results"></ul>
+
+<link rel="stylesheet" type="text/css" href="/assets/css/modules/sidebar-search.css">
+<script src="/assets/js/lunr.min.js"></script>
+<script src="/assets/js/search.js"></script>
+
+
+    
+<h3 class="mobile-hidden">Post Directory</h3>
+<div id="post-directory-module" class="mobile-hidden">
+  <section class="post-directory">
+  <!-- Links that trigger the jumping -->
+  <!-- Added by javascript below -->
+  <dl></dl>
+  </section>
+</div>
+
+<script src="/assets/js/jquery.toc.js"></script>
+
+  </div>
+</div>
+</section>
+<!-- /section.content -->
+
+<div id="gitmentContainer"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+    var gitment = new Gitment({
+        owner: 'niuchp',
+        repo: 'niuchp.github.io',
+        oauth: {
+            client_id: '13ca9e37d66192b6d1aa',
+            client_secret: '5e445db5115795eb975945722d60359a6738dfce',
+        },
+    });
+    gitment.render('gitmentContainer');
+</script>
+
+    <footer class="container">
+        <div class="site-footer" role="contentinfo">
+            <div class="copyright left mobile-block">
+                    © 2015
+                    <span title="Barry New">Barry New</span>
+                    <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a>
+            </div>
+
+            <ul class="site-footer-links right mobile-hidden">
+                <li>
+                    <a href="javascript:window.scrollTo(0,0)" >TOP</a>
+                </li>
+            </ul>
+            <a href="http://github.com/niuchp/niuchp.github.io" target="_blank" aria-label="view source code">
+                <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
+            </a>
+            <ul class="site-footer-links mobile-hidden">
+                
+                <li>
+                    <a href="/" title="首页" target="">首页</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/" title="分类" target="">分类</a>
+                </li>
+                
+                <li>
+                    <a href="/wiki/" title="维基" target="">维基</a>
+                </li>
+                
+                <li>
+                    <a href="/links/" title="链接" target="">链接</a>
+                </li>
+                
+                <li>
+                    <a href="/about/" title="关于" target="">关于</a>
+                </li>
+                
+                <li><a href="/feed.xml"><span class="octicon octicon-rss" style="color:orange;"></span></a></li>
+            </ul>
+
+        </div>
+    </footer>
+    <!-- / footer -->
+    <script src="/assets/vendor/share.js/dist/js/share.min.js"></script>
+    <script src="/assets/js/geopattern.js"></script>
+    <script src="/assets/js/prism.js"></script>
+    <link rel="stylesheet" href="/assets/css/globals/prism.css">
+    <script>
+      jQuery(document).ready(function($) {
+        // geopattern
+        $('.geopattern').each(function(){
+          $(this).geopattern($(this).data('pattern-id'));
+        });
+       // hljs.initHighlightingOnLoad();
+      });
+    </script>
+    
+    <div style="display:none">
+      <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-80669434-1', 'auto');
+        ga('send', 'pageview');
+
+      </script>
+    </div>
+    
+</body>
+</html>
