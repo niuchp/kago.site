@@ -133,7 +133,7 @@
   "2018-01-24-etcd-cluster": {
     "title": "etcd集群安装及基本操作",
     "url": "/2018/01/24/etcd-cluster/",
-    "category": "[&quot;etcd&quot;]"
+    "category": "[&quot;etcd&quot;, &quot;大数据&quot;]"
   },
   
   "2018-01-25-travis-ci-for-jekyll": {
