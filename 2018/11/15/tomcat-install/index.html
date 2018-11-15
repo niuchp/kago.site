@@ -30,7 +30,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <title>OllyDbg &mdash; 阅后即忘 | 牛昌平的个人博客</title>
+    <title>Linux下安装tomcat &mdash; 阅后即忘 | 牛昌平的个人博客</title>
     <link rel="stylesheet" href="/assets/vendor/primer-css/css/primer.css">
     <link rel="stylesheet" href="/assets/vendor/primer-markdown/dist/user-content.min.css">
     <link rel="stylesheet" href="/assets/vendor/octicons/octicons/octicons.css">
@@ -47,23 +47,23 @@
     
 
     
-    <link rel="canonical" href="https://kago.site/wiki/ollydbg/">
+    <link rel="canonical" href="https://kago.site/2018/11/15/tomcat-install/">
     <link rel="alternate" type="application/atom+xml" title="阅后即忘 | 牛昌平的个人博客" href="/feed.xml">
     <link rel="shortcut icon" href="/favicon.ico">
     
-    <meta property="og:title" content="OllyDbg">
+    <meta property="og:title" content="Linux下安装tomcat">
       
-    <meta name="keywords" content="debug, ollydbg">
-    <meta name="og:keywords" content="debug, ollydbg">
+    <meta name="keywords" content="tomcat, systemctl">
+    <meta name="og:keywords" content="tomcat, systemctl">
       
-    <meta name="description" content="快捷键">
-    <meta name="og:description" content="快捷键">
+    <meta name="description" content="前言">
+    <meta name="og:description" content="前言">
       
     
     
         
     
-    <meta property="og:url" content="https://kago.site/wiki/ollydbg/">
+    <meta property="og:url" content="https://kago.site/2018/11/15/tomcat-install/">
     <meta property="og:site_name" content="阅后即忘 | 牛昌平的个人博客">
     <meta property="og:type" content="article">
     <meta property="og:locale" content="zh_CN" />
@@ -109,12 +109,25 @@
     </header>
     <!-- / header -->
 
-    <section class="collection-head small geopattern" data-pattern-id="OllyDbg">
+    <section class="collection-head small geopattern" data-pattern-id="Linux下安装tomcat">
 <div class="container">
   <div class="columns">
     <div class="column three-fourths">
       <div class="collection-title">
-        <h1 class="collection-header">OllyDbg</h1>
+        <h1 class="collection-header">Linux下安装tomcat</h1>
+        <div class="collection-info">
+          
+          <span class="meta-info">
+            <span class="octicon octicon-calendar"></span> 2018/11/15
+          </span>
+          
+          
+          <span class="meta-info">
+            <span class="octicon octicon-file-directory"></span>
+            <a href="/categories/#tomcat" title="tomcat">tomcat</a>
+          </span>
+          
+        </div>
       </div>
     </div>
   </div>
@@ -125,80 +138,102 @@
 <div class="columns">
   <div class="column three-fourths" >
     <article class="article-content markdown-body">
-    <h3 id="快捷键">快捷键</h3>
+    <h1 id="前言">前言</h1>
 
-<p>Ctrl –&gt; C</p>
+<p>tomcat 是一款优秀的 web 应用服务器，可以用来运行 servlet。下文记录 tomcat 的安装以及使用 systemctl 命令进行控制的过程。</p>
+<blockquote>
+  <p>systemctl命令是service和chkconfig命令的集合 service命令:用于启动、停止、重新启动和关闭系统服务，还可以显示所有系统服务的当前状态 chkconfig命令:用于更新（启动或停止）和查询系统服务的运行级信息</p>
+</blockquote>
 
-<p>Shift –&gt; S</p>
+<h2 id="1安装tomcat">1、安装tomcat</h2>
 
-<p>Alt –&gt; M</p>
+<h3 id="11下载二进制文件">1.1、下载二进制文件</h3>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@master ~]# wget http://mirrors.hust.edu.cn/apache/tomcat/tomcat-9/v9.0.13/bin/apache-tomcat-9.0.13.tar.gz
+</code></pre></div></div>
+<h3 id="12解压文件">1.2、解压文件</h3>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@master ~]# <span class="nb">tar</span> <span class="nt">-zxf</span> apache-tomcat-9.0.13.tar.gz
+</code></pre></div></div>
 
-<table>
-  <thead>
-    <tr>
-      <th style="text-align: left">功能</th>
-      <th style="text-align: left">快捷键</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align: left">设置/取消断点</td>
-      <td style="text-align: left">F2</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">执行到光标所在行</td>
-      <td style="text-align: left">F4</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">步过</td>
-      <td style="text-align: left">F8</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">步进</td>
-      <td style="text-align: left">F7</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">运行</td>
-      <td style="text-align: left">F9</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">暂停</td>
-      <td style="text-align: left">F12</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">回到应用层</td>
-      <td style="text-align: left">M-F9</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">打开文件</td>
-      <td style="text-align: left">F3</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">重新调试</td>
-      <td style="text-align: left">C-F2</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">打开应用程序输入表</td>
-      <td style="text-align: left">C-n</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">寻找表达式</td>
-      <td style="text-align: left">C-g</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">打开断点窗口</td>
-      <td style="text-align: left">M-b</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">切换断点状态</td>
-      <td style="text-align: left">空格</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">添加备注</td>
-      <td style="text-align: left">;</td>
-    </tr>
-  </tbody>
-</table>
+<h3 id="13移动文件到opt下">1.3、移动文件到/opt下</h3>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@master ~]# mv  apache-tomcat-9.0.13 /opt/apache-tomcat-9.0.13/
+</code></pre></div></div>
+
+<h3 id="14创建软链">1.4、创建软链</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@master opt]# ln <span class="nt">-s</span> /opt/apache-tomcat-9.0.13  /usr/local/tomcat
+</code></pre></div></div>
+
+<h3 id="15配置jdk环境变量">1.5、配置jdk环境变量</h3>
+
+<p>添加：</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>JAVA_HOME=/usr/java/default
+JRE_HOME=$JAVA_HOME/jre
+PATH=$PATH:$JAVA_HOME/bin:$JRE_HOME/bin
+CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar:$JRE_HOME/lib
+export JAVA_HOME PATH CLASSPATH
+</code></pre></div></div>
+
+<h3 id="16生效环境变量">1.6、生效环境变量</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@master opt]# <span class="nb">source</span> /etc/profile
+</code></pre></div></div>
+
+<h3 id="17配置tomcat端口默认8080">1.7、配置tomcat端口（默认8080）</h3>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@master ~]# vim /usr/local/tomcat/conf/server.xml
+<span class="c">#修改：</span>
+ &lt;Connector <span class="nv">port</span><span class="o">=</span><span class="s2">"8080"</span> <span class="nv">protocol</span><span class="o">=</span><span class="s2">"HTTP/1.1"</span>
+</code></pre></div></div>
+
+<h3 id="18启动tomcat">1.8、启动tomcat</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@master ~]# /usr/local/tomcat/bin/startup.sh
+</code></pre></div></div>
+
+<h3 id="19验证">1.9、验证</h3>
+<p>浏览器输入：http://IP:PROT</p>
+
+<h2 id="2配置systemctl">2、配置systemctl</h2>
+
+<h3 id="21新建tomcatpid">2.1、新建tomcat.pid</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@master ~]# <span class="nb">cd</span> /usr/local/tomcat-9.0.13
+<span class="o">[</span>root@master tomcat-9.0.13]# touch tomcat.pid
+</code></pre></div></div>
+
+<h3 id="22新建setenvshcatalinash调用">2.2、新建setenv.sh(catalina.sh调用）</h3>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@master tomcat-9.0.13]# <span class="nb">cd </span>bin
+<span class="o">[</span>root@master bin]# vim setenv.sh
+
+<span class="c">#$CATALINA_BASE为tomcat安装的目录路径,将tomcat.pid指给了CATALINA_PID</span>
+<span class="nv">CATALINA_PID</span><span class="o">=</span><span class="s2">"</span><span class="nv">$CATALINA_BASE</span><span class="s2">/tomcat.pid"</span>
+<span class="c">#设置tomcat启动的java内存参数</span>
+<span class="nv">JAVA_OPTS</span><span class="o">=</span><span class="s2">"-server -XX:PermSize=256M -XX:MaxPermSize=1024m -Xms512M -Xmx1024M -XX:MaxNewSize=256m"</span>
+</code></pre></div></div>
+
+<h3 id="23创建service文件">2.3、创建service文件</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@master bin]# vim /usr/lib/systemd/system/tomcat.service
+
+<span class="o">[</span>Unit]
+<span class="nv">Description</span><span class="o">=</span>Tomcat
+<span class="nv">After</span><span class="o">=</span>syslog.target network.target remote-fs.target nss-lookup.target
+<span class="o">[</span>Service]
+<span class="nv">Type</span><span class="o">=</span>forking
+<span class="nv">PIDFile</span><span class="o">=</span>/usr/local/tomcat-9.0.13/tomcat.pid
+<span class="nv">ExecStart</span><span class="o">=</span>/usr/local/tomcat-9.0.13/bin/startup.sh
+<span class="nv">ExecReload</span><span class="o">=</span>/bin/kill <span class="nt">-s</span> HUP <span class="nv">$MAINPID</span>
+<span class="nv">ExecStop</span><span class="o">=</span>/bin/kill <span class="nt">-s</span> QUIT <span class="nv">$MAINPID</span>
+<span class="nv">PrivateTmp</span><span class="o">=</span><span class="nb">true</span>
+<span class="o">[</span>Install]
+<span class="nv">WantedBy</span><span class="o">=</span>multi-user.target
+</code></pre></div></div>
+
+<h3 id="24测试">2.4、测试</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@master bin]# systemctl start tomcat.service
+<span class="o">[</span>root@master bin]# systemctl status tomcat.service
+<span class="o">[</span>root@master bin]# systemctl stop tomcat.service
+</code></pre></div></div>
 
     
 <hr>
@@ -251,6 +286,21 @@
 </div>
 </section>
 <!-- /section.content -->
+
+<div id="gitmentContainer"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+    var gitment = new Gitment({
+        owner: 'niuchp',
+        repo: 'niuchp.github.io',
+        oauth: {
+            client_id: '13ca9e37d66192b6d1aa',
+            client_secret: '5e445db5115795eb975945722d60359a6738dfce',
+        },
+    });
+    gitment.render('gitmentContainer');
+</script>
 
     <footer class="container">
         <div class="site-footer" role="contentinfo">

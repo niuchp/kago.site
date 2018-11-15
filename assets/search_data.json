@@ -1,5 +1,11 @@
 {
   
+  "2018-11-15-tomcat-install": {
+    "title": "Linux下安装tomcat",
+    "url": " /2018/11/15/tomcat-install/",
+    "category": "tomcat"
+  },
+  
   "2018-05-08-e9-9d-92-e6-b5-b76-e6-97-a5-e8-a1-8c": {
     "title": "最美青海六日行",
     "url": " /2018/05/08/%E9%9D%92%E6%B5%B76%E6%97%A5%E8%A1%8C/",
@@ -166,6 +172,12 @@
     "title": "最美青海六日行",
     "url": "/2018/05/08/%E9%9D%92%E6%B5%B76%E6%97%A5%E8%A1%8C/",
     "category": "[&quot;游玩&quot;]"
+  },
+  
+  "2018-11-15-tomcat-install": {
+    "title": "Linux下安装tomcat",
+    "url": "/2018/11/15/tomcat-install/",
+    "category": "[&quot;tomcat&quot;]"
   },
   
   "wiki-android-studio": {

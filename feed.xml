@@ -1,4 +1,99 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.3">Jekyll</generator><link href="https://kago.site/feed.xml" rel="self" type="application/atom+xml" /><link href="https://kago.site/" rel="alternate" type="text/html" /><updated>2018-06-28T18:05:48+08:00</updated><id>https://kago.site/</id><title type="html">阅后即忘 | 牛昌平的个人博客</title><subtitle>点滴积累，聚沙成塔</subtitle><author><name>Barry New</name></author><entry><title type="html">最美青海六日行</title><link href="https://kago.site/2018/05/08/%E9%9D%92%E6%B5%B76%E6%97%A5%E8%A1%8C/" rel="alternate" type="text/html" title="最美青海六日行" /><published>2018-05-08T00:00:00+08:00</published><updated>2018-05-08T00:00:00+08:00</updated><id>https://kago.site/2018/05/08/%E9%9D%92%E6%B5%B76%E6%97%A5%E8%A1%8C</id><content type="html" xml:base="https://kago.site/2018/05/08/%E9%9D%92%E6%B5%B76%E6%97%A5%E8%A1%8C/">&lt;blockquote&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="https://kago.site/feed.xml" rel="self" type="application/atom+xml" /><link href="https://kago.site/" rel="alternate" type="text/html" /><updated>2018-11-15T14:43:15+08:00</updated><id>https://kago.site/feed.xml</id><title type="html">阅后即忘 | 牛昌平的个人博客</title><subtitle>点滴积累，聚沙成塔</subtitle><author><name>Barry New</name></author><entry><title type="html">Linux下安装tomcat</title><link href="https://kago.site/2018/11/15/tomcat-install/" rel="alternate" type="text/html" title="Linux下安装tomcat" /><published>2018-11-15T00:00:00+08:00</published><updated>2018-11-15T00:00:00+08:00</updated><id>https://kago.site/2018/11/15/tomcat-install</id><content type="html" xml:base="https://kago.site/2018/11/15/tomcat-install/">&lt;h1 id=&quot;前言&quot;&gt;前言&lt;/h1&gt;
+
+&lt;p&gt;tomcat 是一款优秀的 web 应用服务器，可以用来运行 servlet。下文记录 tomcat 的安装以及使用 systemctl 命令进行控制的过程。&lt;/p&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;systemctl命令是service和chkconfig命令的集合 service命令:用于启动、停止、重新启动和关闭系统服务，还可以显示所有系统服务的当前状态 chkconfig命令:用于更新（启动或停止）和查询系统服务的运行级信息&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;1安装tomcat&quot;&gt;1、安装tomcat&lt;/h2&gt;
+
+&lt;h3 id=&quot;11下载二进制文件&quot;&gt;1.1、下载二进制文件&lt;/h3&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@master ~]# wget http://mirrors.hust.edu.cn/apache/tomcat/tomcat-9/v9.0.13/bin/apache-tomcat-9.0.13.tar.gz
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h3 id=&quot;12解压文件&quot;&gt;1.2、解压文件&lt;/h3&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@master ~]# &lt;span class=&quot;nb&quot;&gt;tar&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-zxf&lt;/span&gt; apache-tomcat-9.0.13.tar.gz
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;13移动文件到opt下&quot;&gt;1.3、移动文件到/opt下&lt;/h3&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@master ~]# mv  apache-tomcat-9.0.13 /opt/apache-tomcat-9.0.13/
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;14创建软链&quot;&gt;1.4、创建软链&lt;/h3&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@master opt]# ln &lt;span class=&quot;nt&quot;&gt;-s&lt;/span&gt; /opt/apache-tomcat-9.0.13  /usr/local/tomcat
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;15配置jdk环境变量&quot;&gt;1.5、配置jdk环境变量&lt;/h3&gt;
+
+&lt;p&gt;添加：&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;JAVA_HOME=/usr/java/default
+JRE_HOME=$JAVA_HOME/jre
+PATH=$PATH:$JAVA_HOME/bin:$JRE_HOME/bin
+CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar:$JRE_HOME/lib
+export JAVA_HOME PATH CLASSPATH
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;16生效环境变量&quot;&gt;1.6、生效环境变量&lt;/h3&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@master opt]# &lt;span class=&quot;nb&quot;&gt;source&lt;/span&gt; /etc/profile
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;17配置tomcat端口默认8080&quot;&gt;1.7、配置tomcat端口（默认8080）&lt;/h3&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@master ~]# vim /usr/local/tomcat/conf/server.xml
+&lt;span class=&quot;c&quot;&gt;#修改：&lt;/span&gt;
+ &amp;lt;Connector &lt;span class=&quot;nv&quot;&gt;port&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;8080&quot;&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;protocol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;HTTP/1.1&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;18启动tomcat&quot;&gt;1.8、启动tomcat&lt;/h3&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@master ~]# /usr/local/tomcat/bin/startup.sh
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;19验证&quot;&gt;1.9、验证&lt;/h3&gt;
+&lt;p&gt;浏览器输入：http://IP:PROT&lt;/p&gt;
+
+&lt;h2 id=&quot;2配置systemctl&quot;&gt;2、配置systemctl&lt;/h2&gt;
+
+&lt;h3 id=&quot;21新建tomcatpid&quot;&gt;2.1、新建tomcat.pid&lt;/h3&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@master ~]# &lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; /usr/local/tomcat-9.0.13
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@master tomcat-9.0.13]# touch tomcat.pid
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;22新建setenvshcatalinash调用&quot;&gt;2.2、新建setenv.sh(catalina.sh调用）&lt;/h3&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@master tomcat-9.0.13]# &lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;bin
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@master bin]# vim setenv.sh
+
+&lt;span class=&quot;c&quot;&gt;#$CATALINA_BASE为tomcat安装的目录路径,将tomcat.pid指给了CATALINA_PID&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;CATALINA_PID&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$CATALINA_BASE&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;/tomcat.pid&quot;&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;#设置tomcat启动的java内存参数&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;JAVA_OPTS&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;-server -XX:PermSize=256M -XX:MaxPermSize=1024m -Xms512M -Xmx1024M -XX:MaxNewSize=256m&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;23创建service文件&quot;&gt;2.3、创建service文件&lt;/h3&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@master bin]# vim /usr/lib/systemd/system/tomcat.service
+
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;Unit]
+&lt;span class=&quot;nv&quot;&gt;Description&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;Tomcat
+&lt;span class=&quot;nv&quot;&gt;After&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;syslog.target network.target remote-fs.target nss-lookup.target
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;Service]
+&lt;span class=&quot;nv&quot;&gt;Type&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;forking
+&lt;span class=&quot;nv&quot;&gt;PIDFile&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/usr/local/tomcat-9.0.13/tomcat.pid
+&lt;span class=&quot;nv&quot;&gt;ExecStart&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/usr/local/tomcat-9.0.13/bin/startup.sh
+&lt;span class=&quot;nv&quot;&gt;ExecReload&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/bin/kill &lt;span class=&quot;nt&quot;&gt;-s&lt;/span&gt; HUP &lt;span class=&quot;nv&quot;&gt;$MAINPID&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;ExecStop&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/bin/kill &lt;span class=&quot;nt&quot;&gt;-s&lt;/span&gt; QUIT &lt;span class=&quot;nv&quot;&gt;$MAINPID&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;PrivateTmp&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;true&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;Install]
+&lt;span class=&quot;nv&quot;&gt;WantedBy&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;multi-user.target
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;24测试&quot;&gt;2.4、测试&lt;/h3&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@master bin]# systemctl start tomcat.service
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@master bin]# systemctl status tomcat.service
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@master bin]# systemctl stop tomcat.service
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Barry New</name></author><summary type="html">前言</summary></entry><entry><title type="html">最美青海六日行</title><link href="https://kago.site/2018/05/08/%E9%9D%92%E6%B5%B76%E6%97%A5%E8%A1%8C/" rel="alternate" type="text/html" title="最美青海六日行" /><published>2018-05-08T00:00:00+08:00</published><updated>2018-05-08T00:00:00+08:00</updated><id>https://kago.site/2018/05/08/%E9%9D%92%E6%B5%B76%E6%97%A5%E8%A1%8C</id><content type="html" xml:base="https://kago.site/2018/05/08/%E9%9D%92%E6%B5%B76%E6%97%A5%E8%A1%8C/">&lt;blockquote&gt;
   &lt;center&gt; 
 巍巍昆仑山脚下,
 &lt;/center&gt;
@@ -1111,43 +1206,7 @@ gitment.render('gitmentContainer');
   &lt;li&gt;点击&lt;code class=&quot;highlighter-rouge&quot;&gt;login with github&lt;/code&gt;,使用自己github账号登录，错误信息会变成&lt;code class=&quot;highlighter-rouge&quot;&gt;Initialize Comments&lt;/code&gt;按钮&lt;/li&gt;
   &lt;li&gt;点击按钮，完成对博文的初始化，同时创建相应的issue
 &lt;img src=&quot;/images/posts/gitment/gitment.png&quot; alt=&quot;gitment&quot; /&gt;&lt;/li&gt;
-&lt;/ol&gt;</content><author><name>Barry New</name></author><summary type="html">前言 最近使用jekyll搭建了个人博客（https://kago.site），参考网友资料为博客添加了gitment作为留言板，罗列一下基本步骤，希望可以帮到大家。</summary></entry><entry><title type="html">没想到是这样的…</title><link href="https://kago.site/2017/11/19/mypets/" rel="alternate" type="text/html" title="没想到是这样的..." /><published>2017-11-19T00:00:00+08:00</published><updated>2017-11-19T00:00:00+08:00</updated><id>https://kago.site/2017/11/19/mypets</id><content type="html" xml:base="https://kago.site/2017/11/19/mypets/">&lt;h3 id=&quot;罪恶的源头&quot;&gt;罪恶的源头&lt;/h3&gt;
-
-&lt;p&gt;一切到要从漫画家&lt;a href=&quot;http://wuhuang-wanshui.lofter.com/&quot;&gt;白茶&lt;/a&gt;养的两只“明星”说起，一只叫“吾皇”，另一只叫“巴扎黑”&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/blog/wuhuang.jpg&quot; alt=&quot;吾皇&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/blog/bazhahei.jpg&quot; alt=&quot;巴扎黑&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;只怪当时太年轻，以为集齐了吾皇和巴扎黑就能得到整个世界，然而故事好像偏离了轨道…&lt;/p&gt;
-
-&lt;h3 id=&quot;我可能养了一只猪&quot;&gt;我可能养了一只猪&lt;/h3&gt;
-
-&lt;p&gt;记得巴扎黑来到家里的时间大概是今年的8月15号，是女朋友送给我的，只因为我和她说过喜欢白茶养的巴扎黑。因此，我们家的小巴哥犬的名字也叫成了巴扎黑，觉得更贴切一些（其实只是因为懒）。当时这只小巴哥犬才2个月多一点，狂犬疫苗还没接种，但是阻挡不了我对它的喜爱：水汪汪的大眼睛总是像别人欠它好几块骨头似的。&lt;/p&gt;
-
-&lt;p&gt;话不多说，直接上图：&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/blog/xiaoshihoudebazhahei.jpg&quot; alt=&quot;巴扎黑刚来的时候&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;巴哥犬在狗界是出了名的贪吃，加上它还是只幼犬，每天只想着吃吃吃，虽然每天都在控制食量，但还是在不到三个月的时间体重由4斤飙至11斤。粗壮的体型加上吃饭是发出的声音神似一只小猪…难怪经常被保洁阿姨唤作“你家那头小猪”。
-巴扎黑，就问你羞不羞！！
-&lt;img src=&quot;/images/blog/hazhaheishafa.jpg&quot; alt=&quot;胖子巴扎黑&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;我才是老大&quot;&gt;我才是老大&lt;/h3&gt;
-
-&lt;p&gt;有了巴扎黑怎么能没有吾皇，就在一个阳光明媚的下午，一只橘猫来到的我们家。
-&lt;img src=&quot;/images/blog/mao.jpg&quot; alt=&quot;蛋挞&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;女朋友一只想养只猫，早先养了一只美短，一个星期后送给了同事。为了这事儿她和我念叨了好多次，尤其是当巴扎黑在家里大小便的时候……&lt;/p&gt;
-
-&lt;p&gt;蛋挞，是一只橘猫，就是最常见的家猫，以胖闻名于猫界，耳边隐约响起“十只橘猫九只胖，还有一只压塌炕”。一个星期的时间真心是见到了什么叫做能吃，肚子已经圆鼓鼓的了还在不停的找吃的。&lt;/p&gt;
-
-&lt;p&gt;最让人抓狂的是，这个小家伙不和人亲热，一副diaodiao的样子，哎就当你是老大吧&lt;/p&gt;
-
-&lt;h3 id=&quot;每天上演猫狗大战&quot;&gt;每天上演猫狗大战&lt;/h3&gt;
-
-&lt;p&gt;每每想到客厅的惨状眼角就泛起了泪花，还是不写了，万一忍不住来个巴扎黑炖蛋挞呢……
-&lt;img src=&quot;/images/blog/maogoudazhan.jpg&quot; alt=&quot;猫狗大战&quot; /&gt;&lt;/p&gt;</content><author><name>Barry New</name></author><summary type="html">罪恶的源头</summary></entry><entry><title type="html">mariadb的主从复制、主主复制、半同步复制的概念和方法</title><link href="https://kago.site/2017/11/19/mariadb-replicate/" rel="alternate" type="text/html" title="mariadb的主从复制、主主复制、半同步复制的概念和方法" /><published>2017-11-19T00:00:00+08:00</published><updated>2017-11-19T00:00:00+08:00</updated><id>https://kago.site/2017/11/19/mariadb-replicate</id><content type="html" xml:base="https://kago.site/2017/11/19/mariadb-replicate/">&lt;p&gt;这篇文章主要详细介绍了mariadb的主从复制、主主复制、半同步复制的概念和方法。&lt;/p&gt;
+&lt;/ol&gt;</content><author><name>Barry New</name></author><summary type="html">前言 最近使用jekyll搭建了个人博客（https://kago.site），参考网友资料为博客添加了gitment作为留言板，罗列一下基本步骤，希望可以帮到大家。</summary></entry><entry><title type="html">mariadb的主从复制、主主复制、半同步复制的概念和方法</title><link href="https://kago.site/2017/11/19/mariadb-replicate/" rel="alternate" type="text/html" title="mariadb的主从复制、主主复制、半同步复制的概念和方法" /><published>2017-11-19T00:00:00+08:00</published><updated>2017-11-19T00:00:00+08:00</updated><id>https://kago.site/2017/11/19/mariadb-replicate</id><content type="html" xml:base="https://kago.site/2017/11/19/mariadb-replicate/">&lt;p&gt;这篇文章主要详细介绍了mariadb的主从复制、主主复制、半同步复制的概念和方法。&lt;/p&gt;
 &lt;blockquote&gt;
   &lt;p&gt;参考&lt;a href=&quot;http://www.jb51.net/article/97786.htm&quot;&gt;http://www.jb51.net/article/97786.htm&lt;/a&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -1700,6 +1759,42 @@ MariaDB &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;mydb]&amp;gt; show tables&
 +----------------+
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
   &lt;/li&gt;
-&lt;/ol&gt;</content><author><name>Barry New</name></author><summary type="html">这篇文章主要详细介绍了mariadb的主从复制、主主复制、半同步复制的概念和方法。 参考http://www.jb51.net/article/97786.htm</summary></entry><entry><title type="html">初尝</title><link href="https://kago.site/2017/11/17/first-blog/" rel="alternate" type="text/html" title="初尝" /><published>2017-11-17T00:00:00+08:00</published><updated>2017-11-17T00:00:00+08:00</updated><id>https://kago.site/2017/11/17/first-blog</id><content type="html" xml:base="https://kago.site/2017/11/17/first-blog/">&lt;h2 id=&quot;我是标题&quot;&gt;我是标题&lt;/h2&gt;
+&lt;/ol&gt;</content><author><name>Barry New</name></author><summary type="html">这篇文章主要详细介绍了mariadb的主从复制、主主复制、半同步复制的概念和方法。 参考http://www.jb51.net/article/97786.htm</summary></entry><entry><title type="html">没想到是这样的…</title><link href="https://kago.site/2017/11/19/mypets/" rel="alternate" type="text/html" title="没想到是这样的..." /><published>2017-11-19T00:00:00+08:00</published><updated>2017-11-19T00:00:00+08:00</updated><id>https://kago.site/2017/11/19/mypets</id><content type="html" xml:base="https://kago.site/2017/11/19/mypets/">&lt;h3 id=&quot;罪恶的源头&quot;&gt;罪恶的源头&lt;/h3&gt;
+
+&lt;p&gt;一切到要从漫画家&lt;a href=&quot;http://wuhuang-wanshui.lofter.com/&quot;&gt;白茶&lt;/a&gt;养的两只“明星”说起，一只叫“吾皇”，另一只叫“巴扎黑”&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/blog/wuhuang.jpg&quot; alt=&quot;吾皇&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/blog/bazhahei.jpg&quot; alt=&quot;巴扎黑&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;只怪当时太年轻，以为集齐了吾皇和巴扎黑就能得到整个世界，然而故事好像偏离了轨道…&lt;/p&gt;
+
+&lt;h3 id=&quot;我可能养了一只猪&quot;&gt;我可能养了一只猪&lt;/h3&gt;
+
+&lt;p&gt;记得巴扎黑来到家里的时间大概是今年的8月15号，是女朋友送给我的，只因为我和她说过喜欢白茶养的巴扎黑。因此，我们家的小巴哥犬的名字也叫成了巴扎黑，觉得更贴切一些（其实只是因为懒）。当时这只小巴哥犬才2个月多一点，狂犬疫苗还没接种，但是阻挡不了我对它的喜爱：水汪汪的大眼睛总是像别人欠它好几块骨头似的。&lt;/p&gt;
+
+&lt;p&gt;话不多说，直接上图：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/blog/xiaoshihoudebazhahei.jpg&quot; alt=&quot;巴扎黑刚来的时候&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;巴哥犬在狗界是出了名的贪吃，加上它还是只幼犬，每天只想着吃吃吃，虽然每天都在控制食量，但还是在不到三个月的时间体重由4斤飙至11斤。粗壮的体型加上吃饭是发出的声音神似一只小猪…难怪经常被保洁阿姨唤作“你家那头小猪”。
+巴扎黑，就问你羞不羞！！
+&lt;img src=&quot;/images/blog/hazhaheishafa.jpg&quot; alt=&quot;胖子巴扎黑&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;我才是老大&quot;&gt;我才是老大&lt;/h3&gt;
+
+&lt;p&gt;有了巴扎黑怎么能没有吾皇，就在一个阳光明媚的下午，一只橘猫来到的我们家。
+&lt;img src=&quot;/images/blog/mao.jpg&quot; alt=&quot;蛋挞&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;女朋友一只想养只猫，早先养了一只美短，一个星期后送给了同事。为了这事儿她和我念叨了好多次，尤其是当巴扎黑在家里大小便的时候……&lt;/p&gt;
+
+&lt;p&gt;蛋挞，是一只橘猫，就是最常见的家猫，以胖闻名于猫界，耳边隐约响起“十只橘猫九只胖，还有一只压塌炕”。一个星期的时间真心是见到了什么叫做能吃，肚子已经圆鼓鼓的了还在不停的找吃的。&lt;/p&gt;
+
+&lt;p&gt;最让人抓狂的是，这个小家伙不和人亲热，一副diaodiao的样子，哎就当你是老大吧&lt;/p&gt;
+
+&lt;h3 id=&quot;每天上演猫狗大战&quot;&gt;每天上演猫狗大战&lt;/h3&gt;
+
+&lt;p&gt;每每想到客厅的惨状眼角就泛起了泪花，还是不写了，万一忍不住来个巴扎黑炖蛋挞呢……
+&lt;img src=&quot;/images/blog/maogoudazhan.jpg&quot; alt=&quot;猫狗大战&quot; /&gt;&lt;/p&gt;</content><author><name>Barry New</name></author><summary type="html">罪恶的源头</summary></entry><entry><title type="html">初尝</title><link href="https://kago.site/2017/11/17/first-blog/" rel="alternate" type="text/html" title="初尝" /><published>2017-11-17T00:00:00+08:00</published><updated>2017-11-17T00:00:00+08:00</updated><id>https://kago.site/2017/11/17/first-blog</id><content type="html" xml:base="https://kago.site/2017/11/17/first-blog/">&lt;h2 id=&quot;我是标题&quot;&gt;我是标题&lt;/h2&gt;
 
 &lt;p&gt;我是正文~&lt;/p&gt;</content><author><name>Barry New</name></author><summary type="html">我是标题</summary></entry></feed>
