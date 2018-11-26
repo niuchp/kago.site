@@ -428,8 +428,10 @@ ssl_cert_key = /data/cert/harbor.kago.site.key
 <p>在线安装rancher虽然方便，但需要从互联网拉取诸多镜像，在独立内网环境下不适用，此处记录离线环境下安装rancher。
 在联网环境下获取镜像后，以便离线使用</p>
 <ol>
-  <li>所需镜像列表
-    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@harbor opt]#cat rancher-images.txt
+  <li>所需镜像列表</li>
+</ol>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@harbor opt]#cat rancher-images.txt
 busybox
 minio/minio:RELEASE.2018-05-25T19-49-13Z
 rancher/alertmanager-helper:v0.0.2
@@ -483,15 +485,17 @@ rancher/rke-tools:v0.1.15
 registry:2
 rancher/rancher:v2.1.1
 rancher/rancher-agent:v2.1.1
-</code></pre></div>    </div>
-  </li>
-  <li>拉取保存脚本
+</code></pre></div></div>
+
+<ol>
+  <li>拉取保存脚本<br />
 ```bash
-[root@harbor opt]#cat rancher-save-images.sh
-#!/bin/bash
-list=”rancher-images.txt”
-images=”rancher-images.tar.gz”</li>
+[root@harbor opt]#cat rancher-save-images.sh</li>
 </ol>
+
+<p>#!/bin/bash
+list=”rancher-images.txt”
+images=”rancher-images.tar.gz”</p>
 
 <p>POSITIONAL=()
 while [[ $# -gt 0 ]]; do
@@ -538,7 +542,7 @@ done</p>
 登录harbor.kago.site，创建公开项目rancher、minio
 
 
-4. 镜像上传
+4. 镜像上传   
 ```bash
 [root@harbor opt]#cat rancher-load-images.sh
 #!/bin/bash
@@ -637,7 +641,7 @@ CONTAINER ID        IMAGE               COMMAND             CREATED             
 <img src="/images/posts/rancher/2018-11-26_112242.png" alt="" /></p>
   </li>
   <li>
-    <p>选择自定义
+    <p>选择自定义 <br />
 <img src="/images/posts/rancher/2018-11-26_112436.png" alt="" /></p>
   </li>
   <li>选择组件信息<br />
@@ -646,17 +650,17 @@ CONTAINER ID        IMAGE               COMMAND             CREATED             
       <p>当有内外网时，点击“高级选型”添加主机内外网地址</p>
     </blockquote>
   </li>
-  <li>选择主机角色
+  <li>选择主机角色 <br />
 <img src="/images/posts/rancher/2018-11-26_112702.png" alt="" />
     <blockquote>
       <p>主机角色中的etcd为k8s中数据库，controller包含k8s的master组件（apiserver、controller manager、schedule），worker包含kubelet、kube-proxy</p>
     </blockquote>
   </li>
   <li>
-    <p>登录主机执行命令
+    <p>登录主机执行命令 <br />
 拷贝给出的命令，登录目标主机执行命令，片刻后会自动注册至rancher-server</p>
   </li>
-  <li>注册成功
+  <li>注册成功 <br />
 <img src="/images/posts/rancher/2018-11-26_113449.png" alt="" /></li>
 </ol>
 

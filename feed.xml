@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="https://kago.site/feed.xml" rel="self" type="application/atom+xml" /><link href="https://kago.site/" rel="alternate" type="text/html" /><updated>2018-11-26T17:57:21+08:00</updated><id>https://kago.site/feed.xml</id><title type="html">阅后即忘 | 牛昌平的个人博客</title><subtitle>点滴积累，聚沙成塔</subtitle><author><name>Barry New</name></author><entry><title type="html">CentOS7安装rancher2.x</title><link href="https://kago.site/2018/11/26/install-rancher/" rel="alternate" type="text/html" title="CentOS7安装rancher2.x" /><published>2018-11-26T00:00:00+08:00</published><updated>2018-11-26T00:00:00+08:00</updated><id>https://kago.site/2018/11/26/install-rancher</id><content type="html" xml:base="https://kago.site/2018/11/26/install-rancher/">&lt;h1 id=&quot;centos7安装rancher2x&quot;&gt;CentOS7安装Rancher2.x&lt;/h1&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="https://kago.site/feed.xml" rel="self" type="application/atom+xml" /><link href="https://kago.site/" rel="alternate" type="text/html" /><updated>2018-11-26T18:04:13+08:00</updated><id>https://kago.site/feed.xml</id><title type="html">阅后即忘 | 牛昌平的个人博客</title><subtitle>点滴积累，聚沙成塔</subtitle><author><name>Barry New</name></author><entry><title type="html">CentOS7安装rancher2.x</title><link href="https://kago.site/2018/11/26/install-rancher/" rel="alternate" type="text/html" title="CentOS7安装rancher2.x" /><published>2018-11-26T00:00:00+08:00</published><updated>2018-11-26T00:00:00+08:00</updated><id>https://kago.site/2018/11/26/install-rancher</id><content type="html" xml:base="https://kago.site/2018/11/26/install-rancher/">&lt;h1 id=&quot;centos7安装rancher2x&quot;&gt;CentOS7安装Rancher2.x&lt;/h1&gt;
 
 &lt;p&gt;容器已然成为IT建设的潮流，目前最流行的容器管理、编排方案莫过于Kubernetes（简称K8S)，但是使用过K8S的小伙伴肯定和我一样爬坑无数。我曾经写过一套安装脚本用于公司内部环境部署，虽所简化了安装过程，但在管理多个K8S环境时（项目多数以整个集群为交付成果，开发测试时也划分了多个集群）仍然很犯难，Rancher对我而言最大的吸引点可能就在于此吧，参考官方文档实验后简单记录如下，便于日后回顾。&lt;/p&gt;
 
@@ -283,8 +283,10 @@ ssl_cert_key = /data/cert/harbor.kago.site.key
 &lt;p&gt;在线安装rancher虽然方便，但需要从互联网拉取诸多镜像，在独立内网环境下不适用，此处记录离线环境下安装rancher。
 在联网环境下获取镜像后，以便离线使用&lt;/p&gt;
 &lt;ol&gt;
-  &lt;li&gt;所需镜像列表
-    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@harbor opt]#cat rancher-images.txt
+  &lt;li&gt;所需镜像列表&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@harbor opt]#cat rancher-images.txt
 busybox
 minio/minio:RELEASE.2018-05-25T19-49-13Z
 rancher/alertmanager-helper:v0.0.2
@@ -338,15 +340,17 @@ rancher/rke-tools:v0.1.15
 registry:2
 rancher/rancher:v2.1.1
 rancher/rancher-agent:v2.1.1
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-  &lt;li&gt;拉取保存脚本
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;拉取保存脚本&lt;br /&gt;
 ```bash
-[root@harbor opt]#cat rancher-save-images.sh
-#!/bin/bash
-list=”rancher-images.txt”
-images=”rancher-images.tar.gz”&lt;/li&gt;
+[root@harbor opt]#cat rancher-save-images.sh&lt;/li&gt;
 &lt;/ol&gt;
+
+&lt;p&gt;#!/bin/bash
+list=”rancher-images.txt”
+images=”rancher-images.tar.gz”&lt;/p&gt;
 
 &lt;p&gt;POSITIONAL=()
 while [[ $# -gt 0 ]]; do
@@ -393,7 +397,7 @@ done&lt;/p&gt;
 登录harbor.kago.site，创建公开项目rancher、minio
 
 
-4. 镜像上传
+4. 镜像上传   
 ```bash
 [root@harbor opt]#cat rancher-load-images.sh
 #!/bin/bash
@@ -492,7 +496,7 @@ CONTAINER ID        IMAGE               COMMAND             CREATED             
 &lt;img src=&quot;/images/posts/rancher/2018-11-26_112242.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
-    &lt;p&gt;选择自定义
+    &lt;p&gt;选择自定义 &lt;br /&gt;
 &lt;img src=&quot;/images/posts/rancher/2018-11-26_112436.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;选择组件信息&lt;br /&gt;
@@ -501,17 +505,17 @@ CONTAINER ID        IMAGE               COMMAND             CREATED             
       &lt;p&gt;当有内外网时，点击“高级选型”添加主机内外网地址&lt;/p&gt;
     &lt;/blockquote&gt;
   &lt;/li&gt;
-  &lt;li&gt;选择主机角色
+  &lt;li&gt;选择主机角色 &lt;br /&gt;
 &lt;img src=&quot;/images/posts/rancher/2018-11-26_112702.png&quot; alt=&quot;&quot; /&gt;
     &lt;blockquote&gt;
       &lt;p&gt;主机角色中的etcd为k8s中数据库，controller包含k8s的master组件（apiserver、controller manager、schedule），worker包含kubelet、kube-proxy&lt;/p&gt;
     &lt;/blockquote&gt;
   &lt;/li&gt;
   &lt;li&gt;
-    &lt;p&gt;登录主机执行命令
+    &lt;p&gt;登录主机执行命令 &lt;br /&gt;
 拷贝给出的命令，登录目标主机执行命令，片刻后会自动注册至rancher-server&lt;/p&gt;
   &lt;/li&gt;
-  &lt;li&gt;注册成功
+  &lt;li&gt;注册成功 &lt;br /&gt;
 &lt;img src=&quot;/images/posts/rancher/2018-11-26_113449.png&quot; alt=&quot;&quot; /&gt;&lt;/li&gt;
 &lt;/ol&gt;
 
