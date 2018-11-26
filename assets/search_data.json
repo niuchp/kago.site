@@ -1,9 +1,9 @@
 {
   
   "2018-11-26-install-rancher": {
-    "title": "template page",
+    "title": "CentOS7安装rancher2.x",
     "url": " /2018/11/26/install-rancher/",
-    "category": "cate1"
+    "category": "rancher"
   },
   
   "2018-11-15-tomcat-install": {
@@ -187,9 +187,9 @@
   },
   
   "2018-11-26-install-rancher": {
-    "title": "template page",
+    "title": "CentOS7安装rancher2.x",
     "url": "/2018/11/26/install-rancher/",
-    "category": "[&quot;cate1&quot;, &quot;cate2&quot;]"
+    "category": "[&quot;rancher&quot;, &quot;kubernetes&quot;]"
   },
   
   "wiki-android-studio": {

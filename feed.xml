@@ -1,4 +1,534 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="https://kago.site/feed.xml" rel="self" type="application/atom+xml" /><link href="https://kago.site/" rel="alternate" type="text/html" /><updated>2018-11-26T17:56:26+08:00</updated><id>https://kago.site/feed.xml</id><title type="html">阅后即忘 | 牛昌平的个人博客</title><subtitle>点滴积累，聚沙成塔</subtitle><author><name>Barry New</name></author><entry><title type="html">template page</title><link href="https://kago.site/2018/11/26/install-rancher/" rel="alternate" type="text/html" title="template page" /><published>2018-11-26T00:00:00+08:00</published><updated>2018-11-26T00:00:00+08:00</updated><id>https://kago.site/2018/11/26/install-rancher</id><content type="html" xml:base="https://kago.site/2018/11/26/install-rancher/">&lt;p&gt;Content here&lt;/p&gt;</content><author><name>Barry New</name></author><summary type="html">Content here</summary></entry><entry><title type="html">Linux下安装tomcat</title><link href="https://kago.site/2018/11/15/tomcat-install/" rel="alternate" type="text/html" title="Linux下安装tomcat" /><published>2018-11-15T00:00:00+08:00</published><updated>2018-11-15T00:00:00+08:00</updated><id>https://kago.site/2018/11/15/tomcat-install</id><content type="html" xml:base="https://kago.site/2018/11/15/tomcat-install/">&lt;h1 id=&quot;前言&quot;&gt;前言&lt;/h1&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="https://kago.site/feed.xml" rel="self" type="application/atom+xml" /><link href="https://kago.site/" rel="alternate" type="text/html" /><updated>2018-11-26T17:57:21+08:00</updated><id>https://kago.site/feed.xml</id><title type="html">阅后即忘 | 牛昌平的个人博客</title><subtitle>点滴积累，聚沙成塔</subtitle><author><name>Barry New</name></author><entry><title type="html">CentOS7安装rancher2.x</title><link href="https://kago.site/2018/11/26/install-rancher/" rel="alternate" type="text/html" title="CentOS7安装rancher2.x" /><published>2018-11-26T00:00:00+08:00</published><updated>2018-11-26T00:00:00+08:00</updated><id>https://kago.site/2018/11/26/install-rancher</id><content type="html" xml:base="https://kago.site/2018/11/26/install-rancher/">&lt;h1 id=&quot;centos7安装rancher2x&quot;&gt;CentOS7安装Rancher2.x&lt;/h1&gt;
+
+&lt;p&gt;容器已然成为IT建设的潮流，目前最流行的容器管理、编排方案莫过于Kubernetes（简称K8S)，但是使用过K8S的小伙伴肯定和我一样爬坑无数。我曾经写过一套安装脚本用于公司内部环境部署，虽所简化了安装过程，但在管理多个K8S环境时（项目多数以整个集群为交付成果，开发测试时也划分了多个集群）仍然很犯难，Rancher对我而言最大的吸引点可能就在于此吧，参考官方文档实验后简单记录如下，便于日后回顾。&lt;/p&gt;
+
+&lt;h2 id=&quot;1rancher简介&quot;&gt;1、Rancher简介&lt;/h2&gt;
+
+&lt;p&gt;Rancher是一套容器管理平台，它可以帮助组织在生产环境中轻松快捷的部署和管理容器。 Rancher可以轻松地管理各种环境的Kubernetes，满足IT需求并为DevOps团队提供支持。&lt;/p&gt;
+
+&lt;p&gt;Kubernetes不仅已经成为的容器编排标准，它也正在迅速成为各类云和虚拟化厂商提供的标准基础架构。Rancher用户可以选择使用Rancher Kubernetes Engine(RKE)创建Kubernetes集群，也可以使用GKE，AKS和EKS等云Kubernetes服务。 Rancher用户还可以导入和管理现有的Kubernetes集群。&lt;/p&gt;
+
+&lt;p&gt;Rancher支持各类集中式身份验证系统来管理Kubernetes集群。例如，大型企业的员工可以使用其公司Active Directory凭证访问GKE中的Kubernetes集群。IT管​​理员可以在用户，组，项目，集群和云中设置访问控制和安全策略。 IT管​​理员可以在单个页面对所有Kubernetes集群的健康状况和容量进行监控。&lt;/p&gt;
+
+&lt;p&gt;(引自&lt;a href=&quot;https://www.cnrancher.com/docs/rancher/v2.x/cn/overview/&quot;&gt;Rancher Labs&lt;/a&gt;)&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/rancher/rancher-architecture.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;2组件版本&quot;&gt;2、组件版本&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;操作系统：CentOS7.2&lt;/li&gt;
+  &lt;li&gt;OS内核：3.10.0 (使用Overlay2需要升级内核至4.x）&lt;/li&gt;
+  &lt;li&gt;Rancher:2.1.1&lt;/li&gt;
+  &lt;li&gt;Docker: 17.03&lt;/li&gt;
+  &lt;li&gt;集群IP地址划分：&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;role&lt;/th&gt;
+      &lt;th&gt;hostname&lt;/th&gt;
+      &lt;th&gt;IP&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;rancher-server&lt;/td&gt;
+      &lt;td&gt;server&lt;/td&gt;
+      &lt;td&gt;192.168.31.10&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;worker&lt;/td&gt;
+      &lt;td&gt;node1&lt;/td&gt;
+      &lt;td&gt;192.168.31.11&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;worker&lt;/td&gt;
+      &lt;td&gt;node2&lt;/td&gt;
+      &lt;td&gt;192.168.31.12&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;worker&lt;/td&gt;
+      &lt;td&gt;node3&lt;/td&gt;
+      &lt;td&gt;192.168.31.13&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;registry&lt;/td&gt;
+      &lt;td&gt;harbor.kago.site&lt;/td&gt;
+      &lt;td&gt;192.168.31.65&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&quot;3基础环境安装&quot;&gt;3、基础环境安装&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;1.  操作系统安装&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;推荐使用“minimal install”最小安装模式，安装完毕后再按需安装“vim、ip-utils、net-tools”等工具。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;2.  配置主机名&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;命令：hostnamectl set-hostname &amp;lt;hostname&amp;gt;&lt;/p&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;因为K8S的规定，主机名只支持包含 - 和 .(中横线和点)两种特殊符号，并且主机名不能出现重复。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;strong&gt;3. 关闭防火墙、selinux&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;4. kernel性能优化&lt;/strong&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;cat&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; /etc/sysctl.conf&lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;EOF&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt;
+net.ipv4.ip_forward=1
+net.bridge.bridge-nf-call-iptables=1
+net.ipv4.neigh.default.gc_thresh1=4096
+net.ipv4.neigh.default.gc_thresh2=6144
+net.ipv4.neigh.default.gc_thresh3=8192
+&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;EOF
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;4安装docker&quot;&gt;4、安装docker&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;1. 修改YUM源&lt;/strong&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;cp /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.bak
+&lt;span class=&quot;nb&quot;&gt;cat&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; /etc/yum.repos.d/CentOS-Base.repo &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;EOF&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt;
+
+[base]
+name=CentOS-&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$releasever&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt; - Base - mirrors.aliyun.com
+failovermethod=priority
+baseurl=http://mirrors.aliyun.com/centos/&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$releasever&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt;/os/&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$basearch&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt;/
+        http://mirrors.aliyuncs.com/centos/&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$releasever&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt;/os/&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$basearch&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt;/
+        http://mirrors.cloud.aliyuncs.com/centos/&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$releasever&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt;/os/&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$basearch&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt;/
+gpgcheck=1
+gpgkey=http://mirrors.aliyun.com/centos/RPM-GPG-KEY-CentOS-7
+
+#released updates
+[updates]
+name=CentOS-&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$releasever&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt; - Updates - mirrors.aliyun.com
+failovermethod=priority
+baseurl=http://mirrors.aliyun.com/centos/&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$releasever&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt;/updates/&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$basearch&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt;/
+        http://mirrors.aliyuncs.com/centos/&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$releasever&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt;/updates/&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$basearch&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt;/
+        http://mirrors.cloud.aliyuncs.com/centos/&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$releasever&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt;/updates/&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$basearch&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt;/
+gpgcheck=1
+gpgkey=http://mirrors.aliyun.com/centos/RPM-GPG-KEY-CentOS-7
+
+#additional packages that may be useful
+[extras]
+name=CentOS-&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$releasever&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt; - Extras - mirrors.aliyun.com
+failovermethod=priority
+baseurl=http://mirrors.aliyun.com/centos/&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$releasever&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt;/extras/&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$basearch&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt;/
+        http://mirrors.aliyuncs.com/centos/&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$releasever&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt;/extras/&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$basearch&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt;/
+        http://mirrors.cloud.aliyuncs.com/centos/&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$releasever&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt;/extras/&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$basearch&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt;/
+gpgcheck=1
+gpgkey=http://mirrors.aliyun.com/centos/RPM-GPG-KEY-CentOS-7
+
+#additional packages that extend functionality of existing packages
+[centosplus]
+name=CentOS-&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$releasever&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt; - Plus - mirrors.aliyun.com
+failovermethod=priority
+baseurl=http://mirrors.aliyun.com/centos/&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$releasever&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt;/centosplus/&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$basearch&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt;/
+        http://mirrors.aliyuncs.com/centos/&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$releasever&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt;/centosplus/&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$basearch&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt;/
+        http://mirrors.cloud.aliyuncs.com/centos/&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$releasever&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt;/centosplus/&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$basearch&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt;/
+gpgcheck=1
+enabled=0
+gpgkey=http://mirrors.aliyun.com/centos/RPM-GPG-KEY-CentOS-7
+
+#contrib - packages by Centos Users
+[contrib]
+name=CentOS-&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$releasever&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt; - Contrib - mirrors.aliyun.com
+failovermethod=priority
+baseurl=http://mirrors.aliyun.com/centos/&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$releasever&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt;/contrib/&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$basearch&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt;/
+        http://mirrors.aliyuncs.com/centos/&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$releasever&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt;/contrib/&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$basearch&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt;/
+        http://mirrors.cloud.aliyuncs.com/centos/&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$releasever&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt;/contrib/&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$basearch&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt;/
+gpgcheck=1
+enabled=0
+gpgkey=http://mirrors.aliyun.com/centos/RPM-GPG-KEY-CentOS-7
+&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;
+EOF
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;2. 安装Docker-ce&lt;/strong&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;因为CentOS的安全限制，通过RKE安装K8S集群时候无法使用root账户。所以，建议CentOS用户使用非root用户来运行docker,不管是RKE还是custom安装k8s。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# 添加用户（可选）&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;adduser &lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;&amp;lt;new_user&amp;gt;&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# 为新用户设置密码&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;passwd &lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;&amp;lt;new_user&amp;gt;&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# 为新用户添加sudo权限&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;sudo echo&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'&amp;lt;new_user&amp;gt; ALL=(ALL) ALL'&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; /etc/sudoers
+&lt;span class=&quot;c&quot;&gt;# 卸载旧版本Docker软件&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;yum remove docker &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+              docker-client &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+              docker-client-latest &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+              docker-common &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+              docker-latest &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+              docker-latest-logrotate &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+              docker-logrotate &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+              docker-selinux &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+              docker-engine-selinux &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+              docker-engine &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+              container&lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# 定义安装版本&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;docker_version&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;17.03.2
+&lt;span class=&quot;c&quot;&gt;# step 1: 安装必要的一些系统工具&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;yum update &lt;span class=&quot;nt&quot;&gt;-y&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;yum install &lt;span class=&quot;nt&quot;&gt;-y&lt;/span&gt; yum-utils device-mapper-persistent-data lvm2 bash-completion
+&lt;span class=&quot;c&quot;&gt;# Step 2: 添加软件源信息&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;yum-config-manager &lt;span class=&quot;nt&quot;&gt;--add-repo&lt;/span&gt; http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+&lt;span class=&quot;c&quot;&gt;# Step 3: 更新并安装 Docker-CE&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;yum makecache all
+&lt;span class=&quot;nv&quot;&gt;version&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;$(&lt;/span&gt;yum list docker-ce.x86_64 &lt;span class=&quot;nt&quot;&gt;--showduplicates&lt;/span&gt; | sort &lt;span class=&quot;nt&quot;&gt;-r&lt;/span&gt;|grep &lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;docker_version&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;|awk &lt;span class=&quot;s1&quot;&gt;'{print $2}'&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;yum &lt;span class=&quot;nt&quot;&gt;-y&lt;/span&gt; install &lt;span class=&quot;nt&quot;&gt;--setopt&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;obsoletes&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;0 docker-ce-&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;version&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt; docker-ce-selinux-&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;version&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# 如果已经安装高版本Docker,可进行降级安装(可选)&lt;/span&gt;
+yum downgrade &lt;span class=&quot;nt&quot;&gt;--setopt&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;obsoletes&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;0 &lt;span class=&quot;nt&quot;&gt;-y&lt;/span&gt; docker-ce-&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;version&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt; docker-ce-selinux-&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;version&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# 把当前用户加入docker组&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;usermod &lt;span class=&quot;nt&quot;&gt;-aG&lt;/span&gt; docker &lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;&amp;lt;new_user&amp;gt;&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# 设置开机启动&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;systemctl &lt;span class=&quot;nb&quot;&gt;enable &lt;/span&gt;docker
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Docker-Engine Docker官方已经不推荐使用，请安装Docker-CE。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;strong&gt;3. 配置Docker&lt;/strong&gt;
+daemon.json默认位于/etc/docker/daemon.json，如果没有可手动创建，基于systemd管理的系统都是相同的路径。通过修改daemon.json来改过Docker配置，也是Docker官方推荐的方法。&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@server ~]# &lt;span class=&quot;nb&quot;&gt;cat&lt;/span&gt; /etc/docker/daemon.json
+&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+&lt;span class=&quot;s2&quot;&gt;&quot;registry-mirrors&quot;&lt;/span&gt;: &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;https://8m0vweth.mirror.aliyuncs.com&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;,
+&lt;span class=&quot;s2&quot;&gt;&quot;insecure-registries&quot;&lt;/span&gt;: &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;0.0.0.0/0&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;4. 配置Docker存储驱动&lt;/strong&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;本次实验跳过此步骤&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;OverlayFS是一个新一代的联合文件系统，类似于AUFS，但速度更快，实现更简单。Docker为OverlayFS提供了两个存储驱动程序:旧版的overlay，新版的overlay2(更稳定)。&lt;/p&gt;
+
+&lt;p&gt;先决条件：&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;overlay2: Linux内核版本4.0或更高版本，或使用内核版本3.10.0-514+的RHEL或CentOS。&lt;/li&gt;
+  &lt;li&gt;overlay: 主机Linux内核版本3.18+&lt;/li&gt;
+  &lt;li&gt;支持的磁盘文件系统
+    &lt;ul&gt;
+      &lt;li&gt;ext4(仅限RHEL 7.1)&lt;/li&gt;
+      &lt;li&gt;xfs(RHEL7.2及更高版本)，需要启用d_type=true。 &amp;gt;具体详情参考 Docker Use the OverlayFS storage driver&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;编辑/etc/docker/daemon.json加入以下内容&lt;/p&gt;
+&lt;div class=&quot;language-json highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;storage-driver&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;overlay2&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;storage-opts&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;overlay2.override_kernel_check=true&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;5. 配置日志驱动&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;容器在运行时会产生大量日志文件，很容易占满磁盘空间。通过配置日志驱动来限制文件大小与文件的数量。 &amp;gt;限制单个日志文件为100M,最多产生3个日志文件&lt;/p&gt;
+
+&lt;div class=&quot;language-json highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;log-driver&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;json-file&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;log-opts&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;max-size&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;100m&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;max-file&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;3&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;5harbor镜像库安装&quot;&gt;5、harbor镜像库安装&lt;/h2&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;安装harbor是用于离线安装rancher组件、K8S组件时的镜像拉取，也可以用于应用部署时自定义镜像存储&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Harbor 是一个企业级的 Docker Registry，可以实现images的私有存储和日志统计权限控制等功能，并支持创建多项目(Harbor 提出的概念)，基于官方Registry实现。 通过地址:&lt;a href=&quot;https://github.com/goharbor/harbor/releases/&quot;&gt;https://github.com/goharbor/harbor/releases/&lt;/a&gt;可以下载最新的版本。官方提供了三种版本:在线版、离线版、OVA虚拟镜像版。&lt;/p&gt;
+
+&lt;p&gt;在线安装:安装程序从Docker镜像仓库下载Harbour相关映像。因此，安装程序的尺寸非常小。
+离线安装:主机没有Internet连接时使用此安装程序镜像安装。安装程序包含所有镜像，因此压缩包较大。
+详细过程参考&lt;a href=&quot;https://github.com/goharbor/harbor/blob/master/docs/installation_guide.md&quot;&gt;harbor安装&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;1. 配置https&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;1.1  生成自建ca 证书
+默认在/data/cert/&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[root@harbor ~]#cd /data/cert/
+[root@harbor cert]#openssl req -newkey rsa:4096 -nodes -sha256 -keyout ca.key -x509 -days 365 -out ca.crt -subj &quot;/CN=kago.site&quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;1.2  生成请求&lt;/p&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@harbor cert]#openssl req &lt;span class=&quot;nt&quot;&gt;-newkey&lt;/span&gt; rsa:4096 &lt;span class=&quot;nt&quot;&gt;-nodes&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-sha256&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-keyout&lt;/span&gt; harbor.kago.site.key &lt;span class=&quot;nt&quot;&gt;-out&lt;/span&gt; harbor.kago.site.csr &lt;span class=&quot;nt&quot;&gt;-subj&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;/CN=harbor.kago.site&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;1.3 证书签署&lt;/p&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@harbor cert]#openssl x509 &lt;span class=&quot;nt&quot;&gt;-req&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-days&lt;/span&gt; 365 &lt;span class=&quot;nt&quot;&gt;-in&lt;/span&gt; harbor.kago.site.csr &lt;span class=&quot;nt&quot;&gt;-CA&lt;/span&gt; ca.crt &lt;span class=&quot;nt&quot;&gt;-CAkey&lt;/span&gt; ca.key &lt;span class=&quot;nt&quot;&gt;-CAcreateserial&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-out&lt;/span&gt; harbor.kago.site.crt
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;1.4 更改配置&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[root@harbor harbor]#vim harbor.cfg
+hostname = harbor.kago.site:443
+ui_url_protocol = https
+ssl_cert = /data/cert/harbor.kago.site.crt
+ssl_cert_key = /data/cert/harbor.kago.site.key
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;** 2. 执行安装**&lt;/p&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@harbor cert]#cd /opt/harbor/
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@harbor harbor]#sh install.sh
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;6离线环境镜像准备&quot;&gt;6、离线环境镜像准备&lt;/h2&gt;
+&lt;p&gt;在线安装rancher虽然方便，但需要从互联网拉取诸多镜像，在独立内网环境下不适用，此处记录离线环境下安装rancher。
+在联网环境下获取镜像后，以便离线使用&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;所需镜像列表
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@harbor opt]#cat rancher-images.txt
+busybox
+minio/minio:RELEASE.2018-05-25T19-49-13Z
+rancher/alertmanager-helper:v0.0.2
+rancher/calico-cni:v3.1.1
+rancher/calico-cni:v3.1.3
+rancher/calico-ctl:v2.0.0
+rancher/calico-node:v3.1.1
+rancher/calico-node:v3.1.3
+rancher/cluster-proportional-autoscaler-amd64:1.0.0
+rancher/coreos-etcd:v3.1.12
+rancher/coreos-etcd:v3.2.18
+rancher/coreos-etcd:v3.2.24
+rancher/coreos-flannel-cni:v0.2.0
+rancher/coreos-flannel-cni:v0.3.0
+rancher/coreos-flannel:v0.10.0
+rancher/coreos-flannel:v0.9.1
+rancher/docker-elasticsearch-kubernetes:5.6.2
+rancher/fluentd-helper:v0.1.2
+rancher/fluentd:v0.1.10
+rancher/hyperkube:v1.10.5-rancher1
+rancher/hyperkube:v1.11.3-rancher1
+rancher/hyperkube:v1.12.0-rancher1
+rancher/hyperkube:v1.9.7-rancher2
+rancher/jenkins-jnlp-slave:3.10-1-alpine
+rancher/jenkins-plugins-docker:17.12
+rancher/k8s-dns-dnsmasq-nanny-amd64:1.14.10
+rancher/k8s-dns-dnsmasq-nanny-amd64:1.14.13
+rancher/k8s-dns-dnsmasq-nanny-amd64:1.14.7
+rancher/k8s-dns-dnsmasq-nanny-amd64:1.14.8
+rancher/k8s-dns-kube-dns-amd64:1.14.10
+rancher/k8s-dns-kube-dns-amd64:1.14.13
+rancher/k8s-dns-kube-dns-amd64:1.14.7
+rancher/k8s-dns-kube-dns-amd64:1.14.8
+rancher/k8s-dns-sidecar-amd64:1.14.10
+rancher/k8s-dns-sidecar-amd64:1.14.13
+rancher/k8s-dns-sidecar-amd64:1.14.7
+rancher/k8s-dns-sidecar-amd64:1.14.8
+rancher/kibana:5.6.4
+rancher/log-aggregator:v0.1.3
+rancher/metrics-server-amd64:v0.2.1
+rancher/metrics-server-amd64:v0.3.1
+rancher/nginx-ingress-controller-defaultbackend:1.4
+rancher/nginx-ingress-controller:0.16.2-rancher1
+rancher/pause-amd64:3.0
+rancher/pause-amd64:3.1
+rancher/pipeline-jenkins-server:v0.1.0
+rancher/pipeline-tools:v0.1.0
+rancher/prom-alertmanager:v0.15.2
+rancher/rke-tools:v0.1.13
+rancher/rke-tools:v0.1.15
+registry:2
+rancher/rancher:v2.1.1
+rancher/rancher-agent:v2.1.1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;拉取保存脚本
+```bash
+[root@harbor opt]#cat rancher-save-images.sh
+#!/bin/bash
+list=”rancher-images.txt”
+images=”rancher-images.tar.gz”&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;POSITIONAL=()
+while [[ $# -gt 0 ]]; do
+    key=”$1”
+    case $key in
+        -i|–images)
+        images=”$2”
+        shift # past argument
+        shift # past value
+        ;;
+        -l|–image-list)
+        list=”$2”
+        shift # past argument
+        shift # past value
+        ;;
+        -h|–help)
+        help=”true”
+        shift
+        ;;
+    esac
+done&lt;/p&gt;
+
+&lt;p&gt;usage () {
+    echo “USAGE: $0 [–image-list rancher-images.txt] [–images rancher-images.tar.gz]”
+    echo “  [-l|–images-list path] text file with list of images. 1 per line.”
+    echo “  [-l|–images path] tar.gz generated by docker save.”
+    echo “  [-h|–help] Usage message”
+}&lt;/p&gt;
+
+&lt;p&gt;if [[ $help ]]; then
+    usage
+    exit 0
+fi&lt;/p&gt;
+
+&lt;p&gt;set -e -x&lt;/p&gt;
+
+&lt;p&gt;for i in $(cat ${list}); do
+    docker pull ${i}
+done&lt;/p&gt;
+
+&lt;p&gt;docker save $(cat ${list} | tr ‘\n’ ‘ ‘) | gzip -c &amp;gt; ${images}&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+3. 项目创建
+登录harbor.kago.site，创建公开项目rancher、minio
+
+
+4. 镜像上传
+```bash
+[root@harbor opt]#cat rancher-load-images.sh
+#!/bin/bash
+list=&quot;rancher-images.txt&quot;
+images=&quot;rancher-images.tar.gz&quot;
+
+POSITIONAL=()
+while [[ $# -gt 0 ]]; do
+    key=&quot;$1&quot;
+    case $key in
+        -r|--registry)
+        reg=&quot;$2&quot;
+        shift # past argument
+        shift # past value
+        ;;
+        -l|--image-list)
+        list=&quot;$2&quot;
+        shift # past argument
+        shift # past value
+        ;;
+        -i|--images)
+        images=&quot;$2&quot;
+        shift # past argument
+        shift # past value
+        ;;
+        -h|--help)
+        help=&quot;true&quot;
+        shift
+        ;;
+    esac
+done
+
+usage () {
+    echo &quot;USAGE: $0 [--image-list rancher-images.txt] [--images rancher-images.tar.gz] --registry my.registry.com:5000&quot;
+    echo &quot;  [-l|--images-list path] text file with list of images. 1 per line.&quot;
+    echo &quot;  [-l|--images path] tar.gz generated by docker save.&quot;
+    echo &quot;  [-r|--registry registry:port] target private registry:port.&quot;
+    echo &quot;  [-h|--help] Usage message&quot;
+}
+
+if [[ -z $reg ]]; then
+    usage
+    exit 1
+fi
+if [[ $help ]]; then
+    usage
+    exit 0
+fi
+
+set -e -x
+
+docker load --input ${images}
+
+for i in $(cat ${list}); do
+    docker tag ${i} ${reg}/${i}
+    docker push ${reg}/${i}
+done
+
+[root@harbor opt]#docker login harbor.kago.site
+[root@harbor opt]#sh rancher-load-images.sh -l ./rancher-images.txt -r harbor.kago.site
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;7安装rancher-server&quot;&gt;7、安装rancher-server&lt;/h2&gt;
+&lt;ol&gt;
+  &lt;li&gt;启动rancher-server
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@server opt]#docker run &lt;span class=&quot;nt&quot;&gt;-d&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--restart&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;unless-stopped   &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; 80:80 &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; 443:443   &lt;span class=&quot;nt&quot;&gt;-v&lt;/span&gt; /root/var/log/auditlog:/var/log/auditlog   &lt;span class=&quot;nt&quot;&gt;-e&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;AUDIT_LEVEL&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;3   &lt;span class=&quot;nt&quot;&gt;-e&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;AUDIT_LOG_PATH&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/var/log/auditlog/rancher-api-audit.log   &lt;span class=&quot;nt&quot;&gt;-e&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;AUDIT_LOG_MAXAGE&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;20   &lt;span class=&quot;nt&quot;&gt;-e&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;AUDIT_LOG_MAXBACKUP&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;20   &lt;span class=&quot;nt&quot;&gt;-e&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;AUDIT_LOG_MAXSIZE&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;100   harbor.kago.site/rancher/rancher:v2.1.1
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@server ~]# docker ps
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS                                      NAMES
+8dc861f595b4        5370bbde1a1b        &lt;span class=&quot;s2&quot;&gt;&quot;entrypoint.sh&quot;&lt;/span&gt;     7 hours ago         Up 6 hours          0.0.0.0:80-&amp;gt;80/tcp, 0.0.0.0:443-&amp;gt;443/tcp   stupefied_austin
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;浏览器登录rancher-server
+    &lt;ul&gt;
+      &lt;li&gt;设置密码&lt;/li&gt;
+      &lt;li&gt;设置url
+        &lt;blockquote&gt;
+          &lt;p&gt;重置管理员密码：docker exec -ti &lt;container_id&gt; reset-password&lt;/container_id&gt;&lt;/p&gt;
+        &lt;/blockquote&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;8k8s集群安装&quot;&gt;8、K8S集群安装&lt;/h2&gt;
+&lt;ol&gt;
+  &lt;li&gt;修改系统镜像库地址&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;使用浏览器登录rancher-server，点击“全局配置”–“系统设置”，找到“system-default-registry”，点击编辑，设置为harbor镜像库地址。
+&lt;img src=&quot;/images/posts/rancher/2018-11-26_112843.png&quot; alt=&quot;&quot; /&gt;
+&lt;img src=&quot;/images/posts/rancher/2018-11-26_112911.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;添加集群 &lt;br /&gt;
+&lt;img src=&quot;/images/posts/rancher/2018-11-26_112242.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;选择自定义
+&lt;img src=&quot;/images/posts/rancher/2018-11-26_112436.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;选择组件信息&lt;br /&gt;
+&lt;img src=&quot;/images/posts/rancher/2018-11-26_112549.png&quot; alt=&quot;&quot; /&gt;
+    &lt;blockquote&gt;
+      &lt;p&gt;当有内外网时，点击“高级选型”添加主机内外网地址&lt;/p&gt;
+    &lt;/blockquote&gt;
+  &lt;/li&gt;
+  &lt;li&gt;选择主机角色
+&lt;img src=&quot;/images/posts/rancher/2018-11-26_112702.png&quot; alt=&quot;&quot; /&gt;
+    &lt;blockquote&gt;
+      &lt;p&gt;主机角色中的etcd为k8s中数据库，controller包含k8s的master组件（apiserver、controller manager、schedule），worker包含kubelet、kube-proxy&lt;/p&gt;
+    &lt;/blockquote&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;登录主机执行命令
+拷贝给出的命令，登录目标主机执行命令，片刻后会自动注册至rancher-server&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;注册成功
+&lt;img src=&quot;/images/posts/rancher/2018-11-26_113449.png&quot; alt=&quot;&quot; /&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;9命令行工具&quot;&gt;9、命令行工具&lt;/h2&gt;
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;kubectl &lt;br /&gt;
+点击“集群”，点击“kubeconfig”复制文件到需要运行kubectl的主机~/.kube/config&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;rancher-cli &lt;br /&gt;
+登录rancher-server，点击用户头像，选择“api&amp;amp;ksys”，点击添加key，填写描述信息，选择有效时长，保存key信息，复制token
+在安装有rancher-cli的windows cmd中运行： &lt;br /&gt;
+rancher login https://rancher-server-ip  –token &amp;lt;token&amp;gt;
+&lt;img src=&quot;/images/posts/rancher/2018-11-26_133849.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;</content><author><name>Barry New</name></author><summary type="html">CentOS7安装Rancher2.x</summary></entry><entry><title type="html">Linux下安装tomcat</title><link href="https://kago.site/2018/11/15/tomcat-install/" rel="alternate" type="text/html" title="Linux下安装tomcat" /><published>2018-11-15T00:00:00+08:00</published><updated>2018-11-15T00:00:00+08:00</updated><id>https://kago.site/2018/11/15/tomcat-install</id><content type="html" xml:base="https://kago.site/2018/11/15/tomcat-install/">&lt;h1 id=&quot;前言&quot;&gt;前言&lt;/h1&gt;
 
 &lt;p&gt;tomcat 是一款优秀的 web 应用服务器，可以用来运行 servlet。下文记录 tomcat 的安装以及使用 systemctl 命令进行控制的过程。&lt;/p&gt;
 &lt;blockquote&gt;
