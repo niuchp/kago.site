@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="https://kago.site/feed.xml" rel="self" type="application/atom+xml" /><link href="https://kago.site/" rel="alternate" type="text/html" /><updated>2018-11-26T18:04:13+08:00</updated><id>https://kago.site/feed.xml</id><title type="html">阅后即忘 | 牛昌平的个人博客</title><subtitle>点滴积累，聚沙成塔</subtitle><author><name>Barry New</name></author><entry><title type="html">CentOS7安装rancher2.x</title><link href="https://kago.site/2018/11/26/install-rancher/" rel="alternate" type="text/html" title="CentOS7安装rancher2.x" /><published>2018-11-26T00:00:00+08:00</published><updated>2018-11-26T00:00:00+08:00</updated><id>https://kago.site/2018/11/26/install-rancher</id><content type="html" xml:base="https://kago.site/2018/11/26/install-rancher/">&lt;h1 id=&quot;centos7安装rancher2x&quot;&gt;CentOS7安装Rancher2.x&lt;/h1&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="https://kago.site/feed.xml" rel="self" type="application/atom+xml" /><link href="https://kago.site/" rel="alternate" type="text/html" /><updated>2018-11-26T20:04:32+08:00</updated><id>https://kago.site/feed.xml</id><title type="html">阅后即忘 | 牛昌平的个人博客</title><subtitle>点滴积累，聚沙成塔</subtitle><author><name>Barry New</name></author><entry><title type="html">CentOS7安装rancher2.x</title><link href="https://kago.site/2018/11/26/install-rancher/" rel="alternate" type="text/html" title="CentOS7安装rancher2.x" /><published>2018-11-26T00:00:00+08:00</published><updated>2018-11-26T00:00:00+08:00</updated><id>https://kago.site/2018/11/26/install-rancher</id><content type="html" xml:base="https://kago.site/2018/11/26/install-rancher/">&lt;h1 id=&quot;centos7安装rancher2x&quot;&gt;CentOS7安装Rancher2.x&lt;/h1&gt;
 
 &lt;p&gt;容器已然成为IT建设的潮流，目前最流行的容器管理、编排方案莫过于Kubernetes（简称K8S)，但是使用过K8S的小伙伴肯定和我一样爬坑无数。我曾经写过一套安装脚本用于公司内部环境部署，虽所简化了安装过程，但在管理多个K8S环境时（项目多数以整个集群为交付成果，开发测试时也划分了多个集群）仍然很犯难，Rancher对我而言最大的吸引点可能就在于此吧，参考官方文档实验后简单记录如下，便于日后回顾。&lt;/p&gt;
 
@@ -274,7 +274,7 @@ ui_url_protocol = https
 ssl_cert = /data/cert/harbor.kago.site.crt
 ssl_cert_key = /data/cert/harbor.kago.site.key
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;** 2. 执行安装**&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;2. 执行安装&lt;/strong&gt;&lt;/p&gt;
 &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@harbor cert]#cd /opt/harbor/
 &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@harbor harbor]#sh install.sh
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
@@ -343,26 +343,87 @@ rancher/rancher-agent:v2.1.1
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;ol&gt;
-  &lt;li&gt;拉取保存脚本&lt;br /&gt;
-```bash
-[root@harbor opt]#cat rancher-save-images.sh&lt;/li&gt;
+  &lt;li&gt;拉取保存脚本&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;p&gt;#!/bin/bash
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@harbor opt]#cat rancher-save-images.sh
+&lt;span class=&quot;c&quot;&gt;#!/bin/bash&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;rancher-images.txt&quot;&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;images&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;rancher-images.tar.gz&quot;&lt;/span&gt;
+
+&lt;span class=&quot;nv&quot;&gt;POSITIONAL&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=()&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;while&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[[&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$# &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-gt&lt;/span&gt; 0 &lt;span class=&quot;o&quot;&gt;]]&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do
+    &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$1&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$key&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;-i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;--images&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;nv&quot;&gt;images&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$2&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
+        &lt;span class=&quot;nb&quot;&gt;shift&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;# past argument&lt;/span&gt;
+        &lt;span class=&quot;nb&quot;&gt;shift&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;# past value&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;;;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;-l&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;--image-list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;nv&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$2&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
+        &lt;span class=&quot;nb&quot;&gt;shift&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;# past argument&lt;/span&gt;
+        &lt;span class=&quot;nb&quot;&gt;shift&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;# past value&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;;;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;-h&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;--help&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;nb&quot;&gt;help&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;true&quot;&lt;/span&gt;
+        &lt;span class=&quot;nb&quot;&gt;shift&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;;;&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;esac&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;done
+
+&lt;/span&gt;usage &lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;USAGE: &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$0&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt; [--image-list rancher-images.txt] [--images rancher-images.tar.gz]&quot;&lt;/span&gt;
+    &lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;  [-l|--images-list path] text file with list of images. 1 per line.&quot;&lt;/span&gt;
+    &lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;  [-l|--images path] tar.gz generated by docker save.&quot;&lt;/span&gt;
+    &lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;  [-h|--help] Usage message&quot;&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[[&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$help&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;]]&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;then
+    &lt;/span&gt;usage
+    &lt;span class=&quot;nb&quot;&gt;exit &lt;/span&gt;0
+&lt;span class=&quot;k&quot;&gt;fi
+
+&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;set&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-e&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-x&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;i &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;$(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cat&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;})&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do
+    &lt;/span&gt;docker pull &lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;done
+
+&lt;/span&gt;docker save &lt;span class=&quot;k&quot;&gt;$(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cat&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt; | tr &lt;span class=&quot;s1&quot;&gt;'\n'&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;' '&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;)&lt;/span&gt; | gzip &lt;span class=&quot;nt&quot;&gt;-c&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;images&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;项目创建&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;登录harbor.kago.site，创建公开项目rancher、minio&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;镜像上传&lt;br /&gt;
+```bash
+[root@harbor opt]#cat rancher-load-images.sh
+#!/bin/bash
 list=”rancher-images.txt”
-images=”rancher-images.tar.gz”&lt;/p&gt;
+images=”rancher-images.tar.gz”&lt;/li&gt;
+&lt;/ol&gt;
 
 &lt;p&gt;POSITIONAL=()
 while [[ $# -gt 0 ]]; do
     key=”$1”
     case $key in
-        -i|–images)
-        images=”$2”
+        -r|–registry)
+        reg=”$2”
         shift # past argument
         shift # past value
         ;;
         -l|–image-list)
         list=”$2”
+        shift # past argument
+        shift # past value
+        ;;
+        -i|–images)
+        images=”$2”
         shift # past argument
         shift # past value
         ;;
@@ -374,101 +435,46 @@ while [[ $# -gt 0 ]]; do
 done&lt;/p&gt;
 
 &lt;p&gt;usage () {
-    echo “USAGE: $0 [–image-list rancher-images.txt] [–images rancher-images.tar.gz]”
+    echo “USAGE: $0 [–image-list rancher-images.txt] [–images rancher-images.tar.gz] –registry my.registry.com:5000”
     echo “  [-l|–images-list path] text file with list of images. 1 per line.”
     echo “  [-l|–images path] tar.gz generated by docker save.”
+    echo “  [-r|–registry registry:port] target private registry:port.”
     echo “  [-h|–help] Usage message”
 }&lt;/p&gt;
 
-&lt;p&gt;if [[ $help ]]; then
-    usage
-    exit 0
-fi&lt;/p&gt;
-
-&lt;p&gt;set -e -x&lt;/p&gt;
-
-&lt;p&gt;for i in $(cat ${list}); do
-    docker pull ${i}
-done&lt;/p&gt;
-
-&lt;p&gt;docker save $(cat ${list} | tr ‘\n’ ‘ ‘) | gzip -c &amp;gt; ${images}&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-3. 项目创建
-登录harbor.kago.site，创建公开项目rancher、minio
-
-
-4. 镜像上传   
-```bash
-[root@harbor opt]#cat rancher-load-images.sh
-#!/bin/bash
-list=&quot;rancher-images.txt&quot;
-images=&quot;rancher-images.tar.gz&quot;
-
-POSITIONAL=()
-while [[ $# -gt 0 ]]; do
-    key=&quot;$1&quot;
-    case $key in
-        -r|--registry)
-        reg=&quot;$2&quot;
-        shift # past argument
-        shift # past value
-        ;;
-        -l|--image-list)
-        list=&quot;$2&quot;
-        shift # past argument
-        shift # past value
-        ;;
-        -i|--images)
-        images=&quot;$2&quot;
-        shift # past argument
-        shift # past value
-        ;;
-        -h|--help)
-        help=&quot;true&quot;
-        shift
-        ;;
-    esac
-done
-
-usage () {
-    echo &quot;USAGE: $0 [--image-list rancher-images.txt] [--images rancher-images.tar.gz] --registry my.registry.com:5000&quot;
-    echo &quot;  [-l|--images-list path] text file with list of images. 1 per line.&quot;
-    echo &quot;  [-l|--images path] tar.gz generated by docker save.&quot;
-    echo &quot;  [-r|--registry registry:port] target private registry:port.&quot;
-    echo &quot;  [-h|--help] Usage message&quot;
-}
-
-if [[ -z $reg ]]; then
+&lt;p&gt;if [[ -z $reg ]]; then
     usage
     exit 1
 fi
 if [[ $help ]]; then
     usage
     exit 0
-fi
+fi&lt;/p&gt;
 
-set -e -x
+&lt;p&gt;set -e -x&lt;/p&gt;
 
-docker load --input ${images}
+&lt;p&gt;docker load –input ${images}&lt;/p&gt;
 
-for i in $(cat ${list}); do
+&lt;p&gt;for i in $(cat ${list}); do
     docker tag ${i} ${reg}/${i}
     docker push ${reg}/${i}
-done
+done&lt;/p&gt;
 
-[root@harbor opt]#docker login harbor.kago.site
-[root@harbor opt]#sh rancher-load-images.sh -l ./rancher-images.txt -r harbor.kago.site
+&lt;p&gt;[root@harbor opt]#docker login harbor.kago.site
+[root@harbor opt]#sh rancher-load-images.sh -l ./rancher-images.txt -r harbor.kago.site&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+
+
+## 7、安装rancher-server
+1. 启动rancher-server   
+```bash
+[root@server opt]#docker run -d --restart=unless-stopped   -p 80:80 -p 443:443   -v /root/var/log/auditlog:/var/log/auditlog   -e AUDIT_LEVEL=3   -e AUDIT_LOG_PATH=/var/log/auditlog/rancher-api-audit.log   -e AUDIT_LOG_MAXAGE=20   -e AUDIT_LOG_MAXBACKUP=20   -e AUDIT_LOG_MAXSIZE=100   harbor.kago.site/rancher/rancher:v2.1.1
+[root@server ~]# docker ps
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS                                      NAMES
+8dc861f595b4        5370bbde1a1b        &quot;entrypoint.sh&quot;     7 hours ago         Up 6 hours          0.0.0.0:80-&amp;gt;80/tcp, 0.0.0.0:443-&amp;gt;443/tcp   stupefied_austin
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;h2 id=&quot;7安装rancher-server&quot;&gt;7、安装rancher-server&lt;/h2&gt;
 &lt;ol&gt;
-  &lt;li&gt;启动rancher-server
-    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@server opt]#docker run &lt;span class=&quot;nt&quot;&gt;-d&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--restart&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;unless-stopped   &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; 80:80 &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; 443:443   &lt;span class=&quot;nt&quot;&gt;-v&lt;/span&gt; /root/var/log/auditlog:/var/log/auditlog   &lt;span class=&quot;nt&quot;&gt;-e&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;AUDIT_LEVEL&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;3   &lt;span class=&quot;nt&quot;&gt;-e&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;AUDIT_LOG_PATH&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/var/log/auditlog/rancher-api-audit.log   &lt;span class=&quot;nt&quot;&gt;-e&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;AUDIT_LOG_MAXAGE&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;20   &lt;span class=&quot;nt&quot;&gt;-e&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;AUDIT_LOG_MAXBACKUP&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;20   &lt;span class=&quot;nt&quot;&gt;-e&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;AUDIT_LOG_MAXSIZE&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;100   harbor.kago.site/rancher/rancher:v2.1.1
-&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@server ~]# docker ps
-CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS                                      NAMES
-8dc861f595b4        5370bbde1a1b        &lt;span class=&quot;s2&quot;&gt;&quot;entrypoint.sh&quot;&lt;/span&gt;     7 hours ago         Up 6 hours          0.0.0.0:80-&amp;gt;80/tcp, 0.0.0.0:443-&amp;gt;443/tcp   stupefied_austin
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
   &lt;li&gt;浏览器登录rancher-server
     &lt;ul&gt;
       &lt;li&gt;设置密码&lt;/li&gt;
@@ -486,9 +492,11 @@ CONTAINER ID        IMAGE               COMMAND             CREATED             
   &lt;li&gt;修改系统镜像库地址&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;p&gt;使用浏览器登录rancher-server，点击“全局配置”–“系统设置”，找到“system-default-registry”，点击编辑，设置为harbor镜像库地址。
-&lt;img src=&quot;/images/posts/rancher/2018-11-26_112843.png&quot; alt=&quot;&quot; /&gt;
-&lt;img src=&quot;/images/posts/rancher/2018-11-26_112911.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;使用浏览器登录rancher-server，点击“全局配置”–“系统设置”，找到“system-default-registry”，点击编辑，设置为harbor镜像库地址。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/rancher/2018-11-26_112843.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/rancher/2018-11-26_112911.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
 &lt;ol&gt;
   &lt;li&gt;
