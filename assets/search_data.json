@@ -1,5 +1,11 @@
 {
   
+  "2018-11-26-install-rancher": {
+    "title": "template page",
+    "url": " /2018/11/26/install-rancher/",
+    "category": "cate1"
+  },
+  
   "2018-11-15-tomcat-install": {
     "title": "Linux下安装tomcat",
     "url": " /2018/11/15/tomcat-install/",
@@ -178,6 +184,12 @@
     "title": "Linux下安装tomcat",
     "url": "/2018/11/15/tomcat-install/",
     "category": "[&quot;tomcat&quot;]"
+  },
+  
+  "2018-11-26-install-rancher": {
+    "title": "template page",
+    "url": "/2018/11/26/install-rancher/",
+    "category": "[&quot;cate1&quot;, &quot;cate2&quot;]"
   },
   
   "wiki-android-studio": {
