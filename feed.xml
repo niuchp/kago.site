@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="https://kago.site/feed.xml" rel="self" type="application/atom+xml" /><link href="https://kago.site/" rel="alternate" type="text/html" /><updated>2018-11-26T20:04:32+08:00</updated><id>https://kago.site/feed.xml</id><title type="html">阅后即忘 | 牛昌平的个人博客</title><subtitle>点滴积累，聚沙成塔</subtitle><author><name>Barry New</name></author><entry><title type="html">CentOS7安装rancher2.x</title><link href="https://kago.site/2018/11/26/install-rancher/" rel="alternate" type="text/html" title="CentOS7安装rancher2.x" /><published>2018-11-26T00:00:00+08:00</published><updated>2018-11-26T00:00:00+08:00</updated><id>https://kago.site/2018/11/26/install-rancher</id><content type="html" xml:base="https://kago.site/2018/11/26/install-rancher/">&lt;h1 id=&quot;centos7安装rancher2x&quot;&gt;CentOS7安装Rancher2.x&lt;/h1&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="https://kago.site/feed.xml" rel="self" type="application/atom+xml" /><link href="https://kago.site/" rel="alternate" type="text/html" /><updated>2018-11-26T20:17:26+08:00</updated><id>https://kago.site/feed.xml</id><title type="html">阅后即忘 | 牛昌平的个人博客</title><subtitle>点滴积累，聚沙成塔</subtitle><author><name>Barry New</name></author><entry><title type="html">CentOS7安装rancher2.x</title><link href="https://kago.site/2018/11/26/install-rancher/" rel="alternate" type="text/html" title="CentOS7安装rancher2.x" /><published>2018-11-26T00:00:00+08:00</published><updated>2018-11-26T00:00:00+08:00</updated><id>https://kago.site/2018/11/26/install-rancher</id><content type="html" xml:base="https://kago.site/2018/11/26/install-rancher/">&lt;h1 id=&quot;centos7安装rancher2x&quot;&gt;CentOS7安装Rancher2.x&lt;/h1&gt;
 
 &lt;p&gt;容器已然成为IT建设的潮流，目前最流行的容器管理、编排方案莫过于Kubernetes（简称K8S)，但是使用过K8S的小伙伴肯定和我一样爬坑无数。我曾经写过一套安装脚本用于公司内部环境部署，虽所简化了安装过程，但在管理多个K8S环境时（项目多数以整个集群为交付成果，开发测试时也划分了多个集群）仍然很犯难，Rancher对我而言最大的吸引点可能就在于此吧，参考官方文档实验后简单记录如下，便于日后回顾。&lt;/p&gt;
 
@@ -275,6 +275,7 @@ ssl_cert = /data/cert/harbor.kago.site.crt
 ssl_cert_key = /data/cert/harbor.kago.site.key
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;p&gt;&lt;strong&gt;2. 执行安装&lt;/strong&gt;&lt;/p&gt;
+
 &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@harbor cert]#cd /opt/harbor/
 &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@harbor harbor]#sh install.sh
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
