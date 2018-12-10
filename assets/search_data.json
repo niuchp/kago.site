@@ -1,5 +1,11 @@
 {
   
+  "2018-12-10-rancher-ha": {
+    "title": "Rancher高可用部署",
+    "url": " /2018/12/10/rancher-HA/",
+    "category": "rancher"
+  },
+  
   "2018-11-26-install-rancher": {
     "title": "CentOS7安装rancher2.x",
     "url": " /2018/11/26/install-rancher/",
@@ -189,6 +195,12 @@
   "2018-11-26-install-rancher": {
     "title": "CentOS7安装rancher2.x",
     "url": "/2018/11/26/install-rancher/",
+    "category": "[&quot;rancher&quot;, &quot;kubernetes&quot;]"
+  },
+  
+  "2018-12-10-rancher-ha": {
+    "title": "Rancher高可用部署",
+    "url": "/2018/12/10/rancher-HA/",
     "category": "[&quot;rancher&quot;, &quot;kubernetes&quot;]"
   },
   

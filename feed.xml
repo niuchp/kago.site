@@ -1,4 +1,333 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="https://kago.site/feed.xml" rel="self" type="application/atom+xml" /><link href="https://kago.site/" rel="alternate" type="text/html" /><updated>2018-11-26T20:23:05+08:00</updated><id>https://kago.site/feed.xml</id><title type="html">阅后即忘 | 牛昌平的个人博客</title><subtitle>点滴积累，聚沙成塔</subtitle><author><name>Barry New</name></author><entry><title type="html">CentOS7安装rancher2.x</title><link href="https://kago.site/2018/11/26/install-rancher/" rel="alternate" type="text/html" title="CentOS7安装rancher2.x" /><published>2018-11-26T00:00:00+08:00</published><updated>2018-11-26T00:00:00+08:00</updated><id>https://kago.site/2018/11/26/install-rancher</id><content type="html" xml:base="https://kago.site/2018/11/26/install-rancher/">&lt;h1 id=&quot;centos7安装rancher2x&quot;&gt;CentOS7安装Rancher2.x&lt;/h1&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="https://kago.site/feed.xml" rel="self" type="application/atom+xml" /><link href="https://kago.site/" rel="alternate" type="text/html" /><updated>2018-12-10T18:01:42+08:00</updated><id>https://kago.site/feed.xml</id><title type="html">阅后即忘 | 牛昌平的个人博客</title><subtitle>点滴积累，聚沙成塔</subtitle><author><name>Barry New</name></author><entry><title type="html">Rancher高可用部署</title><link href="https://kago.site/2018/12/10/rancher-HA/" rel="alternate" type="text/html" title="Rancher高可用部署" /><published>2018-12-10T00:00:00+08:00</published><updated>2018-12-10T00:00:00+08:00</updated><id>https://kago.site/2018/12/10/rancher-HA</id><content type="html" xml:base="https://kago.site/2018/12/10/rancher-HA/">&lt;blockquote&gt;
+  &lt;p&gt;前一篇博客&lt;a href=&quot;https://kago.site/2018/11/26/install-rancher/&quot;&gt; “CentOS7安装Rancher2.x” &lt;/a&gt;分享可如何部署单节点的 Rancher-Server。在生产环境部署时，需要考虑到 Rancher-Server 的可用性，单实例部署时，当 Rancher-Server 节点出现故障导致服务不可用时（ rancher-server 故障不会影响运行的 k8s 集群及其业务容器），将不能通过 web-ui 进行操作。本文通过参考&lt;a href=&quot;https://www.cnrancher.com/docs/rancher/v2.x/cn/installation/server-installation/ha-install/helm-rancher/&quot;&gt;官方文档&lt;/a&gt;分享搭建高可用 Rancher-Server 的过程。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;1说明&quot;&gt;1、说明&lt;/h2&gt;
+
+&lt;h3 id=&quot;11架构说明&quot;&gt;1.1、架构说明&lt;/h3&gt;
+
+&lt;p&gt;Rancher-Server 的高可用部署，实则是利用 kubernetes 的 deployment 实现，利用 rke 工具，部署三节点 kubernetes 集群（每个节点都运行 etcd、kube-master、kube-worker），使用helm 安装 Rancher-Server，Rancher-Server 即为 kubernetes 中的应用服务，由集群提供高可用实现。前端可配置负载均衡器或软件负载均衡如 nginx 或 ingress，安装完成后 Rancher-Server 会自动纳管 rke 安装的本地 kubernetes 集群。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/rancher-ha/2018-12-10_111310.png&quot; alt=&quot;rancher-ha架构&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;12环境说明&quot;&gt;1.2、环境说明&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;操作系统：CentOS7.2&lt;/li&gt;
+  &lt;li&gt;OS内核：3.10.0 (使用Overlay2需要升级内核至4.x）&lt;/li&gt;
+  &lt;li&gt;Rancher:2.1.3&lt;/li&gt;
+  &lt;li&gt;Docker: 17.03&lt;/li&gt;
+  &lt;li&gt;集群IP地址划分：&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;role&lt;/th&gt;
+      &lt;th&gt;hostname&lt;/th&gt;
+      &lt;th&gt;IP&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;rancher-server&lt;/td&gt;
+      &lt;td&gt;server1&lt;/td&gt;
+      &lt;td&gt;192.168.31.10&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;rancher-server&lt;/td&gt;
+      &lt;td&gt;server2&lt;/td&gt;
+      &lt;td&gt;192.168.31.11&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;rancher-server&lt;/td&gt;
+      &lt;td&gt;server3&lt;/td&gt;
+      &lt;td&gt;192.168.31.12&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;worker&lt;/td&gt;
+      &lt;td&gt;node1&lt;/td&gt;
+      &lt;td&gt;192.168.31.20&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;worker&lt;/td&gt;
+      &lt;td&gt;node2&lt;/td&gt;
+      &lt;td&gt;192.168.31.21&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;worker&lt;/td&gt;
+      &lt;td&gt;node3&lt;/td&gt;
+      &lt;td&gt;192.168.31.22&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;registry&lt;/td&gt;
+      &lt;td&gt;harbor.kago.site&lt;/td&gt;
+      &lt;td&gt;192.168.31.65&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;参考&lt;a href=&quot;https://kago.site/2018/11/26/install-rancher/&quot;&gt; “CentOS7安装Rancher2.x” &lt;/a&gt;要求各个服务器满足如下要求：&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;harbor镜像库：
+    &lt;ul&gt;
+      &lt;li&gt;安装完成&lt;/li&gt;
+      &lt;li&gt;上传 rancher 所需镜像&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Rancher-Server节点：
+    &lt;ul&gt;
+      &lt;li&gt;各节点安装 docker&lt;/li&gt;
+      &lt;li&gt;信任 harbor 镜像库，并完成登录&lt;/li&gt;
+      &lt;li&gt;新建 rancher 用户&lt;/li&gt;
+      &lt;li&gt;各节点 rancher 用户可 ssh 免密钥登录&lt;/li&gt;
+      &lt;li&gt;openssh 版本在 6.7 以上&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;worker节点：
+    &lt;ul&gt;
+      &lt;li&gt;各节点安装 docker&lt;/li&gt;
+      &lt;li&gt;信任 harbor 镜像库，并完成登录&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;13软件准备&quot;&gt;1.3、软件准备&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;rke&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;点击&lt;a href=&quot;https://www.cnrancher.com/download/rke/rke_linux-amd64&quot;&gt;下载rke-linux-amd64&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;复制命令到PATH&lt;/p&gt;
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@server1 ~]# chmod +x rke_linux_amd64
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@server1 ~]# cp rke_linux_amd64 /usr/local/bin/
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@server1 ~]# ln &lt;span class=&quot;nt&quot;&gt;-s&lt;/span&gt; /usr/local/bin/rke_linux_amd64 /usr/bin/rke
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;helm&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;点击&lt;a href=&quot;https://www.cnrancher.com/download/helm/helm-linux.tar.gz&quot;&gt;下载helm-linux.tar.gz&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;解压文件并复制到PATH
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@server1 ~]# &lt;span class=&quot;nb&quot;&gt;tar&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-zxf&lt;/span&gt; helm-linux.tar.gz
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@server1 ~]# chmod +x linux-amd64/helm
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@server1 ~]# cp linux-amd64/helm /usr/bin
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;获取tiller镜像
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@server1 ~]# docker pull registry.cn-hangzhou.aliyuncs.com/google_containers/tiller:v2.12
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@server1 ~]# docker tag registry.cn-hangzhou.aliyuncs.com/google_containers/tiller:v2.12 harbor.kago.site/google_containers/tiller:v2.12
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@server1 ~]# docker push harbor.kago.site/google_containers/tiller:v2.12
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;kubectl&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;点击&lt;a href=&quot;https://www.cnrancher.com/download/kubectl/kubectl_amd64-linux&quot;&gt;下载kubectl&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;复制到PATH&lt;/p&gt;
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@server1 ~]# cp kubectl_amd64-linux /usr/local/bin
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@server1 ~]# chmod +x /usr/local/bin/kubectl_amd64-linux
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@server1 ~]# ln &lt;span class=&quot;nt&quot;&gt;-s&lt;/span&gt; /usr/local/bin/kubectl_amd64-linux /usr/bin/kubectl
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;2rke安装-k8s-集群&quot;&gt;2、RKE安装 K8S 集群&lt;/h2&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;该集群仅用于运行 Rancher-Server，CentOS 环境下使用非 root 用户安装（本案例使用 rancher 用户）。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&quot;21创建配置文件rancher-clusteryml&quot;&gt;2.1、创建配置文件rancher-cluster.yml&lt;/h3&gt;
+
+&lt;div class=&quot;language-yml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;na&quot;&gt;nodes&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;address&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;192.168.31.10&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;rancher&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;role&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;pi&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;controlplane&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;worker&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;etcd&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;]&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;address&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;192.168.31.11&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;rancher&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;role&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;pi&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;controlplane&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;worker&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;etcd&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;]&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;address&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;192.168.31.12&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;rancher&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;role&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;pi&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;controlplane&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;worker&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;etcd&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;]&lt;/span&gt;
+
+&lt;span class=&quot;na&quot;&gt;private_registries&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+&lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;harbor.kago.site&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;admin&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;password&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;xxxxxxxxx&quot;&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;is_default&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;true&lt;/span&gt;
+
+&lt;span class=&quot;na&quot;&gt;services&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;etcd&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;snapshot&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;true&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;creation&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;6h&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;retention&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;24h&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;22执行安装&quot;&gt;2.2、执行安装&lt;/h3&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;rancher@server1 ~]&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;rke up &lt;span class=&quot;nt&quot;&gt;--config&lt;/span&gt; ./rancher-cluster.yml
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;当提示“Finished builled Kubernetes cluster successfully”说明安装成功,并生当前目录生成 kube_config_rancher-cluster.yml 文件。&lt;/p&gt;
+
+&lt;h3 id=&quot;23查看集群状态&quot;&gt;2.3、查看集群状态&lt;/h3&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@server1 ~]# mkdir ~/.kube
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@server1 ~]# cp kube_config_rancher-cluster.yml ~/.kube/config
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@server1 ~]# kubectl get node
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;3安装helm-server&quot;&gt;3、安装helm server&lt;/h2&gt;
+
+&lt;h3 id=&quot;31配置-helm-客户端访问权限&quot;&gt;3.1、配置 helm 客户端访问权限&lt;/h3&gt;
+
+&lt;p&gt;Helm在集群上安装tiller服务以管理charts. 由于RKE默认启用RBAC, 因此我们需要使用kubectl来创建一个serviceaccount，clusterrolebinding才能让tiller具有部署到集群的权限。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;在kube-system命名空间中创建ServiceAccount；&lt;/li&gt;
+  &lt;li&gt;创建ClusterRoleBinding以授予tiller帐户对集群的访问权限&lt;/li&gt;
+  &lt;li&gt;helm初始化tiller服务&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@server1 ~]# kubectl &lt;span class=&quot;nt&quot;&gt;-n&lt;/span&gt; kube-system create serviceaccount tiller
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@server1 ~]# kubectl create clusterrolebinding tiller &lt;span class=&quot;nt&quot;&gt;--clusterrole&lt;/span&gt; cluster-admin &lt;span class=&quot;nt&quot;&gt;--serviceaccount&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;kube-system:tiller
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h3 id=&quot;32添加镜像仓库密钥&quot;&gt;3.2、添加镜像仓库密钥&lt;/h3&gt;
+&lt;ol&gt;
+  &lt;li&gt;生成密钥
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@server1 ~]# kubectl &lt;span class=&quot;nt&quot;&gt;-n&lt;/span&gt; kube-system create secret docker-registry regSecret &lt;span class=&quot;nt&quot;&gt;--docker-server&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;harbor.kago.site&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--docker-username&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;admin &lt;span class=&quot;nt&quot;&gt;--docker-password&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;xxxxxxxx &lt;span class=&quot;nt&quot;&gt;--docker-email&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;niuchp@126.com
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;打patch
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@server1 ~]# kubectl &lt;span class=&quot;nt&quot;&gt;-n&lt;/span&gt; kube-system patch serviceaccounts tiller &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'{&quot;imagePullSecrets&quot;: [{&quot;name&quot;: &quot;regSecret&quot;}]}'&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;33安装helm-server&quot;&gt;3.3、安装helm server&lt;/h3&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@server1 ~]# helm init &lt;span class=&quot;nt&quot;&gt;--service-account&lt;/span&gt; tiller &lt;span class=&quot;nt&quot;&gt;--tiller-image&lt;/span&gt; harbor.kago.site/google_containers/tiller:v2.12 &lt;span class=&quot;nt&quot;&gt;--stable-repo-url&lt;/span&gt; https://kubernetes.oss-cn-hangzhou.aliyuncs.com/charts
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;34添加chart仓库&quot;&gt;3.4、添加chart仓库&lt;/h3&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@server1 ~]# helm repo add rancher-stable https://releases.rancher.com/server-charts/stable
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;4安装-rancher-server&quot;&gt;4、安装 Rancher Server&lt;/h2&gt;
+&lt;h3 id=&quot;41安装cert-manager&quot;&gt;4.1、安装cert-manager&lt;/h3&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@server1 ~]# helm install stable/cert-manager  &lt;span class=&quot;nt&quot;&gt;--name&lt;/span&gt; cert-manager &lt;span class=&quot;nt&quot;&gt;--namespace&lt;/span&gt; kube-system
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;离线环境：&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;在能联网的机器上获取chart
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@server1 ~]# helm fetch stable/cert-manager
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;上传chart后修改配置
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@server1 ~]# helm template ./cert-manager-v0.8.0.tgz &lt;span class=&quot;nt&quot;&gt;--output-dir&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;.&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--name&lt;/span&gt; cert-manager &lt;span class=&quot;nt&quot;&gt;--namespace&lt;/span&gt; kube-system &lt;span class=&quot;nt&quot;&gt;--set&lt;/span&gt; image.repository&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;harbor.kago.site.com/jetstack/cert-manager-controller
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;运行
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@server1 ~]# kubectl apply &lt;span class=&quot;nt&quot;&gt;-n&lt;/span&gt; kube-system - R &lt;span class=&quot;nt&quot;&gt;-f&lt;/span&gt; ./cert-manager
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;42安装rancher-server&quot;&gt;4.2、安装rancher server&lt;/h3&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@server1 ~]# helm install rancher-stable/rancher &lt;span class=&quot;nt&quot;&gt;--name&lt;/span&gt; rancher &lt;span class=&quot;nt&quot;&gt;--namespace&lt;/span&gt; cattle-system &lt;span class=&quot;nt&quot;&gt;--set&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;hostname&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;rancher.kago.site
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;默认情况下，Rancher会自动生成CA根证书并使用cert-manager颁发证书，因此，这里设置了 hostname=rancher.kago.site，后续只能通过域名访问UI&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;离线环境：&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;在能联网的机器上获取chart
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@server1 ~]# helm fetch rancher-stable/rancher
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;上传chart后修改配置
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@server1 ~]# helm template ./rancher-2018.10.2.tgz &lt;span class=&quot;nt&quot;&gt;--output-dir&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;.&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--name&lt;/span&gt; rancher &lt;span class=&quot;nt&quot;&gt;--namespace&lt;/span&gt; cattle-system &lt;span class=&quot;nt&quot;&gt;--set&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;hostname&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;rancher.kago.site &lt;span class=&quot;nt&quot;&gt;--set&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;rancherImage&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;harbor.kago.site/rancher/rancher
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;运行
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@server1 ~]# kubectl create namespace cattle-system
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@server1 ~]# kubectl apply &lt;span class=&quot;nt&quot;&gt;-n&lt;/span&gt; cattle-system &lt;span class=&quot;nt&quot;&gt;-R&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-f&lt;/span&gt; ./rancher
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;5为agent-pod添加主机别名&quot;&gt;5、为Agent Pod添加主机别名&lt;/h2&gt;
+
+&lt;p&gt;如果你没有内部DNS服务器而是通过添加/etc/hosts主机别名的方式指定的Rancher server域名，那么不管通过哪种方式(自定义、导入、Host驱动等)创建K8S集群，K8S集群运行起来之后，因为cattle-cluster-agent Pod和cattle-node-agent无法通过DNS记录找到Rancher server,最终导致无法通信。&lt;/p&gt;
+
+&lt;p&gt;可以通过给cattle-cluster-agent Pod和cattle-node-agent添加主机别名(/etc/hosts)，让其可以正常通信(前提是IP地址可以互通)。&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;注意：替换以下命令中的域名和IP&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&quot;51cattle-cluster-agent-pod&quot;&gt;5.1、cattle-cluster-agent pod&lt;/h3&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@server1 ~]# kubectl &lt;span class=&quot;nt&quot;&gt;-n&lt;/span&gt; cattle-system patch  deployments cattle-cluster-agent &lt;span class=&quot;nt&quot;&gt;--patch&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'{
+    &quot;spec&quot;: {
+        &quot;template&quot;: {
+            &quot;spec&quot;: {
+                &quot;hostAliases&quot;: [
+                    {
+                        &quot;hostnames&quot;:
+                        [
+                            &quot;rancher.kago.site&quot;
+                        ],
+                            &quot;ip&quot;: &quot;192.168.31.10&quot;
+                    }
+                ]
+            }
+        }
+    }
+}'&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;52cattle-node-agent-pod&quot;&gt;5.2、cattle-node-agent pod&lt;/h3&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@server1 ~]# kubectl &lt;span class=&quot;nt&quot;&gt;-n&lt;/span&gt; cattle-system patch  daemonsets cattle-node-agent &lt;span class=&quot;nt&quot;&gt;--patch&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'{
+    &quot;spec&quot;: {
+        &quot;template&quot;: {
+            &quot;spec&quot;: {
+                &quot;hostAliases&quot;: [
+                    {
+                        &quot;hostnames&quot;:
+                        [
+                            &quot;rancher.kago.site&quot;
+                        ],
+                            &quot;ip&quot;: &quot;192.168.31.10&quot;
+                    }
+                ]
+            }
+        }
+    }
+}'&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Barry New</name></author><summary type="html">前一篇博客 “CentOS7安装Rancher2.x” 分享可如何部署单节点的 Rancher-Server。在生产环境部署时，需要考虑到 Rancher-Server 的可用性，单实例部署时，当 Rancher-Server 节点出现故障导致服务不可用时（ rancher-server 故障不会影响运行的 k8s 集群及其业务容器），将不能通过 web-ui 进行操作。本文通过参考官方文档分享搭建高可用 Rancher-Server 的过程。</summary></entry><entry><title type="html">CentOS7安装rancher2.x</title><link href="https://kago.site/2018/11/26/install-rancher/" rel="alternate" type="text/html" title="CentOS7安装rancher2.x" /><published>2018-11-26T00:00:00+08:00</published><updated>2018-11-26T00:00:00+08:00</updated><id>https://kago.site/2018/11/26/install-rancher</id><content type="html" xml:base="https://kago.site/2018/11/26/install-rancher/">&lt;h1 id=&quot;centos7安装rancher2x&quot;&gt;CentOS7安装Rancher2.x&lt;/h1&gt;
 
 &lt;p&gt;容器已然成为IT建设的潮流，目前最流行的容器管理、编排方案莫过于Kubernetes（简称K8S)，但是使用过K8S的小伙伴肯定和我一样爬坑无数。我曾经写过一套安装脚本用于公司内部环境部署，虽所简化了安装过程，但在管理多个K8S环境时（项目多数以整个集群为交付成果，开发测试时也划分了多个集群）仍然很犯难，Rancher对我而言最大的吸引点可能就在于此吧，参考官方文档实验后简单记录如下，便于日后回顾。&lt;/p&gt;
 
@@ -2300,40 +2629,4 @@ MariaDB &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;mydb]&amp;gt; show tables&
 +----------------+
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
   &lt;/li&gt;
-&lt;/ol&gt;</content><author><name>Barry New</name></author><summary type="html">这篇文章主要详细介绍了mariadb的主从复制、主主复制、半同步复制的概念和方法。 参考http://www.jb51.net/article/97786.htm</summary></entry><entry><title type="html">没想到是这样的…</title><link href="https://kago.site/2017/11/19/mypets/" rel="alternate" type="text/html" title="没想到是这样的..." /><published>2017-11-19T00:00:00+08:00</published><updated>2017-11-19T00:00:00+08:00</updated><id>https://kago.site/2017/11/19/mypets</id><content type="html" xml:base="https://kago.site/2017/11/19/mypets/">&lt;h3 id=&quot;罪恶的源头&quot;&gt;罪恶的源头&lt;/h3&gt;
-
-&lt;p&gt;一切到要从漫画家&lt;a href=&quot;http://wuhuang-wanshui.lofter.com/&quot;&gt;白茶&lt;/a&gt;养的两只“明星”说起，一只叫“吾皇”，另一只叫“巴扎黑”&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/blog/wuhuang.jpg&quot; alt=&quot;吾皇&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/blog/bazhahei.jpg&quot; alt=&quot;巴扎黑&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;只怪当时太年轻，以为集齐了吾皇和巴扎黑就能得到整个世界，然而故事好像偏离了轨道…&lt;/p&gt;
-
-&lt;h3 id=&quot;我可能养了一只猪&quot;&gt;我可能养了一只猪&lt;/h3&gt;
-
-&lt;p&gt;记得巴扎黑来到家里的时间大概是今年的8月15号，是女朋友送给我的，只因为我和她说过喜欢白茶养的巴扎黑。因此，我们家的小巴哥犬的名字也叫成了巴扎黑，觉得更贴切一些（其实只是因为懒）。当时这只小巴哥犬才2个月多一点，狂犬疫苗还没接种，但是阻挡不了我对它的喜爱：水汪汪的大眼睛总是像别人欠它好几块骨头似的。&lt;/p&gt;
-
-&lt;p&gt;话不多说，直接上图：&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/blog/xiaoshihoudebazhahei.jpg&quot; alt=&quot;巴扎黑刚来的时候&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;巴哥犬在狗界是出了名的贪吃，加上它还是只幼犬，每天只想着吃吃吃，虽然每天都在控制食量，但还是在不到三个月的时间体重由4斤飙至11斤。粗壮的体型加上吃饭是发出的声音神似一只小猪…难怪经常被保洁阿姨唤作“你家那头小猪”。
-巴扎黑，就问你羞不羞！！
-&lt;img src=&quot;/images/blog/hazhaheishafa.jpg&quot; alt=&quot;胖子巴扎黑&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;我才是老大&quot;&gt;我才是老大&lt;/h3&gt;
-
-&lt;p&gt;有了巴扎黑怎么能没有吾皇，就在一个阳光明媚的下午，一只橘猫来到的我们家。
-&lt;img src=&quot;/images/blog/mao.jpg&quot; alt=&quot;蛋挞&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;女朋友一只想养只猫，早先养了一只美短，一个星期后送给了同事。为了这事儿她和我念叨了好多次，尤其是当巴扎黑在家里大小便的时候……&lt;/p&gt;
-
-&lt;p&gt;蛋挞，是一只橘猫，就是最常见的家猫，以胖闻名于猫界，耳边隐约响起“十只橘猫九只胖，还有一只压塌炕”。一个星期的时间真心是见到了什么叫做能吃，肚子已经圆鼓鼓的了还在不停的找吃的。&lt;/p&gt;
-
-&lt;p&gt;最让人抓狂的是，这个小家伙不和人亲热，一副diaodiao的样子，哎就当你是老大吧&lt;/p&gt;
-
-&lt;h3 id=&quot;每天上演猫狗大战&quot;&gt;每天上演猫狗大战&lt;/h3&gt;
-
-&lt;p&gt;每每想到客厅的惨状眼角就泛起了泪花，还是不写了，万一忍不住来个巴扎黑炖蛋挞呢……
-&lt;img src=&quot;/images/blog/maogoudazhan.jpg&quot; alt=&quot;猫狗大战&quot; /&gt;&lt;/p&gt;</content><author><name>Barry New</name></author><summary type="html">罪恶的源头</summary></entry></feed>
+&lt;/ol&gt;</content><author><name>Barry New</name></author><summary type="html">这篇文章主要详细介绍了mariadb的主从复制、主主复制、半同步复制的概念和方法。 参考http://www.jb51.net/article/97786.htm</summary></entry></feed>

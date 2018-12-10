@@ -1,0 +1,616 @@
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?f486d6d8f86740b3452a2f1926de4ee2";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+<script type='text/javascript'>
+    var _vds = _vds || [];
+    window._vds = _vds;
+    (function(){
+      _vds.push(['setAccountId', '9444fe7f33717705']);
+      (function() {
+        var vds = document.createElement('script');
+        vds.type='text/javascript';
+        vds.async = true;
+        vds.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'assets.growingio.com/vds.js';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(vds, s);
+      })();
+    })();
+</script>
+
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans" prefix="og: http://ogp.me/ns#" class="han-init">
+<head>
+    <meta name="baidu-site-verification" content="hojmIeRrdx" />
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>Rancher高可用部署 &mdash; 阅后即忘 | 牛昌平的个人博客</title>
+    <link rel="stylesheet" href="/assets/vendor/primer-css/css/primer.css">
+    <link rel="stylesheet" href="/assets/vendor/primer-markdown/dist/user-content.min.css">
+    <link rel="stylesheet" href="/assets/vendor/octicons/octicons/octicons.css">
+    <link rel="stylesheet" href="/assets/css/components/collection.css">
+    <link rel="stylesheet" href="/assets/css/components/repo-card.css">
+    <link rel="stylesheet" href="/assets/css/sections/repo-list.css">
+    <link rel="stylesheet" href="/assets/css/sections/mini-repo-list.css">
+    <link rel="stylesheet" href="/assets/css/components/boxed-group.css">
+    <link rel="stylesheet" href="/assets/css/globals/common.css">
+    <link rel="stylesheet" href="/assets/vendor/share.js/dist/css/share.min.css">
+    <link rel="stylesheet" href="/assets/css/globals/responsive.css">
+    <link rel="stylesheet" href="/assets/css/posts/index.css">
+    <!-- Latest compiled and minified CSS -->
+    
+
+    
+    <link rel="canonical" href="https://kago.site/2018/12/10/rancher-HA/">
+    <link rel="alternate" type="application/atom+xml" title="阅后即忘 | 牛昌平的个人博客" href="/feed.xml">
+    <link rel="shortcut icon" href="/favicon.ico">
+    
+    <meta property="og:title" content="Rancher高可用部署">
+      
+    <meta name="keywords" content="rancher, kubernetes,HA">
+    <meta name="og:keywords" content="rancher, kubernetes,HA">
+      
+    <meta name="description" content="  前一篇博客 “CentOS7安装Rancher2.x” 分享可如何部署单节点的 Rancher-Server。在生产环境部署时，需要考虑到 Rancher-Server 的可用性，单实例部署时，当 Rancher-Server 节点出现故障导致服务不可用时（ rancher-server 故障不会影响运行的 k8s 集群及其业务容器），将不能通过 web-ui 进行操作。本文通过参考官方文档分享搭建高可用 Rancher-Server 的过程。">
+    <meta name="og:description" content="  前一篇博客 “CentOS7安装Rancher2.x” 分享可如何部署单节点的 Rancher-Server。在生产环境部署时，需要考虑到 Rancher-Server 的可用性，单实例部署时，当 Rancher-Server 节点出现故障导致服务不可用时（ rancher-server 故障不会影响运行的 k8s 集群及其业务容器），将不能通过 web-ui 进行操作。本文通过参考官方文档分享搭建高可用 Rancher-Server 的过程。">
+      
+    
+    
+        
+    
+    <meta property="og:url" content="https://kago.site/2018/12/10/rancher-HA/">
+    <meta property="og:site_name" content="阅后即忘 | 牛昌平的个人博客">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="zh_CN" />
+    
+    <meta property="article:published_time" content="2018-12-10">
+    
+    <script src="/assets/vendor/jquery/dist/jquery.min.js"></script>
+    <script src="/assets/js/jquery-ui.js"></script>
+    <script type="text/javascript">
+    function toggleMenu() {
+        var nav = document.getElementsByClassName("site-header-nav")[0];
+        if (nav.style.display == "inline-flex") {
+          nav.style.display = "none";
+        } else {
+          nav.style.display = "inline-flex";
+        }
+    }
+    </script>
+</head>
+<body class="" data-mz="">
+    <header class="site-header">
+        <div class="container">
+            <h1><a href="/" title="阅后即忘 | 牛昌平的个人博客"><span class="octicon octicon-mark-github"></span> 阅后即忘 | 牛昌平的个人博客</a></h1>
+            <button class="collapsed mobile-visible" type="button" onclick="toggleMenu();">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <nav class="site-header-nav" role="navigation">
+                
+                <a href="/" class=" site-header-nav-item" target="" title="首页">首页</a>
+                
+                <a href="/categories/" class=" site-header-nav-item" target="" title="分类">分类</a>
+                
+                <a href="/wiki/" class=" site-header-nav-item" target="" title="维基">维基</a>
+                
+                <a href="/links/" class=" site-header-nav-item" target="" title="链接">链接</a>
+                
+                <a href="/about/" class=" site-header-nav-item" target="" title="关于">关于</a>
+                
+            </nav>
+        </div>
+    </header>
+    <!-- / header -->
+
+    <section class="collection-head small geopattern" data-pattern-id="Rancher高可用部署">
+<div class="container">
+  <div class="columns">
+    <div class="column three-fourths">
+      <div class="collection-title">
+        <h1 class="collection-header">Rancher高可用部署</h1>
+        <div class="collection-info">
+          
+          <span class="meta-info">
+            <span class="octicon octicon-calendar"></span> 2018/12/10
+          </span>
+          
+          
+          <span class="meta-info">
+            <span class="octicon octicon-file-directory"></span>
+            <a href="/categories/#rancher" title="rancher">rancher</a>
+          </span>
+          
+          <span class="meta-info">
+            <span class="octicon octicon-file-directory"></span>
+            <a href="/categories/#kubernetes" title="kubernetes">kubernetes</a>
+          </span>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+<!-- / .banner -->
+<section class="container content">
+<div class="columns">
+  <div class="column three-fourths" >
+    <article class="article-content markdown-body">
+    <blockquote>
+  <p>前一篇博客<a href="https://kago.site/2018/11/26/install-rancher/"> “CentOS7安装Rancher2.x” </a>分享可如何部署单节点的 Rancher-Server。在生产环境部署时，需要考虑到 Rancher-Server 的可用性，单实例部署时，当 Rancher-Server 节点出现故障导致服务不可用时（ rancher-server 故障不会影响运行的 k8s 集群及其业务容器），将不能通过 web-ui 进行操作。本文通过参考<a href="https://www.cnrancher.com/docs/rancher/v2.x/cn/installation/server-installation/ha-install/helm-rancher/">官方文档</a>分享搭建高可用 Rancher-Server 的过程。</p>
+</blockquote>
+
+<h2 id="1说明">1、说明</h2>
+
+<h3 id="11架构说明">1.1、架构说明</h3>
+
+<p>Rancher-Server 的高可用部署，实则是利用 kubernetes 的 deployment 实现，利用 rke 工具，部署三节点 kubernetes 集群（每个节点都运行 etcd、kube-master、kube-worker），使用helm 安装 Rancher-Server，Rancher-Server 即为 kubernetes 中的应用服务，由集群提供高可用实现。前端可配置负载均衡器或软件负载均衡如 nginx 或 ingress，安装完成后 Rancher-Server 会自动纳管 rke 安装的本地 kubernetes 集群。</p>
+
+<p><img src="/images/posts/rancher-ha/2018-12-10_111310.png" alt="rancher-ha架构" /></p>
+
+<h3 id="12环境说明">1.2、环境说明</h3>
+
+<ul>
+  <li>操作系统：CentOS7.2</li>
+  <li>OS内核：3.10.0 (使用Overlay2需要升级内核至4.x）</li>
+  <li>Rancher:2.1.3</li>
+  <li>Docker: 17.03</li>
+  <li>集群IP地址划分：</li>
+</ul>
+
+<table>
+  <thead>
+    <tr>
+      <th>role</th>
+      <th>hostname</th>
+      <th>IP</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>rancher-server</td>
+      <td>server1</td>
+      <td>192.168.31.10</td>
+    </tr>
+    <tr>
+      <td>rancher-server</td>
+      <td>server2</td>
+      <td>192.168.31.11</td>
+    </tr>
+    <tr>
+      <td>rancher-server</td>
+      <td>server3</td>
+      <td>192.168.31.12</td>
+    </tr>
+    <tr>
+      <td>worker</td>
+      <td>node1</td>
+      <td>192.168.31.20</td>
+    </tr>
+    <tr>
+      <td>worker</td>
+      <td>node2</td>
+      <td>192.168.31.21</td>
+    </tr>
+    <tr>
+      <td>worker</td>
+      <td>node3</td>
+      <td>192.168.31.22</td>
+    </tr>
+    <tr>
+      <td>registry</td>
+      <td>harbor.kago.site</td>
+      <td>192.168.31.65</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>参考<a href="https://kago.site/2018/11/26/install-rancher/"> “CentOS7安装Rancher2.x” </a>要求各个服务器满足如下要求：</p>
+
+<ol>
+  <li>harbor镜像库：
+    <ul>
+      <li>安装完成</li>
+      <li>上传 rancher 所需镜像</li>
+    </ul>
+  </li>
+  <li>Rancher-Server节点：
+    <ul>
+      <li>各节点安装 docker</li>
+      <li>信任 harbor 镜像库，并完成登录</li>
+      <li>新建 rancher 用户</li>
+      <li>各节点 rancher 用户可 ssh 免密钥登录</li>
+      <li>openssh 版本在 6.7 以上</li>
+    </ul>
+  </li>
+  <li>worker节点：
+    <ul>
+      <li>各节点安装 docker</li>
+      <li>信任 harbor 镜像库，并完成登录</li>
+    </ul>
+  </li>
+</ol>
+
+<h3 id="13软件准备">1.3、软件准备</h3>
+
+<ul>
+  <li>rke</li>
+</ul>
+
+<ol>
+  <li>
+    <p>点击<a href="https://www.cnrancher.com/download/rke/rke_linux-amd64">下载rke-linux-amd64</a></p>
+  </li>
+  <li>
+    <p>复制命令到PATH</p>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@server1 ~]# chmod +x rke_linux_amd64
+<span class="o">[</span>root@server1 ~]# cp rke_linux_amd64 /usr/local/bin/
+<span class="o">[</span>root@server1 ~]# ln <span class="nt">-s</span> /usr/local/bin/rke_linux_amd64 /usr/bin/rke
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<ul>
+  <li>helm</li>
+</ul>
+
+<ol>
+  <li>
+    <p>点击<a href="https://www.cnrancher.com/download/helm/helm-linux.tar.gz">下载helm-linux.tar.gz</a></p>
+  </li>
+  <li>解压文件并复制到PATH
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@server1 ~]# <span class="nb">tar</span> <span class="nt">-zxf</span> helm-linux.tar.gz
+<span class="o">[</span>root@server1 ~]# chmod +x linux-amd64/helm
+<span class="o">[</span>root@server1 ~]# cp linux-amd64/helm /usr/bin
+</code></pre></div>    </div>
+  </li>
+  <li>获取tiller镜像
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@server1 ~]# docker pull registry.cn-hangzhou.aliyuncs.com/google_containers/tiller:v2.12
+<span class="o">[</span>root@server1 ~]# docker tag registry.cn-hangzhou.aliyuncs.com/google_containers/tiller:v2.12 harbor.kago.site/google_containers/tiller:v2.12
+<span class="o">[</span>root@server1 ~]# docker push harbor.kago.site/google_containers/tiller:v2.12
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<ul>
+  <li>kubectl</li>
+</ul>
+
+<ol>
+  <li>
+    <p>点击<a href="https://www.cnrancher.com/download/kubectl/kubectl_amd64-linux">下载kubectl</a></p>
+  </li>
+  <li>
+    <p>复制到PATH</p>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@server1 ~]# cp kubectl_amd64-linux /usr/local/bin
+<span class="o">[</span>root@server1 ~]# chmod +x /usr/local/bin/kubectl_amd64-linux
+<span class="o">[</span>root@server1 ~]# ln <span class="nt">-s</span> /usr/local/bin/kubectl_amd64-linux /usr/bin/kubectl
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h2 id="2rke安装-k8s-集群">2、RKE安装 K8S 集群</h2>
+
+<blockquote>
+  <p>该集群仅用于运行 Rancher-Server，CentOS 环境下使用非 root 用户安装（本案例使用 rancher 用户）。</p>
+</blockquote>
+
+<h3 id="21创建配置文件rancher-clusteryml">2.1、创建配置文件rancher-cluster.yml</h3>
+
+<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">nodes</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">address</span><span class="pi">:</span> <span class="s">192.168.31.10</span>
+    <span class="na">user</span><span class="pi">:</span> <span class="s">rancher</span>
+    <span class="na">role</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">controlplane</span><span class="pi">,</span><span class="nv">worker</span><span class="pi">,</span><span class="nv">etcd</span><span class="pi">]</span>
+  <span class="pi">-</span> <span class="na">address</span><span class="pi">:</span> <span class="s">192.168.31.11</span>
+    <span class="na">user</span><span class="pi">:</span> <span class="s">rancher</span>
+    <span class="na">role</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">controlplane</span><span class="pi">,</span><span class="nv">worker</span><span class="pi">,</span><span class="nv">etcd</span><span class="pi">]</span>
+  <span class="pi">-</span> <span class="na">address</span><span class="pi">:</span> <span class="s">192.168.31.12</span>
+    <span class="na">user</span><span class="pi">:</span> <span class="s">rancher</span>
+    <span class="na">role</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">controlplane</span><span class="pi">,</span><span class="nv">worker</span><span class="pi">,</span><span class="nv">etcd</span><span class="pi">]</span>
+
+<span class="na">private_registries</span><span class="pi">:</span>
+<span class="pi">-</span> <span class="na">url</span><span class="pi">:</span> <span class="s">harbor.kago.site</span>
+<span class="na">user</span><span class="pi">:</span> <span class="s">admin</span>
+<span class="na">password</span><span class="pi">:</span> <span class="s2">"</span><span class="s">xxxxxxxxx"</span>
+<span class="na">is_default</span><span class="pi">:</span> <span class="no">true</span>
+
+<span class="na">services</span><span class="pi">:</span>
+  <span class="na">etcd</span><span class="pi">:</span>
+    <span class="na">snapshot</span><span class="pi">:</span> <span class="no">true</span>
+    <span class="na">creation</span><span class="pi">:</span> <span class="s">6h</span>
+    <span class="na">retention</span><span class="pi">:</span> <span class="s">24h</span>
+</code></pre></div></div>
+
+<h3 id="22执行安装">2.2、执行安装</h3>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>rancher@server1 ~]<span class="nv">$ </span><span class="nb">sudo </span>rke up <span class="nt">--config</span> ./rancher-cluster.yml
+</code></pre></div></div>
+<p>当提示“Finished builled Kubernetes cluster successfully”说明安装成功,并生当前目录生成 kube_config_rancher-cluster.yml 文件。</p>
+
+<h3 id="23查看集群状态">2.3、查看集群状态</h3>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@server1 ~]# mkdir ~/.kube
+<span class="o">[</span>root@server1 ~]# cp kube_config_rancher-cluster.yml ~/.kube/config
+<span class="o">[</span>root@server1 ~]# kubectl get node
+</code></pre></div></div>
+
+<h2 id="3安装helm-server">3、安装helm server</h2>
+
+<h3 id="31配置-helm-客户端访问权限">3.1、配置 helm 客户端访问权限</h3>
+
+<p>Helm在集群上安装tiller服务以管理charts. 由于RKE默认启用RBAC, 因此我们需要使用kubectl来创建一个serviceaccount，clusterrolebinding才能让tiller具有部署到集群的权限。</p>
+
+<ul>
+  <li>在kube-system命名空间中创建ServiceAccount；</li>
+  <li>创建ClusterRoleBinding以授予tiller帐户对集群的访问权限</li>
+  <li>helm初始化tiller服务</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@server1 ~]# kubectl <span class="nt">-n</span> kube-system create serviceaccount tiller
+<span class="o">[</span>root@server1 ~]# kubectl create clusterrolebinding tiller <span class="nt">--clusterrole</span> cluster-admin <span class="nt">--serviceaccount</span><span class="o">=</span>kube-system:tiller
+</code></pre></div></div>
+<h3 id="32添加镜像仓库密钥">3.2、添加镜像仓库密钥</h3>
+<ol>
+  <li>生成密钥
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@server1 ~]# kubectl <span class="nt">-n</span> kube-system create secret docker-registry regSecret <span class="nt">--docker-server</span><span class="o">=</span><span class="s2">"harbor.kago.site"</span> <span class="nt">--docker-username</span><span class="o">=</span>admin <span class="nt">--docker-password</span><span class="o">=</span>xxxxxxxx <span class="nt">--docker-email</span><span class="o">=</span>niuchp@126.com
+</code></pre></div>    </div>
+  </li>
+  <li>打patch
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@server1 ~]# kubectl <span class="nt">-n</span> kube-system patch serviceaccounts tiller <span class="nt">-p</span> <span class="s1">'{"imagePullSecrets": [{"name": "regSecret"}]}'</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h3 id="33安装helm-server">3.3、安装helm server</h3>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@server1 ~]# helm init <span class="nt">--service-account</span> tiller <span class="nt">--tiller-image</span> harbor.kago.site/google_containers/tiller:v2.12 <span class="nt">--stable-repo-url</span> https://kubernetes.oss-cn-hangzhou.aliyuncs.com/charts
+</code></pre></div></div>
+
+<h3 id="34添加chart仓库">3.4、添加chart仓库</h3>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@server1 ~]# helm repo add rancher-stable https://releases.rancher.com/server-charts/stable
+</code></pre></div></div>
+
+<h2 id="4安装-rancher-server">4、安装 Rancher Server</h2>
+<h3 id="41安装cert-manager">4.1、安装cert-manager</h3>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@server1 ~]# helm install stable/cert-manager  <span class="nt">--name</span> cert-manager <span class="nt">--namespace</span> kube-system
+</code></pre></div></div>
+<ul>
+  <li>离线环境：</li>
+</ul>
+
+<ol>
+  <li>在能联网的机器上获取chart
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@server1 ~]# helm fetch stable/cert-manager
+</code></pre></div>    </div>
+  </li>
+  <li>上传chart后修改配置
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@server1 ~]# helm template ./cert-manager-v0.8.0.tgz <span class="nt">--output-dir</span> <span class="nb">.</span> <span class="nt">--name</span> cert-manager <span class="nt">--namespace</span> kube-system <span class="nt">--set</span> image.repository<span class="o">=</span>harbor.kago.site.com/jetstack/cert-manager-controller
+</code></pre></div>    </div>
+  </li>
+  <li>运行
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@server1 ~]# kubectl apply <span class="nt">-n</span> kube-system - R <span class="nt">-f</span> ./cert-manager
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h3 id="42安装rancher-server">4.2、安装rancher server</h3>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@server1 ~]# helm install rancher-stable/rancher <span class="nt">--name</span> rancher <span class="nt">--namespace</span> cattle-system <span class="nt">--set</span> <span class="nv">hostname</span><span class="o">=</span>rancher.kago.site
+</code></pre></div></div>
+<blockquote>
+  <p>默认情况下，Rancher会自动生成CA根证书并使用cert-manager颁发证书，因此，这里设置了 hostname=rancher.kago.site，后续只能通过域名访问UI</p>
+</blockquote>
+
+<ul>
+  <li>离线环境：</li>
+</ul>
+
+<ol>
+  <li>在能联网的机器上获取chart
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@server1 ~]# helm fetch rancher-stable/rancher
+</code></pre></div>    </div>
+  </li>
+  <li>上传chart后修改配置
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@server1 ~]# helm template ./rancher-2018.10.2.tgz <span class="nt">--output-dir</span> <span class="nb">.</span> <span class="nt">--name</span> rancher <span class="nt">--namespace</span> cattle-system <span class="nt">--set</span> <span class="nv">hostname</span><span class="o">=</span>rancher.kago.site <span class="nt">--set</span> <span class="nv">rancherImage</span><span class="o">=</span>harbor.kago.site/rancher/rancher
+</code></pre></div>    </div>
+  </li>
+  <li>运行
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@server1 ~]# kubectl create namespace cattle-system
+<span class="o">[</span>root@server1 ~]# kubectl apply <span class="nt">-n</span> cattle-system <span class="nt">-R</span> <span class="nt">-f</span> ./rancher
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h2 id="5为agent-pod添加主机别名">5、为Agent Pod添加主机别名</h2>
+
+<p>如果你没有内部DNS服务器而是通过添加/etc/hosts主机别名的方式指定的Rancher server域名，那么不管通过哪种方式(自定义、导入、Host驱动等)创建K8S集群，K8S集群运行起来之后，因为cattle-cluster-agent Pod和cattle-node-agent无法通过DNS记录找到Rancher server,最终导致无法通信。</p>
+
+<p>可以通过给cattle-cluster-agent Pod和cattle-node-agent添加主机别名(/etc/hosts)，让其可以正常通信(前提是IP地址可以互通)。</p>
+
+<blockquote>
+  <p>注意：替换以下命令中的域名和IP</p>
+</blockquote>
+
+<h3 id="51cattle-cluster-agent-pod">5.1、cattle-cluster-agent pod</h3>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@server1 ~]# kubectl <span class="nt">-n</span> cattle-system patch  deployments cattle-cluster-agent <span class="nt">--patch</span> <span class="s1">'{
+    "spec": {
+        "template": {
+            "spec": {
+                "hostAliases": [
+                    {
+                        "hostnames":
+                        [
+                            "rancher.kago.site"
+                        ],
+                            "ip": "192.168.31.10"
+                    }
+                ]
+            }
+        }
+    }
+}'</span>
+</code></pre></div></div>
+
+<h3 id="52cattle-node-agent-pod">5.2、cattle-node-agent pod</h3>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@server1 ~]# kubectl <span class="nt">-n</span> cattle-system patch  daemonsets cattle-node-agent <span class="nt">--patch</span> <span class="s1">'{
+    "spec": {
+        "template": {
+            "spec": {
+                "hostAliases": [
+                    {
+                        "hostnames":
+                        [
+                            "rancher.kago.site"
+                        ],
+                            "ip": "192.168.31.10"
+                    }
+                ]
+            }
+        }
+    }
+}'</span>
+</code></pre></div></div>
+
+    
+<hr>
+<center>
+    <p>欢迎关注我的微信公众号</p>
+    <p><strong>阅后即忘</strong></p>
+    <img src="/assets/images/qrcode.jpg" alt="阅后即忘" />
+</center>
+
+
+    </article>
+    <div class="share">
+      <div class="share-component"></div>
+    </div>
+    <div class="comment">
+      
+  
+
+
+    </div>
+  </div>
+  <div class="column one-fourth">
+    
+<h3>Search</h3>
+<div id="site_search">
+    <input type="text" id="search_box" placeholder="Search">
+    <button class="btn btn-default" id="site_search_do"><span class="octicon octicon-search"></span></button>
+</div>
+
+<ul id="search_results"></ul>
+
+<link rel="stylesheet" type="text/css" href="/assets/css/modules/sidebar-search.css">
+<script src="/assets/js/lunr.min.js"></script>
+<script src="/assets/js/search.js"></script>
+
+
+    
+<h3 class="mobile-hidden">Post Directory</h3>
+<div id="post-directory-module" class="mobile-hidden">
+  <section class="post-directory">
+  <!-- Links that trigger the jumping -->
+  <!-- Added by javascript below -->
+  <dl></dl>
+  </section>
+</div>
+
+<script src="/assets/js/jquery.toc.js"></script>
+
+  </div>
+</div>
+</section>
+<!-- /section.content -->
+
+<div id="gitmentContainer"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+    var gitment = new Gitment({
+        owner: 'niuchp',
+        repo: 'niuchp.github.io',
+        oauth: {
+            client_id: '13ca9e37d66192b6d1aa',
+            client_secret: '5e445db5115795eb975945722d60359a6738dfce',
+        },
+    });
+    gitment.render('gitmentContainer');
+</script>
+
+    <footer class="container">
+        <div class="site-footer" role="contentinfo">
+            <div class="copyright left mobile-block">
+                    © 2015
+                    <span title="Barry New">Barry New</span>
+                    <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a>
+            </div>
+
+            <ul class="site-footer-links right mobile-hidden">
+                <li>
+                    <a href="javascript:window.scrollTo(0,0)" >TOP</a>
+                </li>
+            </ul>
+            <a href="http://github.com/niuchp/niuchp.github.io" target="_blank" aria-label="view source code">
+                <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
+            </a>
+            <ul class="site-footer-links mobile-hidden">
+                
+                <li>
+                    <a href="/" title="首页" target="">首页</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/" title="分类" target="">分类</a>
+                </li>
+                
+                <li>
+                    <a href="/wiki/" title="维基" target="">维基</a>
+                </li>
+                
+                <li>
+                    <a href="/links/" title="链接" target="">链接</a>
+                </li>
+                
+                <li>
+                    <a href="/about/" title="关于" target="">关于</a>
+                </li>
+                
+                <li><a href="/feed.xml"><span class="octicon octicon-rss" style="color:orange;"></span></a></li>
+            </ul>
+
+        </div>
+    </footer>
+    <!-- / footer -->
+    <script src="/assets/vendor/share.js/dist/js/share.min.js"></script>
+    <script src="/assets/js/geopattern.js"></script>
+    <script src="/assets/js/prism.js"></script>
+    <link rel="stylesheet" href="/assets/css/globals/prism.css">
+    <script>
+      jQuery(document).ready(function($) {
+        // geopattern
+        $('.geopattern').each(function(){
+          $(this).geopattern($(this).data('pattern-id'));
+        });
+       // hljs.initHighlightingOnLoad();
+      });
+    </script>
+    
+    <div style="display:none">
+      <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-80669434-1', 'auto');
+        ga('send', 'pageview');
+
+      </script>
+    </div>
+    
+</body>
+</html>
